@@ -13,24 +13,24 @@ const Home = () => {
       </svg>
       <section
         id='hero'
-        className='h-screen w-full flex justify-center  bg-gradient-to-b from-darkPurple from-2% to-brightPurple to-98%'
+        className='h-screen w-full flex justify-center  bg-gradient-to-b from-darkPurple to-brightPurple'
       >
-        <div className='flex w-4/5 justify-around h-full'>
-          <div className='flex flex-col w-1/3 text-white justify-center font-rubik'>
-            <h2 className='text-6xl mb-12 font-bold animate-show'>
+        <div className='flex w-500 p-10 justify-around'>
+          <div className='flex flex-col w-1/2 text-white justify-center'>
+            <h2 className='text-8xl mb-12 font-bold animate-show'>
               More security and faster communication
             </h2>
-            <h4 className='text-xl mb-12 animate-show'>
+            <h4 className='text-2xl mb-20 animate-show'>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima,
               rem itaque! Aut magnam accusamus minima dolor voluptas
             </h4>
             <a
               href='#'
-              className='flex justify-center uppercase shadow-md bg-brightPurple w-48 pt-2 pb-2 pl-4 pr-4  rounded-full transition duration-300 animate-show hover:bg-darkPurple hover:shadow-xl hover:scale-105 '
+              className='flex justify-center uppercase shadow-md w-72 bg-brightPurple pt-3 pb-3 pl-8 pr-8  rounded-full transition duration-300 hover:bg-lightPurple hover:shadow-xl hover:scale-105 animate-show'
             >
-              <span className='mr-3'>download</span>
+              <span className='mr-3 text-3xl text-white'>download</span>
               <svg
-                className='w-5'
+                className='w-7'
                 viewBox='0 0 19 20'
                 fill='#ffff'
                 xmlns='http://www.w3.org/2000/svg'
@@ -203,7 +203,7 @@ const Home = () => {
           </svg>
         </div>
       </section>
-      <section className='h-screen w-full bg-darkPurple -mt-48'></section>
+      <section className='h-screen w-full bg-darkPurple -mt-80'></section>
     </main>
   );
 };
