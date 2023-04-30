@@ -2,12 +2,14 @@ import { Link } from 'react-router-dom';
 
 const Auth = () => {
   return (
-    <div className='flex flex-col justify-center w-full h-screen bg-gradient-radial from-darkPurple to-brightPurple overflow-hidden'>
-      <div className='flex self-center rounded-3xl w-4/5 h-5/6 bg-white animate-mtl'>
+    <div className='flex flex-col items-center justify-center w-full h-screen p-10 bg-gradient-radial from-darkPurple to-brightPurple overflow-hidden'>
+      <div className='flex rounded-3xl w-500 h-250 bg-grayLight animate-mtl'>
         <div className='relative w-1/2 bg-lightPurple rounded-l-3xl'>
-          <Link to='/'>
+          <Link
+            to='/'
+            className='absolute top-8 left-8 p-1  w-10 transition hover:scale-150 hover:bg-white rounded-full'
+          >
             <svg
-              className='absolute top-4 left-4 w-7 transition hover:scale-110'
               viewBox='0 0 16 16'
               fill='none'
               xmlns='http://www.w3.org/2000/svg'
@@ -18,11 +20,8 @@ const Auth = () => {
               />
             </svg>
           </Link>
-
           <svg
-            className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'
-            width='900'
-            height='600'
+            className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-250'
             viewBox='0 0 900 600'
             fill='none'
             xmlns='http://www.w3.org/2000/svg'
@@ -232,56 +231,55 @@ const Auth = () => {
           </svg>
         </div>
         <div className='flex flex-col justify-center items-center w-1/2'>
-          <div className='w-1/2'>
+          <div className='flex flex-col w-1/2'>
+            <h2 className='text-5xl mb-16 font-bold text-brightPurple'>
+              Login
+            </h2>
+
             <Link
               to=''
-              className='link relative inline-block mb-10 text-lg font-bold'
+              className='link relative w-56 mb-10 text-xl font-bold text-grayDark self-end'
             >
               Create a new account
             </Link>
 
             <Link
               to='#'
-              className='uppercase text-center font-bold shadow-md bg-brightPurple w-full h-12 inline-block pt-2 pb-2 pl-4 pr-4 mb-20 rounded transition duration-300 hover:bg-darkPurple hover:shadow-xl hover:scale-105 '
+              className='uppercase text-center font-bold shadow-md bg-brightPurple w-full h-16 inline-block pt-3 pb-3 pl-4 pr-4 mb-20 rounded-2xl transition duration-300 hover:bg-darkPurple hover:shadow-xl hover:scale-105 '
             >
-              <span className='mr-3 text-white'>Google</span>
+              <span className='text-white text-2xl'>Google</span>
             </Link>
             <div className='flex justify-center mb-10'>
               <hr className='w-full border-t-gray border-t-2' />
-              <span className='text-darkPurple -mt-3'>Or</span>
+              <span className='text-2xl text-darkPurple -mt-3'>Or</span>
               <hr className='w-full border-t-gray border-t-2' />
             </div>
-            <form className='flex flex-col  mb-10' action=''>
-              <label htmlFor='' className='mb-2 font-bold'>
-                Email
-              </label>
+            <form className='flex flex-col  mb-16' action=''>
               <input
                 type='email'
                 name=''
                 id=''
                 placeholder='Email'
-                className='h-10 border-2 border-gray rounded-md mb-10 pl-2'
+                className='text-2xl h-16 bg-grayReg placeholder-grayDark outline-none rounded-2xl mb-10 pl-2 border-grayDark transition focus:shadow-md focus:border-b-2'
               />
-              <label htmlFor='' className='mb-2 font-bold'>
-                Password
-              </label>
+
               <input
                 type='password'
                 name=''
                 id=''
                 placeholder='Password'
-                className='h-10 border-2 border-gray rounded-md pl-2'
+                className='text-2xl h-16 bg-grayReg placeholder-grayDark  outline-none border-grayDark rounded-2xl pl-2 focus:shadow-md focus:border-b-2'
               />
             </form>
             <Link
               to='#'
-              className='uppercase text-center font-bold shadow-md bg-brightPurple w-full h-12 inline-block pt-2 pb-2 pl-4 pr-4 mb-5 rounded transition duration-300 hover:bg-darkPurple hover:shadow-xl hover:scale-105 '
+              className='uppercase text-center font-bold shadow-md bg-brightPurple w-full h-16 inline-block pt-3 pb-3 pl-4 pr-4 mb-20 rounded-2xl transition duration-300 hover:bg-darkPurple hover:shadow-xl hover:scale-105 '
             >
-              <span className='mr-3 text-white'>Log In</span>
+              <span className='text-white text-2xl'>Log In</span>
             </Link>
             <Link
               to='#'
-              className='link relative inline-block mb-10 text-left text-lg font-bold'
+              className='link relative w-56  text-2xl font-bold text-grayDark'
             >
               Forgot password?
             </Link>
