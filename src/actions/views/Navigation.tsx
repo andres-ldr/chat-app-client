@@ -3,18 +3,18 @@ import { Link } from 'react-router-dom';
 const Navigation = () => {
   return (
     <nav className='flex justify-between pt-10 pl-28 pr-28 fixed top-0 left-0 right-0 z-40'>
-      <h2>Auth</h2>
-      <div className='flex w-1/5 justify-between'>
-        <Link to='/auth'>
-          <h3 className='text-white text-2xl'>Log In</h3>
+      <h2 className='text-white'>Auth</h2>
+      <div className='flex  justify-between'>
+        <Link to='/auth' className='link relative text-white text-3xl mr-20'>
+          Log In
         </Link>
         <a
           href='#'
-          className='flex justify-center uppercase shadow-md bg-brightPurple w-48 pt-2 pb-2 pl-4 pr-4  rounded-full transition duration-300 hover:bg-lightPurple hover:shadow-xl hover:scale-105 '
+          className='flex justify-center uppercase shadow-md bg-brightPurple pt-3 pb-3 pl-8 pr-8  rounded-full transition duration-300 hover:bg-lightPurple hover:shadow-xl hover:scale-105 '
         >
-          <span className='mr-3 text-white'>download</span>
+          <span className='mr-3 text-3xl text-white'>download</span>
           <svg
-            className='w-5'
+            className='w-7'
             viewBox='0 0 19 20'
             fill='#ffff'
             xmlns='http://www.w3.org/2000/svg'
