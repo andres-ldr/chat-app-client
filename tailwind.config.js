@@ -53,6 +53,9 @@ export default {
         mtl: 'moveToLeft 0.75s cubic-bezier(.13,.49,.42,1.35)',
         show: 'show 0.75s cubic-bezier(.13,.49,.42,1.35)',
       },
+      boxShadow: {
+        input: '0px 0px 6px 3px rgba(78,33,183,0.52)',
+      },
     },
   },
   plugins: [],
