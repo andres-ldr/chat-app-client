@@ -1,13 +1,14 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Auth = () => {
+const Login: React.FC = () => {
   return (
     <div className='flex flex-col items-center justify-center w-full h-screen p-10 bg-gradient-radial from-darkPurple to-brightPurple overflow-hidden'>
       <div className='flex rounded-3xl w-500 h-250 bg-grayLight animate-mtl'>
         <div className='relative w-1/2 bg-lightPurple rounded-l-3xl'>
           <Link
             to='/'
-            className='absolute top-8 left-8 p-1  w-10 transition hover:scale-150 hover:bg-white rounded-full'
+            className='absolute top-8 left-8 p-1  w-10 transition hover:scale-150 hover:bg-gray rounded-full'
           >
             <svg
               viewBox='0 0 16 16'
@@ -237,7 +238,7 @@ const Auth = () => {
             </h2>
 
             <Link
-              to=''
+              to='/signup'
               className='link relative w-56 mb-10 text-xl font-bold text-grayDark self-end'
             >
               Create a new account
@@ -260,7 +261,7 @@ const Auth = () => {
                 name=''
                 id=''
                 placeholder='Email'
-                className='text-2xl h-16 bg-grayReg placeholder-grayDark outline-none rounded-2xl mb-10 pl-2 border-grayDark transition focus:shadow-md focus:border-b-2'
+                className='text-2xl h-16 bg-grayReg placeholder-grayDark outline-none rounded-2xl mb-10 pl-5 transition focus:shadow-input'
               />
 
               <input
@@ -268,7 +269,7 @@ const Auth = () => {
                 name=''
                 id=''
                 placeholder='Password'
-                className='text-2xl h-16 bg-grayReg placeholder-grayDark  outline-none border-grayDark rounded-2xl pl-2 focus:shadow-md focus:border-b-2'
+                className='text-2xl h-16 bg-grayReg placeholder-grayDark  outline-none border-grayDark rounded-2xl pl-5 focus:shadow-input'
               />
             </form>
             <Link
@@ -290,4 +291,4 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default Login;
