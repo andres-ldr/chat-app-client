@@ -5,7 +5,7 @@ const Navigation = () => {
     <nav className='flex justify-between pt-10 pl-28 pr-28 fixed top-0 left-0 right-0 z-40'>
       <h2 className='text-white'>Auth</h2>
       <div className='flex  justify-between'>
-        <Link to='/auth' className='link relative text-white text-3xl mr-20'>
+        <Link to='/login' className='link relative text-white text-3xl mr-20'>
           Log In
         </Link>
         <a
