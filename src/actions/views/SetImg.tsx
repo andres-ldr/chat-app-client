@@ -1,11 +1,23 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const SetImg: React.FC = () => {
+  const [userCreated, setUserCreated] = useState(false);
+  const navigate = useNavigate();
+
+  const userCreationHandle = () => {
+    setTimeout(() => navigate('/panel'), 1000);
+    setUserCreated(!userCreated);
+  };
+
   return (
     <div className='flex flex-col items-center justify-center w-full h-screen p-10 bg-gradient-radial from-darkPurple to-brightPurple overflow-hidden'>
       <div className='flex flex-col justify-center items-center relative w-200 h-3/4 bg-grayLight rounded-3xl animate-mtl'>
-        <div className='flex flex-col justify-center items-center relative w-full h-full'>
+        <div
+          className={`${
+            !userCreated ? 'flex' : 'hidden'
+          } flex-col justify-center items-center relative w-full h-full`}
+        >
           <Link
             to='/signup'
             className='absolute top-8 left-8 p-1  w-10 transition hover:scale-125 hover:bg-grayReg rounded-full'
@@ -53,7 +65,10 @@ const SetImg: React.FC = () => {
             illum nulla deserunt,
           </p>
           <div className='w-1/2 h-auto flex justify-between'>
-            <h3 className='text-3xl h-16 leading-none font-bold p-3 transition rounded-xl hover:bg-grayReg'>
+            <h3
+              className='text-3xl h-16 leading-none font-bold p-3 transition rounded-xl hover:bg-grayReg'
+              onClick={userCreationHandle}
+            >
               Skip
             </h3>
             <Link
@@ -64,7 +79,11 @@ const SetImg: React.FC = () => {
             </Link>
           </div>
         </div>
-        <div className='hidden w-full h-full flex-col justify-center items-center'>
+        <div
+          className={`${
+            !userCreated ? 'hidden' : 'flex'
+          } w-full h-full flex-col justify-center items-center animate-show`}
+        >
           <h2 className='text-5xl mb-16 font-bold w-3/4 text-center text-brightPurple'>
             Account successfully created
           </h2>
