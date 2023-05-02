@@ -21,6 +21,29 @@
   }
 }
 
+@layer utilities {
+  /* width */
+  ::-webkit-scrollbar {
+    width: 0.65rem;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #474747;
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #b30000;
+  }
+}
+
 @layer components {
   #hero {
     clip-path: url(#myCurve);
@@ -43,5 +66,9 @@
   .link:hover::before {
     transform-origin: left;
     transform: scaleX(1);
+  }
+
+  .circle {
+    clip-path: circle(50% at 50% 50%);
   }
 }
