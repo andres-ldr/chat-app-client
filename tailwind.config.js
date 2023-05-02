@@ -19,7 +19,11 @@ export default {
     extend: {
       width: {
         100: '25rem',
+        105: '26.25rem',
+        110: '27.5rem',
         200: '50rem',
+        225: '56.25rem',
+        240: '60rem',
         250: '62.5rem',
         300: '75rem',
         400: '100rem',
@@ -28,7 +32,14 @@ export default {
       },
       height: {
         100: '25rem',
+        125: '31.25rem',
+        150: '37.5rem',
         200: '50rem',
+        205: '51.25rem',
+        210: '52.5rem',
+        215: '53.75rem',
+        225: '56.25rem',
+        240: '60rem',
         250: '62.5rem',
         300: '75rem',
         400: '100rem',
@@ -38,20 +49,26 @@ export default {
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        curveLineBg: `url('./src/assets/curve-line-bg.svg')`,
       },
       keyframes: {
         moveToLeft: {
-          '0%': { transform: ' translateX(40%)', opacity: 0 },
+          '0%': { transform: 'translateX(40%)', opacity: 0 },
           '100%': { transform: 'translateX(0)', opacity: 1 },
         },
         show: {
-          '0%': { transform: ' scale(0)', opacity: 0 },
+          '0%': { transform: 'scale(0)', opacity: 0 },
           '100%': { transform: 'scale(1)', opacity: 1 },
+        },
+        openFromLeft: {
+          '0%': { transform: 'translateX(20%)', opacity: 0 },
+          '100%': { transform: 'translateX(0)', opacity: 1 },
         },
       },
       animation: {
         mtl: 'moveToLeft 0.75s cubic-bezier(.13,.49,.42,1.35)',
         show: 'show 0.75s cubic-bezier(.13,.49,.42,1.35)',
+        pfl: 'openFromLeft 0.75s ease',
       },
       boxShadow: {
         input: '0px 0px 6px 3px rgba(78,33,183,0.52)',
