@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBan,
@@ -13,12 +13,59 @@ import {
 import UserImage from '../../assets/user.jpg';
 
 const Panel: React.FC = () => {
+  const [settingModalOpenend, setSettingModalOpenend] = useState(false);
+  const [chatSettingModalOpenend, setChatSettingModalOpenend] = useState(false);
+
+  const settingPopUpHandler = () => {
+    if (!chatSettingModalOpenend) {
+      setSettingModalOpenend(!settingModalOpenend);
+    } else {
+      setSettingModalOpenend(!settingModalOpenend);
+      setChatSettingModalOpenend(!chatSettingModalOpenend);
+    }
+  };
+
+  const chatSettingPopUpHandler = () => {
+    if (!settingModalOpenend) {
+      setChatSettingModalOpenend(!chatSettingModalOpenend);
+    } else {
+      setChatSettingModalOpenend(!chatSettingModalOpenend);
+      setSettingModalOpenend(!settingModalOpenend);
+    }
+  };
+
   return (
     <div className='flex flex-col items-center justify-center w-full h-screen p-10 bg-gradient-radial from-darkPurple to-brightPurple overflow-hidden'>
       {/* panel */}
       <div className='flex w-500 h-400 bg-white'>
         {/* left panel */}
-        <div className='flex flex-col h-full w-3/12 bg-darkPurple '>
+        <div className='relative flex flex-col h-full w-3/12 bg-darkPurple '>
+          {/* Settings pop up */}
+          {settingModalOpenend && (
+            <div className='absolute top-10 right-14 w-96 bg-white shadow-lg flex flex-col z-10 origin-top-right animate-scale_from_up'>
+              <div className='w-full p-5 transition hover:bg-gray'>
+                <h4 className='text-3xl'>Log out</h4>
+              </div>
+              <div className='w-full p-5 transition hover:bg-gray'>
+                <h4 className='text-3xl'>Log out</h4>
+              </div>
+              <div className='w-full p-5 transition hover:bg-gray'>
+                <h4 className='text-3xl'>Log out</h4>
+              </div>
+            </div>
+          )}
+
+          {chatSettingModalOpenend && (
+            <div className='absolute top-10 right-32 w-96 bg-white shadow-lg flex flex-col z-10 origin-top-right animate-scale_from_up'>
+              <div className='w-full p-5 transition hover:bg-gray'>
+                <h4 className='text-3xl'>Start a new chat</h4>
+              </div>
+              <div className='w-full p-5 transition hover:bg-gray'>
+                <h4 className='text-3xl'>Start a new group</h4>
+              </div>
+            </div>
+          )}
+
           {/* User container */}
           <div className='flex justify-between w-full h-32 pl-6 pt-4 pr-4 pb-4 bg-grayLight'>
             <img
@@ -28,12 +75,14 @@ const Panel: React.FC = () => {
             />
             <div className='flex'>
               <FontAwesomeIcon
+                onClick={chatSettingPopUpHandler}
                 icon={faMessage}
                 className='w-8 h-8 cursor-pointer p-3 mr-4 transition rounded-full text-grayDark hover:bg-gray'
               />
               <FontAwesomeIcon
+                onClick={settingPopUpHandler}
                 icon={faEllipsisVertical}
-                className='w-10 h-10 cursor-pointer p-3 transition rounded-full text-grayDark hover:bg-gray'
+                className='w-10 h-10 cursor-pointer p-3 transition rounded-full text-grayDark hover:bg-gray active:bg-grayDark'
               />
             </div>
           </div>
@@ -286,11 +335,28 @@ const Panel: React.FC = () => {
               </div>
               {/* chat area */}
               <div className='w-full h-5/6 grow bg-grayReg overflow-y-auto'>
-                {/* Chat row */}
+                {/* Chat row left */}
                 <div className='w-full bg-white p-5'>
                   {/* Msg */}
-                  <div className='w-1/2 h-full flex flex-col p-4 border-2 bg-white rounded-3xl text-xl'>
-                    <p className='mb-2'>Lorem ips</p>
+                  <div className='h-full max-w-lg inline-flex flex-col p-4 border-2 bg-white rounded-3xl text-xl'>
+                    <p className='mb-2'>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Porro non sunt sequi quo reiciendis, maiores, animi
+                      perspiciatis ratione repellendus veritatis culpa optio ad
+                      mollitia incidunt aspernatur ipsa velit, obcaecati
+                      eligendi!
+                    </p>
+                    <span className='self-end font-light'>12:03</span>
+                  </div>
+                </div>
+                {/* Chat row right */}
+                <div className='w-full flex justify-end bg-white p-5'>
+                  {/* Msg */}
+                  <div className='h-full max-w-lg inline-flex flex-col p-4 border-2 bg-white rounded-3xl text-xl'>
+                    <p className='mb-2'>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Porro non sunt
+                    </p>
                     <span className='self-end font-light'>12:03</span>
                   </div>
                 </div>
