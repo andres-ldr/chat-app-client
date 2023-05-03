@@ -15,6 +15,41 @@ import UserImage from '../../assets/user.jpg';
 const Panel: React.FC = () => {
   const [settingModalOpenend, setSettingModalOpenend] = useState(false);
   const [chatSettingModalOpenend, setChatSettingModalOpenend] = useState(false);
+  const [contactSettingOpened, setContactSettingOpened] = useState(false);
+  const [addFileModalOpened, setAddFileModalOpened] = useState(false);
+
+  const [contactInfoPanelOpened, setContactInfoPanelOpened] = useState(false);
+
+  const contactInfoPanelHandler = () => {
+    if (contactSettingOpened && !contactInfoPanelOpened) {
+      setContactSettingOpened(!contactSettingOpened);
+      setContactInfoPanelOpened(!contactInfoPanelOpened);
+    }
+    if (!contactSettingOpened && contactInfoPanelOpened) {
+      setContactInfoPanelOpened(!contactInfoPanelOpened);
+    }
+    if (contactSettingOpened && contactInfoPanelOpened) {
+      setContactSettingOpened(!contactSettingOpened);
+    }
+  };
+
+  const contactSettingPopUpHandler = () => {
+    if (!addFileModalOpened) {
+      setContactSettingOpened(!contactSettingOpened);
+    } else {
+      setContactSettingOpened(!contactSettingOpened);
+      setAddFileModalOpened(!addFileModalOpened);
+    }
+  };
+
+  const addFilePopUpHandler = () => {
+    if (!contactSettingOpened) {
+      setAddFileModalOpened(!addFileModalOpened);
+    } else {
+      setContactSettingOpened(!contactSettingOpened);
+      setAddFileModalOpened(!addFileModalOpened);
+    }
+  };
 
   const settingPopUpHandler = () => {
     if (!chatSettingModalOpenend) {
@@ -313,7 +348,30 @@ const Panel: React.FC = () => {
             {/* Chat panel */}
             <div className='w-full h-full flex flex-col bg-white'>
               {/* contact bar */}
-              <div className='w-full h-32 flex justify-between bg-gray p-5'>
+              <div className='relative w-full h-32 flex justify-between bg-grayLight p-5'>
+                {/* Info contact popup */}
+                {contactSettingOpened && (
+                  <div className='absolute top-10 right-14 w-96 bg-white shadow-lg flex flex-col z-10 origin-top-right animate-scale_from_up'>
+                    <div
+                      onClick={contactInfoPanelHandler}
+                      className='w-full p-5 transition hover:bg-gray'
+                    >
+                      <h4 className='text-3xl'>More info</h4>
+                    </div>
+                  </div>
+                )}
+                {/* File popup */}
+                {addFileModalOpened && (
+                  <div className='absolute top-12 right-36 w-96 bg-white shadow-lg flex flex-col z-10 origin-top-right animate-scale_from_up'>
+                    <div className='w-full p-5 transition hover:bg-gray'>
+                      <h4 className='text-3xl'>Add file</h4>
+                    </div>
+                    <div className='w-full p-5 transition hover:bg-gray'>
+                      <h4 className='text-3xl'>Add file</h4>
+                    </div>
+                  </div>
+                )}
+
                 <div className='flex'>
                   <img
                     src={UserImage}
@@ -325,10 +383,12 @@ const Panel: React.FC = () => {
                 <div className=''>
                   <FontAwesomeIcon
                     icon={faPaperclip}
+                    onClick={addFilePopUpHandler}
                     className='w-10 h-10 cursor-pointer p-3 mr-3 transition rounded-full text-grayDark hover:bg-gray'
                   />
                   <FontAwesomeIcon
                     icon={faEllipsisVertical}
+                    onClick={contactSettingPopUpHandler}
                     className='w-10 h-10 cursor-pointer p-3 transition rounded-full text-grayDark hover:bg-gray'
                   />
                 </div>
@@ -379,60 +439,64 @@ const Panel: React.FC = () => {
               </div>
             </div>
             {/* Contact info panel */}
-            <div className='w-3/5 h-full bg-lightPurple flex flex-col origin-right animate-pfl'>
-              {/* Header contact info */}
-              <div className='flex w-full h-32 bg-white p-5'>
-                <FontAwesomeIcon
-                  icon={faXmark}
-                  className='w-12 h-12 mr-5  p-1 transition rounded-full text-grayDark cursor-pointer hover:bg-gray'
-                />
-                <h3 className='text-3xl font-bold'>More info</h3>
-              </div>
-              {/* Contact info section */}
-              <div className='w-full h-0 grow p-3 overflow-y-auto'>
-                {/* Contact info card */}
-                <div className='w-full mb-5 p-8 flex flex-col justify-center items-center bg-white rounded-md shadow-md'>
-                  <img
-                    src={UserImage}
-                    alt=''
-                    className='w-56 h-56 mb-3 circle cursor-pointer transition hover:backdrop-blur-lg hover:opacity-95'
+            {contactInfoPanelOpened && (
+              <div className='w-3/5 h-full flex flex-col bg-grayLight overflow-x-auto origin-right animate-scale_witdh'>
+                {/* Header contact info */}
+                <div className='flex w-full h-32 bg-grayReg p-5 mb-1 shadow-sm'>
+                  <FontAwesomeIcon
+                    icon={faXmark}
+                    onClick={contactInfoPanelHandler}
+                    className='w-12 h-12 mr-5  p-1 transition rounded-full text-grayDark cursor-pointer hover:bg-gray'
                   />
-                  <h4 className='text-2xl font-bold mb-3'>Nombre</h4>
-                  <h5 className='text-2xl'>Email</h5>
+                  <h3 className='text-3xl font-bold'>More info</h3>
                 </div>
-                {/* Media card */}
-                <div className='w-full mb-5 flex flex-col justify-start items-center bg-white rounded-md shadow-md'>
-                  <div className='flex justify-between items-center w-full h-20 p-3 cursor-pointer transition hover:bg-grayLight'>
-                    <h3 className='text-2xl font-bold'>Medias, links, ...</h3>
-                    <FontAwesomeIcon
-                      icon={faChevronRight}
-                      className='w-12 h-12 p-2 rounded-full transition hover:bg-gray'
+                {/* Contact info section */}
+                <div className='w-full h-0 flex flex-col grow p-3 bg-grayLight overflow-y-auto'>
+                  {/* Contact info card */}
+                  <div className='w-full mb-5 p-8 flex flex-col justify-center items-center bg-white rounded-md shadow-md animate-swipeFromTop'>
+                    <img
+                      // src={UserImage}
+                      src=''
+                      alt=''
+                      className='w-56 h-56 mb-3 circle cursor-pointer transition hover:backdrop-blur-lg hover:opacity-95'
                     />
+                    <h4 className='text-2xl font-bold mb-3'>Nombre</h4>
+                    <h5 className='text-2xl'>Email</h5>
                   </div>
-                  <div className='w-full h-full flex bg-gray pt-8 pb-8 justify-around'>
-                    <div className='w-52 h-52 bg-darkPurple rounded-lg'></div>
-                    <div className='w-52 h-52 bg-darkPurple rounded-lg'></div>
+                  {/* Media card */}
+                  <div className='w-full mb-5 flex flex-col justify-start items-center bg-white rounded-md shadow-md animate-swipeFromTop'>
+                    <div className='flex justify-between items-center w-full h-20 p-3 cursor-pointer transition hover:bg-grayLight'>
+                      <h3 className='text-2xl font-bold'>Medias, links, ...</h3>
+                      <FontAwesomeIcon
+                        icon={faChevronRight}
+                        className='w-12 h-12 p-2 rounded-full transition hover:bg-gray'
+                      />
+                    </div>
+                    <div className='w-full h-full flex bg-white pt-8 pb-8 justify-around'>
+                      <div className='w-52 h-52 bg-darkPurple rounded-lg'></div>
+                      <div className='w-52 h-52 bg-darkPurple rounded-lg'></div>
+                    </div>
                   </div>
-                </div>
-                {/* Contact option */}
-                <div className='w-full bg-grayLight flex flex-col rounded-lg'>
-                  <div className='flex items-center p-2 cursor-pointer transition hover:bg-grayReg '>
-                    <FontAwesomeIcon
-                      icon={faBan}
-                      className='w-10 h-10 text-red p-3 mr-3 rounded-full cursor-pointer transition hover:bg-grayDark'
-                    />
-                    <h3 className='text-2xl text-red font-bold'>Block</h3>
-                  </div>
-                  <div className='flex items-center p-2 cursor-pointer transition hover:bg-grayReg '>
-                    <FontAwesomeIcon
-                      icon={faTrash}
-                      className='w-10 h-10 text-red p-3 mr-3 rounded-full cursor-pointer transition hover:bg-grayDark'
-                    />
-                    <h3 className='text-2xl text-red font-bold'>Delete</h3>
+                  {/* Contact option */}
+                  <div className='w-full bg-white flex flex-col rounded-lg shadow-md animate-swipeFromTop'>
+                    <div className='flex items-center p-2 cursor-pointer transition hover:bg-grayReg '>
+                      <FontAwesomeIcon
+                        icon={faBan}
+                        className='w-10 h-10 text-red p-3 mr-3 rounded-full cursor-pointer transition hover:bg-grayDark'
+                      />
+                      <h3 className='text-2xl text-red font-bold'>Block</h3>
+                    </div>
+                    <div className='flex items-center p-2 cursor-pointer transition hover:bg-grayReg '>
+                      <FontAwesomeIcon
+                        icon={faTrash}
+                        className='w-10 h-10 text-red p-3 mr-3 rounded-full cursor-pointer transition hover:bg-grayDark'
+                      />
+                      <h3 className='text-2xl text-red font-bold'>Delete</h3>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
