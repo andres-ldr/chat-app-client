@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+  faArrowLeft,
   faBan,
   faChevronRight,
   faEllipsisVertical,
@@ -19,6 +20,17 @@ const Panel: React.FC = () => {
   const [addFileModalOpened, setAddFileModalOpened] = useState(false);
 
   const [contactInfoPanelOpened, setContactInfoPanelOpened] = useState(false);
+
+  const [filePanelOpened, setFilePanelOpened] = useState(false);
+
+  const [positionTab, setPositionTab] = useState(0);
+
+  const positionTabHandler = (index: number) => setPositionTab(index);
+
+  const filePanelHandler = () => {
+    setContactInfoPanelOpened(!contactInfoPanelOpened);
+    setFilePanelOpened(!filePanelOpened);
+  };
 
   const contactInfoPanelHandler = () => {
     if (contactSettingOpened && !contactInfoPanelOpened) {
@@ -72,12 +84,12 @@ const Panel: React.FC = () => {
   return (
     <div className='flex flex-col items-center justify-center w-full h-screen p-10 bg-gradient-radial from-darkPurple to-brightPurple overflow-hidden'>
       {/* panel */}
-      <div className='flex w-500 h-400 bg-white'>
+      <div className='flex w-11/12 h-400 bg-white'>
         {/* left panel */}
         <div className='relative flex flex-col h-full w-3/12 bg-darkPurple '>
           {/* Settings pop up */}
           {settingModalOpenend && (
-            <div className='absolute top-10 right-14 w-96 bg-white shadow-lg flex flex-col z-10 origin-top-right animate-scale_from_up'>
+            <div className='absolute top-10 right-14 w-96 bg-white shadow-lg flex flex-col z-10 origin-top-right animate-scale'>
               <div className='w-full p-5 transition hover:bg-gray'>
                 <h4 className='text-3xl'>Log out</h4>
               </div>
@@ -91,7 +103,7 @@ const Panel: React.FC = () => {
           )}
 
           {chatSettingModalOpenend && (
-            <div className='absolute top-10 right-32 w-96 bg-white shadow-lg flex flex-col z-10 origin-top-right animate-scale_from_up'>
+            <div className='absolute top-10 right-32 w-96 bg-white shadow-lg flex flex-col z-10 origin-top-right animate-scale'>
               <div className='w-full p-5 transition hover:bg-gray'>
                 <h4 className='text-3xl'>Start a new chat</h4>
               </div>
@@ -138,7 +150,7 @@ const Panel: React.FC = () => {
             </form>
           </div>
           {/* Chat cards container */}
-          <div className='flex flex-col  grow items-center w-full h-0 pt-5 bg-grayReg overflow-y-auto'>
+          <div className='flex flex-col grow items-center w-full h-0 pt-5 bg-grayReg overflow-y-auto'>
             {/* Card */}
             <div className='flex items-center w-11/12 h-32 bg-grayLight mb-5 p-4 rounded-2xl shadow-sm transition hover:bg-gray hover:shadow-md'>
               {/* contact image */}
@@ -351,7 +363,7 @@ const Panel: React.FC = () => {
               <div className='relative w-full h-32 flex justify-between bg-grayLight p-5'>
                 {/* Info contact popup */}
                 {contactSettingOpened && (
-                  <div className='absolute top-10 right-14 w-96 bg-white shadow-lg flex flex-col z-10 origin-top-right animate-scale_from_up'>
+                  <div className='absolute top-10 right-14 w-96 bg-white shadow-lg flex flex-col z-10 origin-top-right animate-scale'>
                     <div
                       onClick={contactInfoPanelHandler}
                       className='w-full p-5 transition hover:bg-gray'
@@ -362,7 +374,7 @@ const Panel: React.FC = () => {
                 )}
                 {/* File popup */}
                 {addFileModalOpened && (
-                  <div className='absolute top-12 right-36 w-96 bg-white shadow-lg flex flex-col z-10 origin-top-right animate-scale_from_up'>
+                  <div className='absolute top-12 right-36 w-96 bg-white shadow-lg flex flex-col z-10 origin-top-right animate-scale'>
                     <div className='w-full p-5 transition hover:bg-gray'>
                       <h4 className='text-3xl'>Add file</h4>
                     </div>
@@ -439,8 +451,12 @@ const Panel: React.FC = () => {
               </div>
             </div>
             {/* Contact info panel */}
+
             {contactInfoPanelOpened && (
-              <div className='w-3/5 h-full flex flex-col bg-grayLight overflow-x-auto origin-right animate-scale_witdh'>
+              <div
+                className={`w-3/5 h-full flex flex-col bg-grayLight overflow-x-auto origin-right  animate-scaleWidth         
+             `}
+              >
                 {/* Header contact info */}
                 <div className='flex w-full h-32 bg-grayReg p-5 mb-1 shadow-sm'>
                   <FontAwesomeIcon
@@ -458,13 +474,16 @@ const Panel: React.FC = () => {
                       // src={UserImage}
                       src=''
                       alt=''
-                      className='w-56 h-56 mb-3 circle cursor-pointer transition hover:backdrop-blur-lg hover:opacity-95'
+                      className='w-56 h-56 mb-3 circle bg-darkPurple cursor-pointer transition hover:backdrop-blur-lg hover:opacity-95'
                     />
                     <h4 className='text-2xl font-bold mb-3'>Nombre</h4>
                     <h5 className='text-2xl'>Email</h5>
                   </div>
                   {/* Media card */}
-                  <div className='w-full mb-5 flex flex-col justify-start items-center bg-white rounded-md shadow-md animate-swipeFromTop'>
+                  <div
+                    onClick={filePanelHandler}
+                    className='w-full mb-5 flex flex-col justify-start items-center bg-white rounded-md shadow-md animate-swipeFromTop'
+                  >
                     <div className='flex justify-between items-center w-full h-20 p-3 cursor-pointer transition hover:bg-grayLight'>
                       <h3 className='text-2xl font-bold'>Medias, links, ...</h3>
                       <FontAwesomeIcon
@@ -493,6 +512,72 @@ const Panel: React.FC = () => {
                       />
                       <h3 className='text-2xl text-red font-bold'>Delete</h3>
                     </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            {/* Files & media panel */}
+            {filePanelOpened && (
+              <div
+                className={`w-3/5 h-full flex flex-col bg-grayLight overflow-x-auto origin-right  animate-scaleWidth        
+             `}
+              >
+                {/* Header contact info */}
+                <div className='flex w-full h-32 bg-grayReg p-5 mb-1 shadow-sm'>
+                  <FontAwesomeIcon
+                    icon={faArrowLeft}
+                    className='w-12 h-12 mr-5  p-1 transition rounded-full text-grayDark cursor-pointer hover:bg-gray'
+                  />
+                </div>
+                {/* Tab */}
+                <div className='w-full h-full flex flex-col'>
+                  {/* Header tab */}
+                  <div className='w-full h-20 flex bg-brightPurple'>
+                    <div
+                      onClick={() => positionTabHandler(0)}
+                      className='h-full grow p-3 cursor-pointer transition bg-white hover:bg-grayReg'
+                    >
+                      <h3 className='text-center text-2xl'>Images</h3>
+                    </div>
+                    <div
+                      onClick={() => positionTabHandler(1)}
+                      className='h-full grow p-3 cursor-pointer transition bg-white hover:bg-grayReg'
+                    >
+                      <h3 className='text-center text-2xl'>Images</h3>
+                    </div>
+                    <div
+                      onClick={() => positionTabHandler(2)}
+                      className='h-full grow p-3 cursor-pointer transition bg-white hover:bg-grayReg'
+                    >
+                      <h3 className='text-center text-2xl'>Images</h3>
+                    </div>
+                  </div>
+                  {/* Tab content */}
+                  <div className='w-full h-0 grow bg-grayDark flex'>
+                    {/* Fragments */}
+                    {(() => {
+                      switch (positionTab) {
+                        case 0:
+                          return (
+                            <div className='w-full h-full  grid grid-cols-3 gap-1 p-5 overflow-x-hidden overflow-y-auto bg-red'>
+                              <div className='w-44 h-44 bg-white'></div>
+                            </div>
+                          );
+
+                        case 1:
+                          return (
+                            <div className='w-full h-full  bg-brightPurple'></div>
+                          );
+
+                        case 2:
+                          return (
+                            <div className='w-full h-full  bg-darkPurple'></div>
+                          );
+
+                        default:
+                          return <div className='w-full h-full bg-red'></div>;
+                      }
+                    })()}
                   </div>
                 </div>
               </div>
