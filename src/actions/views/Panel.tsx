@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactHTMLElement, createRef, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowLeft,
@@ -14,6 +14,8 @@ import {
 import UserImage from '../../assets/user.jpg';
 
 const Panel: React.FC = () => {
+  const wrapper = document.getElementById('wrapper') as HTMLDivElement;
+
   const [settingModalOpenend, setSettingModalOpenend] = useState(false);
   const [chatSettingModalOpenend, setChatSettingModalOpenend] = useState(false);
   const [contactSettingOpened, setContactSettingOpened] = useState(false);
@@ -23,9 +25,31 @@ const Panel: React.FC = () => {
 
   const [filePanelOpened, setFilePanelOpened] = useState(false);
 
-  const [positionTab, setPositionTab] = useState(0);
+  const [pressed, setPressed] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [grabbing, setGrabbing] = useState(false);
 
-  const positionTabHandler = (index: number) => setPositionTab(index);
+  window.addEventListener('mouseup', () => {
+    setPressed(false);
+    setGrabbing(false);
+  });
+
+  const onMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    setPressed(true);
+    setStartX(e.clientX);
+    setGrabbing(true);
+  };
+
+  const onMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (!pressed) {
+      return;
+    }
+    wrapper.scrollLeft += startX - e.clientX;
+  };
+
+  const onMouseLeave = () => {
+    setPressed(false);
+  };
 
   const filePanelHandler = () => {
     setContactInfoPanelOpened(!contactInfoPanelOpened);
@@ -533,51 +557,30 @@ const Panel: React.FC = () => {
                 <div className='w-full h-full flex flex-col'>
                   {/* Header tab */}
                   <div className='w-full h-20 flex bg-brightPurple'>
-                    <div
-                      onClick={() => positionTabHandler(0)}
-                      className='h-full grow p-3 cursor-pointer transition bg-white hover:bg-grayReg'
-                    >
+                    <div className='h-full grow p-3 cursor-pointer transition bg-white hover:bg-grayReg'>
                       <h3 className='text-center text-2xl'>Images</h3>
                     </div>
-                    <div
-                      onClick={() => positionTabHandler(1)}
-                      className='h-full grow p-3 cursor-pointer transition bg-white hover:bg-grayReg'
-                    >
+                    <div className='h-full grow p-3 cursor-pointer transition bg-white hover:bg-grayReg'>
                       <h3 className='text-center text-2xl'>Images</h3>
                     </div>
-                    <div
-                      onClick={() => positionTabHandler(2)}
-                      className='h-full grow p-3 cursor-pointer transition bg-white hover:bg-grayReg'
-                    >
+                    <div className='h-full grow p-3 cursor-pointer transition bg-white hover:bg-grayReg'>
                       <h3 className='text-center text-2xl'>Images</h3>
                     </div>
                   </div>
-                  {/* Tab content */}
-                  <div className='w-full h-0 grow bg-grayDark flex'>
+                  {/* Wrapper slider */}
+                  <div
+                    id='wrapper'
+                    onMouseDown={(e) => onMouseDown(e)}
+                    onMouseLeave={() => onMouseLeave()}
+                    onMouseMove={(e) => onMouseMove(e)}
+                    className={`w-full h-0 grow bg-grayDark flex overflow-x-auto snap-x snap-mandatory scroll-smooth ${
+                      grabbing ? 'cursor-grabbing' : 'cursor-grab'
+                    }`}
+                  >
                     {/* Fragments */}
-                    {(() => {
-                      switch (positionTab) {
-                        case 0:
-                          return (
-                            <div className='w-full h-full  grid grid-cols-3 gap-1 p-5 overflow-x-hidden overflow-y-auto bg-red'>
-                              <div className='w-44 h-44 bg-white'></div>
-                            </div>
-                          );
-
-                        case 1:
-                          return (
-                            <div className='w-full h-full  bg-brightPurple'></div>
-                          );
-
-                        case 2:
-                          return (
-                            <div className='w-full h-full  bg-darkPurple'></div>
-                          );
-
-                        default:
-                          return <div className='w-full h-full bg-red'></div>;
-                      }
-                    })()}
+                    <div className='w-full min-w-full h-full bg-brightPurple snap-center snap-always select-none'></div>
+                    <div className='w-full min-w-full h-full bg-darkPurple snap-center snap-always select-none'></div>
+                    <div className='w-full min-w-full h-full bg-red snap-center snap-always select-none'></div>
                   </div>
                 </div>
               </div>
