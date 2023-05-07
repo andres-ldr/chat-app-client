@@ -521,7 +521,7 @@ const Panel: React.FC = () => {
             {/* Files & media panel */}
             {filePanelOpened && (
               <div
-                className={`w-3/5 h-full flex flex-col bg-grayLight overflow-x-auto origin-right`}
+                className={`w-3/5 h-full flex flex-col bg-grayLight overflow-x-auto origin-right animate-scaleWidth`}
               >
                 {/* Header contact info */}
                 <div className='flex w-full h-32 bg-grayReg p-5 mb-1 shadow-sm'>
