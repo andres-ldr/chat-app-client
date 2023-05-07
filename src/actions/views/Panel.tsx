@@ -136,20 +136,20 @@ const Panel: React.FC = () => {
             </div>
           </div>
           {/* Search input */}
-          <div className='relative w-full h-20 bg-gray'>
-            <FontAwesomeIcon
-              icon={faMagnifyingGlass}
-              className={`absolute top-1/2 left-14 -translate-y-1/2 -translate-x-1/2 text-grayDark z-10`}
-            />
-            <form action=''>
+          <div className='flex justify-center w-full h-20 bg-gray'>
+            <div className='relative w-5/6'>
+              <FontAwesomeIcon
+                icon={faMagnifyingGlass}
+                className={`absolute top-1/2 left-10 -translate-y-1/2 -translate-x-1/2 text-grayDark z-10`}
+              />
               <input
                 type='text'
                 name=''
                 id=''
                 placeholder='Search'
-                className='absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 w-110 h-12 rounded-xl outline-none placeholder-grayDark pl-16 pt-4 pr-4 pb-4 text-2xl  transition focus:shadow-input'
+                className='absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 w-full h-12 rounded-xl outline-none placeholder-grayDark pl-16 pt-4 pr-4 pb-4 text-2xl  transition focus:shadow-input'
               />
-            </form>
+            </div>
           </div>
           {/* Chat cards container */}
           <div className='flex flex-col grow items-center w-full h-0 pt-5 bg-grayReg overflow-y-auto'>
