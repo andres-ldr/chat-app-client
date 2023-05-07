@@ -1,4 +1,4 @@
-import React, { ReactHTMLElement, createRef, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowLeft,
@@ -12,10 +12,9 @@ import {
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import UserImage from '../../assets/user.jpg';
+import Tabs from '../components/Tabs';
 
 const Panel: React.FC = () => {
-  const wrapper = document.getElementById('wrapper') as HTMLDivElement;
-
   const [settingModalOpenend, setSettingModalOpenend] = useState(false);
   const [chatSettingModalOpenend, setChatSettingModalOpenend] = useState(false);
   const [contactSettingOpened, setContactSettingOpened] = useState(false);
@@ -25,68 +24,9 @@ const Panel: React.FC = () => {
 
   const [filePanelOpened, setFilePanelOpened] = useState(false);
 
-  const [pressed, setPressed] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [grabbing, setGrabbing] = useState(false);
-
-  const [tabClicked, setTabClicked] = useState([
-    { id: 0, value: false },
-    { id: 1, value: false },
-    { id: 2, value: false },
-  ]);
-
-  const onChangeTab = (id: number) => {
-    const copy = tabClicked;
-    copy.map((e) => {
-      if (e.id === id) {
-        e.value = true;
-      } else {
-        e.value = false;
-      }
-    });
-    setTabClicked(copy);
-    switch (id) {
-      case 0:
-        wrapper.scrollLeft = wrapper.scrollWidth * 0;
-        break;
-      case 1:
-        wrapper.scrollLeft = wrapper.scrollWidth * 0.45;
-        break;
-      case 2:
-        wrapper.scrollLeft = wrapper.scrollWidth * 2;
-        break;
-
-      default:
-        wrapper.scrollLeft = wrapper.scrollWidth * 0;
-        break;
-    }
-  };
-
   const onFilePanelHandler = () => {
     setFilePanelOpened(false);
     setContactInfoPanelOpened(true);
-  };
-
-  window.addEventListener('mouseup', () => {
-    setPressed(false);
-    setGrabbing(false);
-  });
-
-  const onMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    setPressed(true);
-    setStartX(e.clientX);
-    setGrabbing(true);
-  };
-
-  const onMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (!pressed) {
-      return;
-    }
-    wrapper.scrollLeft += startX - e.clientX;
-  };
-
-  const onMouseLeave = () => {
-    setPressed(false);
   };
 
   const filePanelHandler = () => {
@@ -581,8 +521,7 @@ const Panel: React.FC = () => {
             {/* Files & media panel */}
             {filePanelOpened && (
               <div
-                className={`w-3/5 h-full flex flex-col bg-grayLight overflow-x-auto origin-right  animate-scaleWidth        
-             `}
+                className={`w-3/5 h-full flex flex-col bg-grayLight overflow-x-auto origin-right`}
               >
                 {/* Header contact info */}
                 <div className='flex w-full h-32 bg-grayReg p-5 mb-1 shadow-sm'>
@@ -592,57 +531,7 @@ const Panel: React.FC = () => {
                     className='w-12 h-12 mr-5  p-1 transition rounded-full text-grayDark cursor-pointer hover:bg-gray'
                   />
                 </div>
-                {/* Tab */}
-                <div className='w-full h-full flex flex-col'>
-                  {/* Header tab */}
-                  <div className='w-full h-20 flex bg-brightPurple'>
-                    <div
-                      onClick={() => onChangeTab(0)}
-                      className={`h-full grow p-3 cursor-pointer transition bg-white  hover:bg-grayReg ${
-                        tabClicked[0].value
-                          ? 'border-b-2 bg-darkPurple text-brightPurple font-bold'
-                          : ''
-                      }`}
-                    >
-                      <h3 className='text-center text-2xl'>Images</h3>
-                    </div>
-                    <div
-                      onClick={() => onChangeTab(1)}
-                      className={`h-full grow p-3 cursor-pointer transition bg-white  hover:bg-grayReg ${
-                        tabClicked[1].value
-                          ? 'border-b-2 bg-darkPurple text-brightPurple font-bold'
-                          : ''
-                      }`}
-                    >
-                      <h3 className='text-center text-2xl'>Images</h3>
-                    </div>
-                    <div
-                      onClick={() => onChangeTab(2)}
-                      className={`h-full grow p-3 cursor-pointer transition bg-white  hover:bg-grayReg ${
-                        tabClicked[2].value
-                          ? 'border-b-2 bg-darkPurple text-brightPurple font-bold'
-                          : ''
-                      }`}
-                    >
-                      <h3 className='text-center text-2xl'>Images</h3>
-                    </div>
-                  </div>
-                  {/* Wrapper slider */}
-                  <div
-                    id='wrapper'
-                    onMouseDown={(e) => onMouseDown(e)}
-                    onMouseLeave={() => onMouseLeave()}
-                    onMouseMove={(e) => onMouseMove(e)}
-                    className={`w-full h-0 grow bg-grayDark flex overflow-x-auto snap-x snap-mandatory scroll-smooth ${
-                      grabbing ? 'cursor-grabbing' : 'cursor-grab'
-                    }`}
-                  >
-                    {/* Fragments */}
-                    <div className='w-full min-w-full h-full bg-brightPurple snap-center snap-always select-none'></div>
-                    <div className='w-full min-w-full h-full bg-darkPurple snap-center snap-always select-none'></div>
-                    <div className='w-full min-w-full h-full bg-red snap-center snap-always select-none'></div>
-                  </div>
-                </div>
+                <Tabs />
               </div>
             )}
           </div>
