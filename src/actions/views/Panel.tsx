@@ -422,11 +422,11 @@ const Panel: React.FC = () => {
                   </div>
                 </div>
                 {/* chat area */}
-                <div className='w-full h-5/6 grow bg-grayReg overflow-y-auto'>
+                <div className='w-full h-5/6 grow bg-white overflow-y-auto'>
                   {/* Chat row left */}
-                  <div className='w-full bg-white p-5'>
+                  <div className='w-full p-5'>
                     {/* Msg */}
-                    <div className='h-full max-w-lg inline-flex flex-col p-4 border-2 bg-white rounded-3xl text-xl'>
+                    <div className='h-full max-w-2xl inline-flex flex-col p-4 border-2 border-gray cursor-pointer bg-white rounded-3xl text-xl'>
                       <p className='mb-2'>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
                         Porro non sunt sequi quo reiciendis, maiores, animi
@@ -438,9 +438,9 @@ const Panel: React.FC = () => {
                     </div>
                   </div>
                   {/* Chat row right */}
-                  <div className='w-full flex justify-end bg-white p-5'>
+                  <div className='w-full flex justify-end p-5'>
                     {/* Msg */}
-                    <div className='h-full max-w-lg inline-flex flex-col p-4 border-2 bg-white rounded-3xl text-xl'>
+                    <div className='h-full max-w-2xl inline-flex flex-col p-4 border-2 border-grayReg cursor-pointer bg-grayReg rounded-3xl text-xl'>
                       <p className='mb-2'>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
                         Porro non sunt
