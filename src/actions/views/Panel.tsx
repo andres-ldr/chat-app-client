@@ -422,7 +422,7 @@ const Panel: React.FC = () => {
                   </div>
                 </div>
                 {/* chat area */}
-                <div className='w-full h-5/6 grow bg-white overflow-y-auto'>
+                <div className='w-full h-0 grow bg-white overflow-y-auto'>
                   {/* Chat row left */}
                   <div className='w-full p-5'>
                     {/* Msg */}
