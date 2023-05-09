@@ -19,7 +19,6 @@ const Tabs = () => {
   const [grabbing, setGrabbing] = useState(false);
   const [pressed, setPressed] = useState(false);
   const [startX, setStartX] = useState(0);
-  const [tabClicked, setTabClicked] = useState(false);
   const [listOfTabs, setListOfTabs] = useState<Tab[]>([
     { id: 0, state: true },
     { id: 1, state: false },
@@ -125,7 +124,7 @@ const Tabs = () => {
               : ''
           }`}
         >
-          <h3 className='text-center text-2xl'>Images</h3>
+          <h3 className='text-center text-2xl'>Files</h3>
         </a>
         <a
           onClick={() => onTabClicked(2)}
@@ -135,7 +134,7 @@ const Tabs = () => {
               : ''
           }`}
         >
-          <h3 className='text-center text-2xl'>Images</h3>
+          <h3 className='text-center text-2xl'>Links</h3>
         </a>
       </div>
       {/* Wrapper slider */}
