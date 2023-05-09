@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowLeft,
@@ -15,16 +15,25 @@ import UserImage from '../../assets/user.jpg';
 import Tabs from '../components/Tabs';
 
 const Panel: React.FC = () => {
-  const [settingModalOpenend, setSettingModalOpenend] = useState(false);
-  const [chatSettingModalOpenend, setChatSettingModalOpenend] = useState(false);
+  const chatPopUpSetRef = useRef<HTMLDivElement>(null);
+  const SetPopUpRef = useRef<HTMLDivElement>(null);
+
   const [contactSettingOpened, setContactSettingOpened] = useState(false);
-  const [addFileModalOpened, setAddFileModalOpened] = useState(false);
 
   const [contactInfoPanelOpened, setContactInfoPanelOpened] = useState(false);
 
   const [filePanelOpened, setFilePanelOpened] = useState(false);
 
   const [chatId, setchatId] = useState<number | null>(null);
+
+  const [backgroundPopUp, setBackgroundPopUp] = useState(false);
+  const [listOfPopUps, setListOfPopUps] = useState([
+    { id: 0, state: false },
+    { id: 1, state: false },
+    { id: 2, state: false },
+    { id: 3, state: false },
+    { id: 4, state: false },
+  ]);
 
   const onSelectChatId = (id: number) => {
     if (id) {
@@ -55,51 +64,50 @@ const Panel: React.FC = () => {
     }
   };
 
-  const contactSettingPopUpHandler = () => {
-    if (!addFileModalOpened) {
-      setContactSettingOpened(!contactSettingOpened);
-    } else {
-      setContactSettingOpened(!contactSettingOpened);
-      setAddFileModalOpened(!addFileModalOpened);
-    }
+  const popUpHandler = (id: number) => {
+    setBackgroundPopUp(true);
+
+    const copy = listOfPopUps.map((x) => x);
+    copy.map((e) => {
+      if (e.id === id) {
+        if (e.state === false) {
+          e.state = true;
+        } else {
+          e.state = false;
+          setBackgroundPopUp(false);
+        }
+      } else {
+        e.state = false;
+      }
+    });
+    setListOfPopUps(copy);
   };
 
-  const addFilePopUpHandler = () => {
-    if (!contactSettingOpened) {
-      setAddFileModalOpened(!addFileModalOpened);
-    } else {
-      setContactSettingOpened(!contactSettingOpened);
-      setAddFileModalOpened(!addFileModalOpened);
-    }
-  };
-
-  const settingPopUpHandler = () => {
-    if (!chatSettingModalOpenend) {
-      setSettingModalOpenend(!settingModalOpenend);
-    } else {
-      setSettingModalOpenend(!settingModalOpenend);
-      setChatSettingModalOpenend(!chatSettingModalOpenend);
-    }
-  };
-
-  const chatSettingPopUpHandler = () => {
-    if (!settingModalOpenend) {
-      setChatSettingModalOpenend(!chatSettingModalOpenend);
-    } else {
-      setChatSettingModalOpenend(!chatSettingModalOpenend);
-      setSettingModalOpenend(!settingModalOpenend);
-    }
+  const closePopUps = () => {
+    setBackgroundPopUp(false);
+    const copy = listOfPopUps.map((x) => x);
+    copy.map((e) => (e.state = false));
+    setListOfPopUps(copy);
   };
 
   return (
-    <div className='flex flex-col items-center justify-center w-full h-screen p-10 bg-gradient-radial from-darkPurple to-brightPurple overflow-hidden'>
+    <div className='relative flex flex-col items-center justify-center w-full h-screen p-10 bg-gradient-radial from-darkPurple to-brightPurple overflow-hidden'>
+      {backgroundPopUp && (
+        <div
+          onClick={closePopUps}
+          className='absolute w-full h-full z-10'
+        ></div>
+      )}
       {/* panel */}
       <div className='flex w-11/12 h-400 bg-white'>
         {/* left panel */}
-        <div className='relative flex flex-col h-full w-3/12 bg-darkPurple '>
+        <div className='relative flex flex-col h-full w-3/12 bg-darkPurple'>
           {/* Settings pop up */}
-          {settingModalOpenend && (
-            <div className='absolute top-10 right-14 w-96 bg-white shadow-lg flex flex-col z-20 origin-top-right animate-scale'>
+          {listOfPopUps[1].state && (
+            <div
+              ref={chatPopUpSetRef}
+              className='absolute top-10 right-14 w-96 bg-white shadow-lg flex flex-col z-30 origin-top-right animate-scale'
+            >
               <div className='w-full p-5 transition hover:bg-gray'>
                 <h4 className='text-3xl'>Log out</h4>
               </div>
@@ -112,8 +120,11 @@ const Panel: React.FC = () => {
             </div>
           )}
 
-          {chatSettingModalOpenend && (
-            <div className='absolute top-10 right-32 w-96 bg-white shadow-lg flex flex-col z-20 origin-top-right animate-scale'>
+          {listOfPopUps[0].state && (
+            <div
+              ref={SetPopUpRef}
+              className='absolute top-10 right-32  w-96 bg-white shadow-lg flex flex-col z-30 origin-top-right animate-scale'
+            >
               <div className='w-full p-5 transition hover:bg-gray'>
                 <h4 className='text-3xl'>Start a new chat</h4>
               </div>
@@ -132,14 +143,14 @@ const Panel: React.FC = () => {
             />
             <div className='flex'>
               <FontAwesomeIcon
-                onClick={chatSettingPopUpHandler}
+                onClick={() => popUpHandler(0)}
                 icon={faMessage}
-                className='w-8 h-8 cursor-pointer p-3 mr-4 transition rounded-full text-grayDark hover:bg-gray'
+                className='w-8 h-8 cursor-pointer p-3 mr-4 transition rounded-full text-grayDark hover:bg-gray z-20'
               />
               <FontAwesomeIcon
-                onClick={settingPopUpHandler}
+                onClick={() => popUpHandler(1)}
                 icon={faEllipsisVertical}
-                className='w-10 h-10 cursor-pointer p-3 transition rounded-full text-grayDark hover:bg-gray active:bg-grayDark'
+                className='w-10 h-10 cursor-pointer p-3 transition rounded-full text-grayDark hover:bg-gray active:bg-grayDark z-20'
               />
             </div>
           </div>
@@ -378,8 +389,8 @@ const Panel: React.FC = () => {
                 {/* contact bar */}
                 <div className='relative w-full h-32 flex justify-between bg-grayLight p-5'>
                   {/* Info contact popup */}
-                  {contactSettingOpened && (
-                    <div className='absolute top-10 right-14 w-96 bg-white shadow-lg flex flex-col z-10 origin-top-right animate-scale'>
+                  {listOfPopUps[2].state && (
+                    <div className='absolute top-12 right-14 w-96 bg-white shadow-lg flex flex-col z-30 origin-top-right animate-scale'>
                       <div
                         onClick={contactInfoPanelHandler}
                         className='w-full p-5 transition hover:bg-gray'
@@ -389,8 +400,8 @@ const Panel: React.FC = () => {
                     </div>
                   )}
                   {/* File popup */}
-                  {addFileModalOpened && (
-                    <div className='absolute top-12 right-36 w-96 bg-white shadow-lg flex flex-col z-10 origin-top-right animate-scale'>
+                  {listOfPopUps[3].state && (
+                    <div className='absolute top-12 right-32 w-96 bg-white shadow-lg flex flex-col z-30 origin-top-right animate-scale'>
                       <div className='w-full p-5 transition hover:bg-gray'>
                         <h4 className='text-3xl'>Add file</h4>
                       </div>
@@ -408,16 +419,16 @@ const Panel: React.FC = () => {
                     />
                     <h3 className='text-3xl'>My friend</h3>
                   </div>
-                  <div className=''>
+                  <div className='flex'>
                     <FontAwesomeIcon
                       icon={faPaperclip}
-                      onClick={addFilePopUpHandler}
-                      className='w-10 h-10 cursor-pointer p-3 mr-3 transition rounded-full text-grayDark hover:bg-gray'
+                      onClick={() => popUpHandler(3)}
+                      className='w-10 h-10 cursor-pointer p-3 mr-3 transition rounded-full text-grayDark hover:bg-gray z-20'
                     />
                     <FontAwesomeIcon
                       icon={faEllipsisVertical}
-                      onClick={contactSettingPopUpHandler}
-                      className='w-10 h-10 cursor-pointer p-3 transition rounded-full text-grayDark hover:bg-gray'
+                      onClick={() => popUpHandler(2)}
+                      className='w-10 h-10 cursor-pointer p-3 transition rounded-full text-grayDark hover:bg-gray z-20'
                     />
                   </div>
                 </div>
