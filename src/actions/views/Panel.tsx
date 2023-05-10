@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, RefObject } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowLeft,
@@ -15,8 +15,16 @@ import UserImage from '../../assets/user.jpg';
 import Tabs from '../components/Tabs';
 
 const Panel: React.FC = () => {
-  const chatPopUpSetRef = useRef<HTMLDivElement>(null);
-  const SetPopUpRef = useRef<HTMLDivElement>(null);
+  const chatPopUpRef = useRef<HTMLDivElement>(null);
+  const chatIconRef = useRef<SVGSVGElement>(null);
+  const setPopUpRef = useRef<HTMLDivElement>(null);
+  const setIconRef = useRef<SVGSVGElement>(null);
+  const filePopUpRef = useRef<HTMLDivElement>(null);
+  const fileIconRef = useRef<SVGSVGElement>(null);
+  const contactSetPopUpRef = useRef<HTMLDivElement>(null);
+  const contactSetIconRef = useRef<SVGSVGElement>(null);
+
+  const iconsArr = [chatIconRef, setIconRef, contactSetIconRef, fileIconRef];
 
   const [contactSettingOpened, setContactSettingOpened] = useState(false);
 
@@ -26,16 +34,22 @@ const Panel: React.FC = () => {
 
   const [chatId, setchatId] = useState<number | null>(null);
 
-  const [backgroundPopUp, setBackgroundPopUp] = useState(false);
-  const [listOfPopUps, setListOfPopUps] = useState([
-    { id: 0, state: false },
-    { id: 1, state: false },
-    { id: 2, state: false },
-    { id: 3, state: false },
-    { id: 4, state: false },
+  const [listOfPopUps, setListOfPopUps] = useState<
+    {
+      id: number;
+      state: boolean;
+      popup: RefObject<HTMLDivElement> | null;
+      icon: RefObject<SVGSVGElement> | null;
+    }[]
+  >([
+    { id: 0, state: false, popup: chatPopUpRef, icon: chatIconRef },
+    { id: 1, state: false, popup: setPopUpRef, icon: setIconRef },
+    { id: 2, state: false, popup: contactSetPopUpRef, icon: contactSetIconRef },
+    { id: 3, state: false, popup: filePopUpRef, icon: fileIconRef },
   ]);
 
   const onSelectChatId = (id: number) => {
+    closePopUps();
     if (id) {
       setchatId(id);
     }
@@ -65,8 +79,6 @@ const Panel: React.FC = () => {
   };
 
   const popUpHandler = (id: number) => {
-    setBackgroundPopUp(true);
-
     const copy = listOfPopUps.map((x) => x);
     copy.map((e) => {
       if (e.id === id) {
@@ -74,7 +86,6 @@ const Panel: React.FC = () => {
           e.state = true;
         } else {
           e.state = false;
-          setBackgroundPopUp(false);
         }
       } else {
         e.state = false;
@@ -84,20 +95,32 @@ const Panel: React.FC = () => {
   };
 
   const closePopUps = () => {
-    setBackgroundPopUp(false);
     const copy = listOfPopUps.map((x) => x);
     copy.map((e) => (e.state = false));
     setListOfPopUps(copy);
   };
 
+  const closePopUpWhenClickOutside = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    const target = e.target as HTMLElement;
+    const item = listOfPopUps.find((e) => e.state === true);
+
+    const iconSelected = iconsArr.some(
+      (icon) =>
+        icon.current === e.target || icon.current?.firstChild === e.target
+    );
+    console.log(iconSelected);
+    if (item && target.offsetParent !== item.popup?.current && !iconSelected) {
+      closePopUps();
+    }
+  };
+
   return (
-    <div className='relative flex flex-col items-center justify-center w-full h-screen p-10 bg-gradient-radial from-darkPurple to-brightPurple overflow-hidden'>
-      {backgroundPopUp && (
-        <div
-          onClick={closePopUps}
-          className='absolute w-full h-full z-10'
-        ></div>
-      )}
+    <div
+      onClick={(e) => closePopUpWhenClickOutside(e)}
+      className='relative flex flex-col items-center justify-center w-full h-screen p-10 bg-gradient-radial from-darkPurple to-brightPurple overflow-hidden'
+    >
       {/* panel */}
       <div className='flex w-11/12 h-400 bg-white'>
         {/* left panel */}
@@ -105,7 +128,7 @@ const Panel: React.FC = () => {
           {/* Settings pop up */}
           {listOfPopUps[1].state && (
             <div
-              ref={chatPopUpSetRef}
+              ref={setPopUpRef}
               className='absolute top-10 right-14 w-96 bg-white shadow-lg flex flex-col z-30 origin-top-right animate-scale'
             >
               <div className='w-full p-5 transition hover:bg-gray'>
@@ -122,7 +145,7 @@ const Panel: React.FC = () => {
 
           {listOfPopUps[0].state && (
             <div
-              ref={SetPopUpRef}
+              ref={chatPopUpRef}
               className='absolute top-10 right-32  w-96 bg-white shadow-lg flex flex-col z-30 origin-top-right animate-scale'
             >
               <div className='w-full p-5 transition hover:bg-gray'>
@@ -143,11 +166,13 @@ const Panel: React.FC = () => {
             />
             <div className='flex'>
               <FontAwesomeIcon
+                ref={chatIconRef}
                 onClick={() => popUpHandler(0)}
                 icon={faMessage}
                 className='w-8 h-8 cursor-pointer p-3 mr-4 transition rounded-full text-grayDark hover:bg-gray z-20'
               />
               <FontAwesomeIcon
+                ref={setIconRef}
                 onClick={() => popUpHandler(1)}
                 icon={faEllipsisVertical}
                 className='w-10 h-10 cursor-pointer p-3 transition rounded-full text-grayDark hover:bg-gray active:bg-grayDark z-20'
@@ -165,6 +190,7 @@ const Panel: React.FC = () => {
                 type='text'
                 name=''
                 id=''
+                onSelect={closePopUps}
                 placeholder='Search'
                 className='absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 w-full h-12 rounded-xl outline-none placeholder-grayDark pl-16 pt-4 pr-4 pb-4 text-2xl  transition focus:shadow-input'
               />
@@ -390,7 +416,10 @@ const Panel: React.FC = () => {
                 <div className='relative w-full h-32 flex justify-between bg-grayLight p-5'>
                   {/* Info contact popup */}
                   {listOfPopUps[2].state && (
-                    <div className='absolute top-12 right-14 w-96 bg-white shadow-lg flex flex-col z-30 origin-top-right animate-scale'>
+                    <div
+                      ref={contactSetPopUpRef}
+                      className='absolute top-12 right-14 w-96 bg-white shadow-lg flex flex-col z-30 origin-top-right animate-scale'
+                    >
                       <div
                         onClick={contactInfoPanelHandler}
                         className='w-full p-5 transition hover:bg-gray'
@@ -401,7 +430,10 @@ const Panel: React.FC = () => {
                   )}
                   {/* File popup */}
                   {listOfPopUps[3].state && (
-                    <div className='absolute top-12 right-32 w-96 bg-white shadow-lg flex flex-col z-30 origin-top-right animate-scale'>
+                    <div
+                      ref={filePopUpRef}
+                      className='absolute top-12 right-32 w-96 bg-white shadow-lg flex flex-col z-30 origin-top-right animate-scale'
+                    >
                       <div className='w-full p-5 transition hover:bg-gray'>
                         <h4 className='text-3xl'>Add file</h4>
                       </div>
@@ -421,11 +453,13 @@ const Panel: React.FC = () => {
                   </div>
                   <div className='flex'>
                     <FontAwesomeIcon
+                      ref={fileIconRef}
                       icon={faPaperclip}
                       onClick={() => popUpHandler(3)}
                       className='w-10 h-10 cursor-pointer p-3 mr-3 transition rounded-full text-grayDark hover:bg-gray z-20'
                     />
                     <FontAwesomeIcon
+                      ref={contactSetIconRef}
                       icon={faEllipsisVertical}
                       onClick={() => popUpHandler(2)}
                       className='w-10 h-10 cursor-pointer p-3 transition rounded-full text-grayDark hover:bg-gray z-20'
