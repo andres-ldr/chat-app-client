@@ -66,16 +66,8 @@ const Panel: React.FC = () => {
   };
 
   const contactInfoPanelHandler = () => {
-    if (contactSettingOpened && !contactInfoPanelOpened) {
-      setContactSettingOpened(!contactSettingOpened);
-      setContactInfoPanelOpened(!contactInfoPanelOpened);
-    }
-    if (!contactSettingOpened && contactInfoPanelOpened) {
-      setContactInfoPanelOpened(!contactInfoPanelOpened);
-    }
-    if (contactSettingOpened && contactInfoPanelOpened) {
-      setContactSettingOpened(!contactSettingOpened);
-    }
+    closePopUps();
+    setContactInfoPanelOpened(!contactInfoPanelOpened);
   };
 
   const popUpHandler = (id: number) => {
