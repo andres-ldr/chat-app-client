@@ -13,6 +13,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import UserImage from '../../assets/user.jpg';
 import Tabs from '../components/Tabs';
+import PopUp from '../components/PopUp';
 
 const Panel: React.FC = () => {
   const chatPopUpRef = useRef<HTMLDivElement>(null);
@@ -119,34 +120,29 @@ const Panel: React.FC = () => {
         <div className='relative flex flex-col h-full w-3/12 bg-darkPurple'>
           {/* Settings pop up */}
           {listOfPopUps[1].state && (
-            <div
-              ref={setPopUpRef}
-              className='absolute top-10 right-14 w-96 bg-white shadow-lg flex flex-col z-30 origin-top-right animate-scale'
-            >
-              <div className='w-full p-5 transition hover:bg-gray'>
-                <h4 className='text-3xl'>Log out</h4>
-              </div>
-              <div className='w-full p-5 transition hover:bg-gray'>
-                <h4 className='text-3xl'>Log out</h4>
-              </div>
-              <div className='w-full p-5 transition hover:bg-gray'>
-                <h4 className='text-3xl'>Log out</h4>
-              </div>
-            </div>
+            <PopUp
+              Ref={setPopUpRef}
+              right={10}
+              content={[
+                {
+                  label: 'Log out',
+                  action: () => console.log('log out'),
+                },
+              ]}
+            />
           )}
 
           {listOfPopUps[0].state && (
-            <div
-              ref={chatPopUpRef}
-              className='absolute top-10 right-32  w-96 bg-white shadow-lg flex flex-col z-30 origin-top-right animate-scale'
-            >
-              <div className='w-full p-5 transition hover:bg-gray'>
-                <h4 className='text-3xl'>Start a new chat</h4>
-              </div>
-              <div className='w-full p-5 transition hover:bg-gray'>
-                <h4 className='text-3xl'>Start a new group</h4>
-              </div>
-            </div>
+            <PopUp
+              Ref={chatPopUpRef}
+              right={24}
+              content={[
+                {
+                  label: 'Start new chat',
+                  action: () => console.log('new chat'),
+                },
+              ]}
+            />
           )}
 
           {/* User container */}
@@ -408,31 +404,29 @@ const Panel: React.FC = () => {
                 <div className='relative w-full h-32 flex justify-between bg-grayLight p-5'>
                   {/* Info contact popup */}
                   {listOfPopUps[2].state && (
-                    <div
-                      ref={contactSetPopUpRef}
-                      className='absolute top-12 right-14 w-96 bg-white shadow-lg flex flex-col z-30 origin-top-right animate-scale'
-                    >
-                      <div
-                        onClick={contactInfoPanelHandler}
-                        className='w-full p-5 transition hover:bg-gray'
-                      >
-                        <h4 className='text-3xl'>More info</h4>
-                      </div>
-                    </div>
+                    <PopUp
+                      Ref={contactSetPopUpRef}
+                      right={10}
+                      content={[
+                        {
+                          label: 'More info',
+                          action: () => contactInfoPanelHandler(),
+                        },
+                      ]}
+                    />
                   )}
                   {/* File popup */}
                   {listOfPopUps[3].state && (
-                    <div
-                      ref={filePopUpRef}
-                      className='absolute top-12 right-32 w-96 bg-white shadow-lg flex flex-col z-30 origin-top-right animate-scale'
-                    >
-                      <div className='w-full p-5 transition hover:bg-gray'>
-                        <h4 className='text-3xl'>Add file</h4>
-                      </div>
-                      <div className='w-full p-5 transition hover:bg-gray'>
-                        <h4 className='text-3xl'>Add file</h4>
-                      </div>
-                    </div>
+                    <PopUp
+                      Ref={filePopUpRef}
+                      right={24}
+                      content={[
+                        {
+                          label: 'Add file',
+                          action: () => console.log('ADD FILE'),
+                        },
+                      ]}
+                    />
                   )}
 
                   <div className='flex'>
