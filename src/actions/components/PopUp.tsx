@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
 
 interface PopUpProps {
-  Ref: React.RefObject<HTMLDivElement>;
+  isShown: boolean;
+  Ref: React.RefObject<HTMLDivElement> | null;
   right?: number;
   content: {
     label: string;
@@ -9,14 +10,16 @@ interface PopUpProps {
   }[];
 }
 
-const PopUp: React.FC<PopUpProps> = ({ Ref, right, content }) => {
+const PopUp: React.FC<PopUpProps> = ({ isShown, Ref, right, content }) => {
   const choosePopUp = (r?: number) => {
     switch (r) {
       case 10:
         return (
           <div
             ref={Ref}
-            className={`absolute top-16 right-10 w-96 bg-white shadow-lg flex flex-col z-30 origin-top-right animate-scale`}
+            className={`absolute top-16 right-10 w-96 bg-white shadow-lg flex flex-col z-30 origin-top-right transition-all ${
+              isShown ? 'scale-1' : 'scale-0'
+            }`}
           >
             {content.map((e) => {
               return (
@@ -34,7 +37,9 @@ const PopUp: React.FC<PopUpProps> = ({ Ref, right, content }) => {
         return (
           <div
             ref={Ref}
-            className={`absolute top-16 right-16 w-96 bg-white shadow-lg flex flex-col z-30 origin-top-right animate-scale`}
+            className={`absolute top-16 right-16 w-96 bg-white shadow-lg flex flex-col z-30 origin-top-right transition-all ${
+              isShown ? 'scale-1' : 'scale-0'
+            }`}
           >
             {content.map((e) => {
               return (
@@ -52,7 +57,9 @@ const PopUp: React.FC<PopUpProps> = ({ Ref, right, content }) => {
         return (
           <div
             ref={Ref}
-            className={`absolute top-16 right-0 w-96 bg-white shadow-lg flex flex-col z-30 origin-top-right animate-scale`}
+            className={`absolute top-16 right-0 w-96 bg-white shadow-lg flex flex-col z-30 origin-top-right  transition-all ${
+              isShown ? 'scale-1' : 'scale-0'
+            }`}
           >
             {content.map((e) => {
               return (
