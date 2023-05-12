@@ -61,15 +61,17 @@ const RightPanel: React.FC<RightPanelProps> = ({
             contactInfoPanelHandler={contactInfoPanelHandler}
             popUpHandler={popUpHandler}
           />
-          {contactInfoPanelOpened && (
-            <ContactInfoPanel
-              contactInfoPanelHandler={contactInfoPanelHandler}
-              filePanelHandler={filePanelHandler}
-            />
-          )}
-          {filePanelOpened && (
-            <MediaPanel onFilePanelHandler={onFilePanelHandler} />
-          )}
+
+          <ContactInfoPanel
+            isOpen={contactInfoPanelOpened}
+            contactInfoPanelHandler={contactInfoPanelHandler}
+            filePanelHandler={filePanelHandler}
+          />
+
+          <MediaPanel
+            isOpen={filePanelOpened}
+            onFilePanelHandler={onFilePanelHandler}
+          />
         </div>
       )}
     </div>

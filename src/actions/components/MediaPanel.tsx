@@ -4,13 +4,19 @@ import React from 'react';
 import Tabs from './Tabs';
 
 interface MediaPanelProps {
+  isOpen: boolean;
   onFilePanelHandler: () => void;
 }
 
-const MediaPanel: React.FC<MediaPanelProps> = ({ onFilePanelHandler }) => {
+const MediaPanel: React.FC<MediaPanelProps> = ({
+  isOpen,
+  onFilePanelHandler,
+}) => {
   return (
     <div
-      className={`w-3/5 h-full flex flex-col bg-grayLight overflow-x-auto origin-right animate-scaleWidth`}
+      className={`${
+        isOpen ? 'w-3/5' : 'w-0'
+      } h-full flex flex-col bg-grayLight overflow-x-auto origin-right transition-all`}
     >
       {/* Header contact info */}
       <div className='flex w-full h-32 bg-grayReg p-5 mb-1 shadow-sm'>

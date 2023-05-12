@@ -8,18 +8,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 
 interface ContactInfoPanelProps {
+  isOpen: boolean;
   contactInfoPanelHandler: () => void;
   filePanelHandler: () => void;
 }
 
 const ContactInfoPanel: React.FC<ContactInfoPanelProps> = ({
+  isOpen,
   contactInfoPanelHandler,
   filePanelHandler,
 }) => {
   return (
     <div
-      className={`w-3/5 h-full flex flex-col bg-grayLight overflow-x-auto origin-right  animate-scaleWidth         
-`}
+      className={`${
+        isOpen ? 'w-3/5' : ' w-0'
+      } h-full flex flex-col bg-grayLight overflow-x-auto origin-right transition-all`}
     >
       {/* Header contact info */}
       <div className='flex w-full h-32 bg-grayReg p-5 mb-1 shadow-sm'>
