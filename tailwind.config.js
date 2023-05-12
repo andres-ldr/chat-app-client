@@ -72,14 +72,6 @@ export default {
             transform: 'scale(1)',
           },
         },
-        scaleWidth: {
-          '0%': { width: '0' },
-          '100%': { width: 'w-3/5' },
-        },
-        deScaleWidth: {
-          '0%': { width: 'w-3/5' },
-          '100%': { width: '0' },
-        },
         swipeFromTop: {
           '0%, 50%': { transform: 'translateY(-100%)', opacity: 0 },
           '100%': { transform: 'translateY(0)', opacity: 1 },
@@ -90,8 +82,6 @@ export default {
         show: 'scale 0.75s cubic-bezier(.13,.49,.42,1.35)',
         pfl: 'openFromLeft 0.75s ease',
         scale: 'scaleXY 0.2s',
-        scaleWidth: 'scaleWidth 0.5s ease',
-        deScaleWidth: 'deScaleWidth 0.5s ease',
         swipeFromTop: 'swipeFromTop 0.5s ease-out',
       },
       boxShadow: {
