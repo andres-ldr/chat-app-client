@@ -4,7 +4,7 @@ import {
   faMessage,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { RefObject, useContext } from 'react';
+import React, { useContext } from 'react';
 import PopUp from './PopUp';
 import ChatCard from './ChatCard';
 import { popUpsContext } from '../context/popUpContext';
@@ -33,6 +33,7 @@ const LeftPanel: React.FC<LeftPopUpProps> = ({ UserImage, onSelectChatId }) => {
             right={16}
             content={[
               {
+                id: 0,
                 label: 'Start new chat',
                 action: () => console.log('new chat'),
               },
@@ -43,6 +44,7 @@ const LeftPanel: React.FC<LeftPopUpProps> = ({ UserImage, onSelectChatId }) => {
             Ref={listOfPopUps[1].popup}
             content={[
               {
+                id: 0,
                 label: 'Log out',
                 action: () => console.log('log out'),
               },
@@ -57,10 +59,7 @@ const LeftPanel: React.FC<LeftPopUpProps> = ({ UserImage, onSelectChatId }) => {
           />
           <FontAwesomeIcon
             ref={listOfPopUps[1].icon}
-            onClick={() => {
-              console.log(listOfPopUps[1]);
-              popUpHandler(listOfPopUps[1].id);
-            }}
+            onClick={() => popUpHandler(listOfPopUps[1].id)}
             icon={faEllipsisVertical}
             className='w-10 h-10 cursor-pointer p-3 transition rounded-full text-grayDark hover:bg-gray active:bg-grayDark z-20'
           />

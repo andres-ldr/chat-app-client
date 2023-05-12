@@ -1,21 +1,19 @@
 import React from 'react';
 
 interface ChatCardProps {
-  key: number;
   id: number;
   UserImage: string;
   onSelectChatId: (id: number) => void;
 }
 
 const ChatCard: React.FC<ChatCardProps> = ({
-  key,
   id,
   onSelectChatId,
   UserImage,
 }) => {
   return (
     <div
-      key={key}
+      key={id}
       onClick={() => onSelectChatId(id)}
       className='flex items-center w-11/12 h-32 bg-grayLight mb-5 p-4 rounded-2xl shadow-sm cursor-pointer transition hover:bg-gray hover:shadow-md'
     >

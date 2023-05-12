@@ -35,6 +35,7 @@ const ChatPanel: React.FC<ChatPanelProps> = ({ contactInfoPanelHandler }) => {
             right={0}
             content={[
               {
+                id: 0,
                 label: 'More info',
                 action: () => contactInfoPanelHandler(),
               },
@@ -48,6 +49,7 @@ const ChatPanel: React.FC<ChatPanelProps> = ({ contactInfoPanelHandler }) => {
             right={16}
             content={[
               {
+                id: 0,
                 label: 'Add file',
                 action: () => console.log('ADD FILE'),
               },

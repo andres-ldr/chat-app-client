@@ -5,6 +5,7 @@ interface PopUpProps {
   Ref: React.RefObject<HTMLDivElement> | null;
   right?: number;
   content: {
+    id: number;
     label: string;
     action: () => void;
   }[];
@@ -24,6 +25,7 @@ const PopUp: React.FC<PopUpProps> = ({ isShown, Ref, right, content }) => {
             {content.map((e) => {
               return (
                 <div
+                  key={e.id}
                   onClick={e.action}
                   className='w-full p-5 transition hover:bg-gray'
                 >
@@ -44,6 +46,7 @@ const PopUp: React.FC<PopUpProps> = ({ isShown, Ref, right, content }) => {
             {content.map((e) => {
               return (
                 <div
+                  key={e.id}
                   onClick={e.action}
                   className='w-full p-5 transition hover:bg-gray'
                 >
@@ -64,6 +67,7 @@ const PopUp: React.FC<PopUpProps> = ({ isShown, Ref, right, content }) => {
             {content.map((e) => {
               return (
                 <div
+                  key={e.id}
                   onClick={e.action}
                   className='w-full p-5 transition hover:bg-gray'
                 >
