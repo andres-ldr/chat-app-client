@@ -43,8 +43,8 @@ const Cover: React.FC = () => {
         <path
           d='M763 463.5c0 6.908-5.598 12.5-12.514 12.5-6.915 0-12.486-5.62-12.486-12.5 0-6.908 5.598-12.5 12.514-12.5 6.915 0 12.486 5.592 12.486 12.5zM173 381c0 7.737-6.494 14-14.516 14S144 388.706 144 381c0-7.737 6.494-14 14.516-14S173 373.263 173 381z'
           stroke='#7C5EC3'
-          stroke-width='5'
-          stroke-miterlimit='10'
+          strokeWidth='5'
+          strokeMiterlimit='10'
         />
         <rect
           x='620.207'
@@ -152,13 +152,13 @@ const Cover: React.FC = () => {
           d='m604.958 159.254-43.976-4.842-31.5 35.823a4.029 4.029 0 0 0 3.656.305l69.424-28.48 2.396-2.806zm0 0a4.038 4.038 0 0 1-2.395 2.806l2.395-2.806z'
           fill='##7C5EC3'
           stroke='#7C5EC3'
-          stroke-width='2.619'
+          strokeWidth='2.619'
         />
         <path
           d='M511.48 148.37v-.001a4.03 4.03 0 0 1 2.195-5.263l69.431-28.481h.001a4.04 4.04 0 0 1 4.97 1.618l-26.809 42.061-49.222-8.556-.566-1.378z'
           fill='#7C5EC3'
           stroke='#180A38'
-          stroke-width='2.619'
+          strokeWidth='2.619'
         />
         <defs>
           <linearGradient
@@ -169,8 +169,8 @@ const Cover: React.FC = () => {
             y2='-244.79'
             gradientUnits='userSpaceOnUse'
           >
-            <stop stop-color='#7C5EC3' />
-            <stop offset='1' stop-color='#7C5EC3' />
+            <stop stopColor='#7C5EC3' />
+            <stop offset='1' stopColor='#7C5EC3' />
           </linearGradient>
         </defs>
       </svg>
