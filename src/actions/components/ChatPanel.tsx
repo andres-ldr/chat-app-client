@@ -1,4 +1,4 @@
-import React, { RefObject } from 'react';
+import React, { useContext } from 'react';
 import PopUp from './PopUp';
 import MsgBubble from './MsgBubble';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,30 +6,15 @@ import {
   faEllipsisVertical,
   faPaperclip,
 } from '@fortawesome/free-solid-svg-icons';
+import { popUpsContext } from '../context/popUpContext';
 
 interface ChatPanelProps {
-  contactSetObj: {
-    id: number;
-    state: boolean;
-    popup: RefObject<HTMLDivElement>;
-    icon: RefObject<SVGSVGElement>;
-  };
-  fileObj: {
-    id: number;
-    state: boolean;
-    popup: RefObject<HTMLDivElement>;
-    icon: RefObject<SVGSVGElement>;
-  };
   contactInfoPanelHandler: () => void;
-  popUpHandler: (id: number) => void;
 }
 
-const ChatPanel: React.FC<ChatPanelProps> = ({
-  contactSetObj,
-  fileObj,
-  contactInfoPanelHandler,
-  popUpHandler,
-}) => {
+const ChatPanel: React.FC<ChatPanelProps> = ({ contactInfoPanelHandler }) => {
+  const { listOfPopUps, popUpHandler } = useContext(popUpsContext);
+
   return (
     <div className='w-full h-full flex flex-col bg-white'>
       {/* contact bar */}
@@ -44,41 +29,44 @@ const ChatPanel: React.FC<ChatPanelProps> = ({
         </div>
         <div className='flex relative'>
           {/* Info contact popup */}
-          {contactSetObj.state && (
-            <PopUp
-              Ref={contactSetObj.popup}
-              right={0}
-              content={[
-                {
-                  label: 'More info',
-                  action: () => contactInfoPanelHandler(),
-                },
-              ]}
-            />
-          )}
+          <PopUp
+            isShown={listOfPopUps[3].state}
+            Ref={listOfPopUps[3].popup}
+            right={0}
+            content={[
+              {
+                label: 'More info',
+                action: () => contactInfoPanelHandler(),
+              },
+            ]}
+          />
+
           {/* File popup */}
-          {fileObj.state && (
-            <PopUp
-              Ref={fileObj.popup}
-              right={16}
-              content={[
-                {
-                  label: 'Add file',
-                  action: () => console.log('ADD FILE'),
-                },
-              ]}
-            />
-          )}
+          <PopUp
+            isShown={listOfPopUps[2].state}
+            Ref={listOfPopUps[2].popup}
+            right={16}
+            content={[
+              {
+                label: 'Add file',
+                action: () => console.log('ADD FILE'),
+              },
+            ]}
+          />
+
           <FontAwesomeIcon
-            ref={fileObj.icon}
+            ref={listOfPopUps[2].icon}
             icon={faPaperclip}
-            onClick={() => popUpHandler(3)}
+            onClick={() => {
+              console.log(listOfPopUps);
+              popUpHandler(2);
+            }}
             className='w-10 h-10 cursor-pointer p-3 mr-3 transition rounded-full text-grayDark hover:bg-gray z-20'
           />
           <FontAwesomeIcon
-            ref={contactSetObj.icon}
+            ref={listOfPopUps[3].icon}
             icon={faEllipsisVertical}
-            onClick={() => popUpHandler(2)}
+            onClick={() => popUpHandler(3)}
             className='w-10 h-10 cursor-pointer p-3 transition rounded-full text-grayDark hover:bg-gray z-20'
           />
         </div>

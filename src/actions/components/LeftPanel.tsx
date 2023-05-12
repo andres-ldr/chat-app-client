@@ -4,37 +4,19 @@ import {
   faMessage,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { RefObject } from 'react';
+import React, { RefObject, useContext } from 'react';
 import PopUp from './PopUp';
 import ChatCard from './ChatCard';
+import { popUpsContext } from '../context/popUpContext';
 
 interface LeftPopUpProps {
-  settingObj: {
-    id: number;
-    state: boolean;
-    popup: RefObject<HTMLDivElement>;
-    icon: RefObject<SVGSVGElement>;
-  };
-  chatObj: {
-    id: number;
-    state: boolean;
-    popup: RefObject<HTMLDivElement>;
-    icon: RefObject<SVGSVGElement>;
-  };
   UserImage: string;
-  popUpHandler: (id: number) => void;
   onSelectChatId: (id: number) => void;
-  closePopUps: () => void;
 }
 
-const LeftPanel: React.FC<LeftPopUpProps> = ({
-  settingObj,
-  chatObj,
-  UserImage,
-  popUpHandler,
-  onSelectChatId,
-  closePopUps,
-}) => {
+const LeftPanel: React.FC<LeftPopUpProps> = ({ UserImage, onSelectChatId }) => {
+  const { listOfPopUps, popUpHandler, closePopUps } = useContext(popUpsContext);
+
   return (
     <div className='relative flex flex-col h-full w-3/12 bg-darkPurple'>
       {/* User container */}
@@ -45,39 +27,40 @@ const LeftPanel: React.FC<LeftPopUpProps> = ({
           className='w-20 h-20 circle cursor-pointer transition hover:backdrop-blur-lg hover:opacity-95'
         />
         <div className='flex relative'>
-          {settingObj.state && (
-            <PopUp
-              Ref={settingObj.popup}
-              content={[
-                {
-                  label: 'Log out',
-                  action: () => console.log('log out'),
-                },
-              ]}
-            />
-          )}
+          <PopUp
+            isShown={listOfPopUps[0].state}
+            Ref={listOfPopUps[0].popup}
+            right={16}
+            content={[
+              {
+                label: 'Start new chat',
+                action: () => console.log('new chat'),
+              },
+            ]}
+          />
+          <PopUp
+            isShown={listOfPopUps[1].state}
+            Ref={listOfPopUps[1].popup}
+            content={[
+              {
+                label: 'Log out',
+                action: () => console.log('log out'),
+              },
+            ]}
+          />
 
-          {chatObj.state && (
-            <PopUp
-              Ref={chatObj.popup}
-              right={16}
-              content={[
-                {
-                  label: 'Start new chat',
-                  action: () => console.log('new chat'),
-                },
-              ]}
-            />
-          )}
           <FontAwesomeIcon
-            ref={chatObj.icon}
-            onClick={() => popUpHandler(chatObj.id)}
+            ref={listOfPopUps[0].icon}
+            onClick={() => popUpHandler(listOfPopUps[0].id)}
             icon={faMessage}
             className='w-8 h-8 cursor-pointer p-3 mr-4 transition rounded-full text-grayDark hover:bg-gray z-20'
           />
           <FontAwesomeIcon
-            ref={settingObj.icon}
-            onClick={() => popUpHandler(settingObj.id)}
+            ref={listOfPopUps[1].icon}
+            onClick={() => {
+              console.log(listOfPopUps[1]);
+              popUpHandler(listOfPopUps[1].id);
+            }}
             icon={faEllipsisVertical}
             className='w-10 h-10 cursor-pointer p-3 transition rounded-full text-grayDark hover:bg-gray active:bg-grayDark z-20'
           />

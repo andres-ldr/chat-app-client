@@ -1,34 +1,17 @@
-import { RefObject, useState } from 'react';
+import { RefObject, useContext, useState } from 'react';
 import ChatPanel from './ChatPanel';
 import ContactInfoPanel from './ContactInfoPanel';
 import Cover from './Cover';
 import MediaPanel from './MediaPanel';
+import { popUpsContext } from '../context/popUpContext';
 
 interface RightPanelProps {
   chatId: number | null;
-  contactSetObj: {
-    id: number;
-    state: boolean;
-    popup: RefObject<HTMLDivElement>;
-    icon: RefObject<SVGSVGElement>;
-  };
-  fileObj: {
-    id: number;
-    state: boolean;
-    popup: RefObject<HTMLDivElement>;
-    icon: RefObject<SVGSVGElement>;
-  };
-  closePopUps: () => void;
-  popUpHandler: (id: number) => void;
 }
 
-const RightPanel: React.FC<RightPanelProps> = ({
-  chatId,
-  closePopUps,
-  contactSetObj,
-  fileObj,
-  popUpHandler,
-}) => {
+const RightPanel: React.FC<RightPanelProps> = ({ chatId }) => {
+  const { closePopUps } = useContext(popUpsContext);
+
   const [contactInfoPanelOpened, setContactInfoPanelOpened] = useState(false);
 
   const [filePanelOpened, setFilePanelOpened] = useState(false);
@@ -55,12 +38,7 @@ const RightPanel: React.FC<RightPanelProps> = ({
       {/* Chat & contact info */}
       {chatId && (
         <div className='flex w-full h-full'>
-          <ChatPanel
-            contactSetObj={contactSetObj}
-            fileObj={fileObj}
-            contactInfoPanelHandler={contactInfoPanelHandler}
-            popUpHandler={popUpHandler}
-          />
+          <ChatPanel contactInfoPanelHandler={contactInfoPanelHandler} />
 
           <ContactInfoPanel
             isOpen={contactInfoPanelOpened}
