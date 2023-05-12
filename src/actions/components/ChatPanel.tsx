@@ -57,10 +57,7 @@ const ChatPanel: React.FC<ChatPanelProps> = ({ contactInfoPanelHandler }) => {
           <FontAwesomeIcon
             ref={listOfPopUps[2].icon}
             icon={faPaperclip}
-            onClick={() => {
-              console.log(listOfPopUps);
-              popUpHandler(2);
-            }}
+            onClick={() => popUpHandler(2)}
             className='w-10 h-10 cursor-pointer p-3 mr-3 transition rounded-full text-grayDark hover:bg-gray z-20'
           />
           <FontAwesomeIcon
