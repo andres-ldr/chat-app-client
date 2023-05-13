@@ -1,11 +1,10 @@
 import {
-  faArrowRight,
   faChevronRight,
   faFilePdf,
   faLink,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState, useRef, useEffect, Fragment } from 'react';
+import React, { useState, useRef, Fragment } from 'react';
 
 type Tab = {
   id: number;
