@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useRef,
-  RefObject,
-  useContext,
-  useEffect,
-} from 'react';
+import React, { useState, useRef, useContext, useEffect } from 'react';
 import LeftPanel from '../components/LeftPanel';
 import RightPanel from '../components/RightPanel';
 import { popUpsContext } from '../context/popUpContext';

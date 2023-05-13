@@ -5,7 +5,7 @@ import {
   faLink,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, Fragment } from 'react';
 
 type Tab = {
   id: number;
@@ -103,140 +103,275 @@ const Tabs = () => {
   };
 
   return (
-    <div className='w-full h-full flex flex-col'>
-      {/* Header tab */}
-      <div className='w-full h-20 flex bg-brightPurple'>
-        <a
-          onClick={() => onTabClicked(0)}
-          className={`h-full grow p-3 cursor-pointer transition bg-white  hover:bg-grayReg ${
-            listOfTabs[0].state
-              ? 'border-b-2 bg-darkPurple text-brightPurple font-bold'
-              : ''
+    <Fragment>
+      <div className='w-full h-full hidden flex-col'>
+        {/* Header tab */}
+        <div className='w-full h-20 flex bg-brightPurple'>
+          <a
+            onClick={() => onTabClicked(0)}
+            className={`h-full grow p-3 cursor-pointer transition bg-white  hover:bg-grayReg ${
+              listOfTabs[0].state
+                ? 'border-b-2 bg-darkPurple text-brightPurple font-bold'
+                : ''
+            }`}
+          >
+            <h3 className='text-center text-2xl'>Images</h3>
+          </a>
+          <a
+            onClick={() => onTabClicked(1)}
+            className={`h-full grow p-3 cursor-pointer transition bg-white  hover:bg-grayReg ${
+              listOfTabs[1].state
+                ? 'border-b-2 bg-darkPurple text-brightPurple font-bold'
+                : ''
+            }`}
+          >
+            <h3 className='text-center text-2xl'>Files</h3>
+          </a>
+          <a
+            onClick={() => onTabClicked(2)}
+            className={`h-full grow p-3 cursor-pointer transition bg-white  hover:bg-grayReg ${
+              listOfTabs[2].state
+                ? 'border-b-2 bg-darkPurple text-brightPurple font-bold'
+                : ''
+            }`}
+          >
+            <h3 className='text-center text-2xl'>Links</h3>
+          </a>
+        </div>
+        {/* Wrapper slider */}
+        <div
+          ref={wrapperRef}
+          id='wrapper'
+          onMouseDown={(e) => onMouseDown(e)}
+          onMouseLeave={() => onMouseLeave()}
+          onMouseMove={(e) => onMouseMove(e)}
+          onScrollCapture={() => onScrollWrapper()}
+          className={`w-full h-0 grow bg-grayDark flex overflow-x-auto snap-x snap-mandatory scroll-smooth ${
+            grabbing ? 'cursor-grabbing' : 'cursor-grab'
           }`}
         >
-          <h3 className='text-center text-2xl'>Images</h3>
-        </a>
-        <a
-          onClick={() => onTabClicked(1)}
-          className={`h-full grow p-3 cursor-pointer transition bg-white  hover:bg-grayReg ${
-            listOfTabs[1].state
-              ? 'border-b-2 bg-darkPurple text-brightPurple font-bold'
-              : ''
-          }`}
-        >
-          <h3 className='text-center text-2xl'>Files</h3>
-        </a>
-        <a
-          onClick={() => onTabClicked(2)}
-          className={`h-full grow p-3 cursor-pointer transition bg-white  hover:bg-grayReg ${
-            listOfTabs[2].state
-              ? 'border-b-2 bg-darkPurple text-brightPurple font-bold'
-              : ''
-          }`}
-        >
-          <h3 className='text-center text-2xl'>Links</h3>
-        </a>
+          {/* Fragment images */}
+          <div className='w-full min-w-full h-full p-3 bg-grayLight overflow-y-auto flex flex-col snap-center snap-always select-none'>
+            <div className='flex flex-col w-full p-2 mb-10'>
+              <h4 className='text-3xl font-bold mb-10'>Date</h4>
+              <div className='w-full h-full overflow-hidden flex flex-wrap justify-center'>
+                <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
+                <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
+                <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
+                <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
+              </div>
+            </div>
+            <div className='flex flex-col w-full p-2 mb-10'>
+              <h4 className='text-3xl font-bold mb-10'>Date</h4>
+              <div className='w-full h-full overflow-hidden flex flex-wrap justify-center'>
+                <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
+                <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
+                <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
+                <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
+              </div>
+            </div>
+            <div className='flex flex-col w-full p-2 mb-10'>
+              <h4 className='text-3xl font-bold mb-10'>Date</h4>
+              <div className='w-full h-full overflow-hidden flex flex-wrap justify-center'>
+                <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
+                <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
+                <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
+                <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
+              </div>
+            </div>
+          </div>
+          {/* Fragment files */}
+          <div className='w-full min-w-full h-full p-3 bg-grayLight overflow-y-auto snap-center snap-always select-none'>
+            {/* Date & item container */}
+            <div className='flex flex-col w-full p-2'>
+              <h4 className='text-3xl font-bold mb-10'>Date</h4>
+              <div className='w-full h-full flex flex-col justify-center'>
+                {/* File item */}
+                <div className='w-full h-32 p-8 mb-5 rounded-2xl shadow-md cursor-pointer flex justify-start items-center bg-grayReg grow space-x-5 transition hover:shadow-lg'>
+                  <FontAwesomeIcon icon={faFilePdf} className='w-16 h-16' />
+                  <h3 className='text-3xl truncate grow'>my_file_name</h3>
+                </div>
+                {/* File item */}
+                <div className='w-full h-32 p-8 mb-5 rounded-2xl shadow-md cursor-pointer flex justify-start items-center bg-grayReg grow space-x-5 transition hover:shadow-lg'>
+                  <FontAwesomeIcon icon={faFilePdf} className='w-16 h-16' />
+                  <h3 className='text-3xl truncate grow'>my_file_name</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* Fragment links */}
+          <div className='w-full min-w-full h-full p-3 bg-grayLight snap-center snap-always select-none'>
+            {/* Date & item container */}
+            <div className='flex flex-col w-full p-2'>
+              <h4 className='text-3xl font-bold mb-10'>Date</h4>
+              <div className='w-full h-full flex flex-col justify-center'>
+                {/* link item */}
+                <div className='w-full h-auto p-3 mb-10 rounded-2xl shadow-md cursor-pointer flex justify-start items-center bg-grayReg space-x-5 transition hover:shadow-lg'>
+                  <FontAwesomeIcon icon={faLink} className='w-12 h-12' />
+                  <a
+                    href='https://www.youtube.com/'
+                    className='text-xl truncate grow'
+                  >
+                    https://www.youtube.com/
+                  </a>
+                  <FontAwesomeIcon
+                    icon={faChevronRight}
+                    className='w-10 h-10 justify-self-end'
+                  />
+                </div>
+                {/* link item */}
+                <div className='w-full h-auto p-3 mb-10 rounded-2xl shadow-md cursor-pointer flex justify-start items-center bg-grayReg space-x-5 transition hover:shadow-lg'>
+                  <FontAwesomeIcon icon={faLink} className='w-12 h-12' />
+                  <a
+                    href='https://www.youtube.com/'
+                    className='text-xl truncate grow'
+                  >
+                    https://www.youtube.com/
+                  </a>
+                  <FontAwesomeIcon
+                    icon={faChevronRight}
+                    className='w-10 h-10 justify-self-end'
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      {/* Wrapper slider */}
-      <div
-        ref={wrapperRef}
-        id='wrapper'
-        onMouseDown={(e) => onMouseDown(e)}
-        onMouseLeave={() => onMouseLeave()}
-        onMouseMove={(e) => onMouseMove(e)}
-        onScrollCapture={() => onScrollWrapper()}
-        className={`w-full h-0 grow bg-grayDark flex overflow-x-auto snap-x snap-mandatory scroll-smooth ${
-          grabbing ? 'cursor-grabbing' : 'cursor-grab'
-        }`}
-      >
-        {/* Fragment images */}
-        <div className='w-full min-w-full h-full p-3 bg-grayLight overflow-y-auto flex flex-col snap-center snap-always select-none'>
-          <div className='flex flex-col w-full p-2 mb-10'>
-            <h4 className='text-3xl font-bold mb-10'>Date</h4>
-            <div className='w-full h-full overflow-hidden flex flex-wrap justify-center'>
-              <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
-              <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
-              <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
-              <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
-            </div>
-          </div>
-          <div className='flex flex-col w-full p-2 mb-10'>
-            <h4 className='text-3xl font-bold mb-10'>Date</h4>
-            <div className='w-full h-full overflow-hidden flex flex-wrap justify-center'>
-              <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
-              <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
-              <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
-              <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
-            </div>
-          </div>
-          <div className='flex flex-col w-full p-2 mb-10'>
-            <h4 className='text-3xl font-bold mb-10'>Date</h4>
-            <div className='w-full h-full overflow-hidden flex flex-wrap justify-center'>
-              <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
-              <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
-              <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
-              <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
-            </div>
-          </div>
+      <div className='w-full h-full flex flex-col'>
+        {/* Header tab */}
+        <div className='w-full h-20 flex bg-brightPurple'>
+          <a
+            onClick={() => onTabSateHandler(0)}
+            className={`h-full grow p-3 cursor-pointer transition bg-white  hover:bg-grayReg ${
+              listOfTabs[0].state
+                ? 'border-b-2 bg-darkPurple text-brightPurple font-bold'
+                : ''
+            }`}
+          >
+            <h3 className='text-center text-2xl'>Images</h3>
+          </a>
+          <a
+            onClick={() => onTabSateHandler(1)}
+            className={`h-full grow p-3 cursor-pointer transition bg-white  hover:bg-grayReg ${
+              listOfTabs[1].state
+                ? 'border-b-2 bg-darkPurple text-brightPurple font-bold'
+                : ''
+            }`}
+          >
+            <h3 className='text-center text-2xl'>Files</h3>
+          </a>
+          <a
+            onClick={() => onTabSateHandler(2)}
+            className={`h-full grow p-3 cursor-pointer transition bg-white  hover:bg-grayReg ${
+              listOfTabs[2].state
+                ? 'border-b-2 bg-darkPurple text-brightPurple font-bold'
+                : ''
+            }`}
+          >
+            <h3 className='text-center text-2xl'>Links</h3>
+          </a>
         </div>
-        {/* Fragment files */}
-        <div className='w-full min-w-full h-full p-3 bg-grayLight overflow-y-auto snap-center snap-always select-none'>
-          {/* Date & item container */}
-          <div className='flex flex-col w-full p-2'>
-            <h4 className='text-3xl font-bold mb-10'>Date</h4>
-            <div className='w-full h-full flex flex-col justify-center'>
-              {/* File item */}
-              <div className='w-full h-32 p-8 mb-5 rounded-2xl shadow-md cursor-pointer flex justify-start items-center bg-grayReg grow space-x-5 transition hover:shadow-lg'>
-                <FontAwesomeIcon icon={faFilePdf} className='w-16 h-16' />
-                <h3 className='text-3xl truncate grow'>my_file_name</h3>
+        {/* Wrapper slider */}
+        <div
+          ref={wrapperRef}
+          id='wrapper'
+          className={`w-full h-0 grow bg-grayDark flex overflow-x-auto`}
+        >
+          {listOfTabs[0].state && (
+            <div
+              className={`w-full min-w-full h-full p-3 bg-grayLight overflow-y-auto flex flex-col snap-center snap-always select-none animate-swipeFromTop`}
+            >
+              <div className='flex flex-col w-full p-2 mb-10'>
+                <h4 className='text-3xl font-bold mb-10'>Date</h4>
+                <div className='w-full h-full overflow-hidden flex flex-wrap justify-center'>
+                  <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
+                  <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
+                  <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
+                  <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
+                </div>
               </div>
-              {/* File item */}
-              <div className='w-full h-32 p-8 mb-5 rounded-2xl shadow-md cursor-pointer flex justify-start items-center bg-grayReg grow space-x-5 transition hover:shadow-lg'>
-                <FontAwesomeIcon icon={faFilePdf} className='w-16 h-16' />
-                <h3 className='text-3xl truncate grow'>my_file_name</h3>
+              <div className='flex flex-col w-full p-2 mb-10'>
+                <h4 className='text-3xl font-bold mb-10'>Date</h4>
+                <div className='w-full h-full overflow-hidden flex flex-wrap justify-center'>
+                  <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
+                  <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
+                  <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
+                  <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
-        {/* Fragment links */}
-        <div className='w-full min-w-full h-full p-3 bg-grayLight snap-center snap-always select-none'>
-          {/* Date & item container */}
-          <div className='flex flex-col w-full p-2'>
-            <h4 className='text-3xl font-bold mb-10'>Date</h4>
-            <div className='w-full h-full flex flex-col justify-center'>
-              {/* link item */}
-              <div className='w-full h-auto p-3 mb-10 rounded-2xl shadow-md cursor-pointer flex justify-start items-center bg-grayReg space-x-5 transition hover:shadow-lg'>
-                <FontAwesomeIcon icon={faLink} className='w-12 h-12' />
-                <a
-                  href='https://www.youtube.com/'
-                  className='text-xl truncate grow'
-                >
-                  https://www.youtube.com/
-                </a>
-                <FontAwesomeIcon
-                  icon={faChevronRight}
-                  className='w-10 h-10 justify-self-end'
-                />
-              </div>
-              {/* link item */}
-              <div className='w-full h-auto p-3 mb-10 rounded-2xl shadow-md cursor-pointer flex justify-start items-center bg-grayReg space-x-5 transition hover:shadow-lg'>
-                <FontAwesomeIcon icon={faLink} className='w-12 h-12' />
-                <a
-                  href='https://www.youtube.com/'
-                  className='text-xl truncate grow'
-                >
-                  https://www.youtube.com/
-                </a>
-                <FontAwesomeIcon
-                  icon={faChevronRight}
-                  className='w-10 h-10 justify-self-end'
-                />
+              <div className='flex flex-col w-full p-2 mb-10'>
+                <h4 className='text-3xl font-bold mb-10'>Date</h4>
+                <div className='w-full h-full overflow-hidden flex flex-wrap justify-center'>
+                  <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
+                  <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
+                  <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
+                  <div className='w-60 h-60 m-1 bg-lightPurple grow'></div>
+                </div>
               </div>
             </div>
-          </div>
+          )}
+          {listOfTabs[1].state && (
+            <div className='w-full min-w-full h-full p-3 bg-grayLight overflow-y-auto snap-center snap-always select-none animate-swipeFromTop'>
+              {/* Date & item container */}
+              <div className='flex flex-col w-full p-2'>
+                <h4 className='text-3xl font-bold mb-10'>Date</h4>
+                <div className='w-full h-full flex flex-col justify-center'>
+                  {/* File item */}
+                  <div className='w-full h-32 p-8 mb-5 rounded-2xl shadow-md cursor-pointer flex justify-start items-center bg-grayReg grow space-x-5 transition hover:shadow-lg'>
+                    <FontAwesomeIcon icon={faFilePdf} className='w-16 h-16' />
+                    <h3 className='text-3xl truncate grow'>my_file_name</h3>
+                  </div>
+                  {/* File item */}
+                  <div className='w-full h-32 p-8 mb-5 rounded-2xl shadow-md cursor-pointer flex justify-start items-center bg-grayReg grow space-x-5 transition hover:shadow-lg'>
+                    <FontAwesomeIcon icon={faFilePdf} className='w-16 h-16' />
+                    <h3 className='text-3xl truncate grow'>my_file_name</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+          {listOfTabs[2].state && (
+            <div className='w-full min-w-full h-full p-3 bg-grayLight snap-center snap-always select-none animate-swipeFromTop'>
+              {/* Date & item container */}
+              <div className='flex flex-col w-full p-2'>
+                <h4 className='text-3xl font-bold mb-10'>Date</h4>
+                <div className='w-full h-full flex flex-col justify-center'>
+                  {/* link item */}
+                  <div className='w-full h-auto p-3 mb-10 rounded-2xl shadow-md cursor-pointer flex justify-start items-center bg-grayReg space-x-5 transition hover:shadow-lg'>
+                    <FontAwesomeIcon icon={faLink} className='w-12 h-12' />
+                    <a
+                      href='https://www.youtube.com/'
+                      className='text-xl truncate grow'
+                    >
+                      https://www.youtube.com/
+                    </a>
+                    <FontAwesomeIcon
+                      icon={faChevronRight}
+                      className='w-10 h-10 justify-self-end'
+                    />
+                  </div>
+                  {/* link item */}
+                  <div className='w-full h-auto p-3 mb-10 rounded-2xl shadow-md cursor-pointer flex justify-start items-center bg-grayReg space-x-5 transition hover:shadow-lg'>
+                    <FontAwesomeIcon icon={faLink} className='w-12 h-12' />
+                    <a
+                      href='https://www.youtube.com/'
+                      className='text-xl truncate grow'
+                    >
+                      https://www.youtube.com/
+                    </a>
+                    <FontAwesomeIcon
+                      icon={faChevronRight}
+                      className='w-10 h-10 justify-self-end'
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
-    </div>
+    </Fragment>
   );
 };
 
