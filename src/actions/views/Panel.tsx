@@ -2,6 +2,7 @@ import React, { useState, useRef, useContext, useEffect } from 'react';
 import LeftPanel from '../components/LeftPanel';
 import RightPanel from '../components/RightPanel';
 import { popUpsContext } from '../context/popUpContext';
+import { User, getChatAPI, getUserAPI } from '../../data/api';
 
 const Panel: React.FC = () => {
   const { listOfPopUps, setPopUps, closePopUps } = useContext(popUpsContext);
@@ -31,6 +32,25 @@ const Panel: React.FC = () => {
         icon: contactSetIconRef,
       },
     ]);
+
+    const fetchChat = async (id: number) => {
+      try {
+        const result = await getChatAPI(id);
+        console.log(result);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const fetchUser = async () => {
+      try {
+        const result: User = await getUserAPI(0);
+        fetchChat(result.id);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchUser();
   }, []);
 
   const onSelectChatId = (id: number) => {
