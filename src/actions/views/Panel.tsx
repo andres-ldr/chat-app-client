@@ -2,7 +2,6 @@ import React, { useState, useRef, useContext, useEffect } from 'react';
 import LeftPanel from '../components/LeftPanel';
 import RightPanel from '../components/RightPanel';
 import { popUpsContext } from '../context/popUpContext';
-import { User, getChatAPI, getUserAPI } from '../../data/api';
 
 const Panel: React.FC = () => {
   const { listOfPopUps, setPopUps, closePopUps } = useContext(popUpsContext);
