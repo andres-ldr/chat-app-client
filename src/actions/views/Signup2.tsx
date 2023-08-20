@@ -2,19 +2,24 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from '../hooks/form-hook';
 import Input from '../components/FormElements/input';
-import { VALIDATOR_MAXLENGTH, VALIDATOR_REQUIRE } from '../Util/validators';
 import Button from '../components/FormElements/Button';
+import {
+  VALIDATOR_REQUIRE,
+  VALIDATOR_MAXLENGTH,
+  VALIDATOR_EMAIL,
+  VALIDATOR_MINLENGTH,
+} from '../Util/validators';
 
-const Signup: React.FC = () => {
+const Signup2: React.FC = () => {
   const navigate = useNavigate();
 
   const [formState, inputHandler] = useForm(
     {
-      name: {
+      email: {
         value: '',
         isValid: false,
       },
-      lastName: {
+      password: {
         value: '',
         isValid: false,
       },
@@ -24,12 +29,17 @@ const Signup: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const { name, lastName } = history.state.usr;
+    const { email, password } = formState.inputs;
 
-    const { name, lastName } = formState.inputs;
-
-    navigate('/signup-step-2', {
+    navigate('/setimg', {
       replace: true,
-      state: { name: name.value, lastName: lastName.value },
+      state: {
+        name,
+        lastName,
+        email: email.value,
+        password: password.value,
+      },
     });
   };
 
@@ -37,7 +47,7 @@ const Signup: React.FC = () => {
     <div className='flex flex-col items-center justify-center w-full h-screen p-10 bg-gradient-radial from-darkPurple to-brightPurple overflow-hidden'>
       <div className='flex flex-col justify-center items-center relative w-200 h-3/4 bg-grayLight rounded-3xl animate-mtl'>
         <Link
-          to='/login'
+          to='/signup'
           className='absolute top-8 left-8 p-1  w-10 transition hover:scale-125 hover:bg-grayReg rounded-full'
         >
           <svg
@@ -52,7 +62,7 @@ const Signup: React.FC = () => {
           </svg>
         </Link>
         <h2 className='text-5xl mb-16 font-bold text-brightPurple'>
-          Signup step 1
+          Signup step 2
         </h2>
         <form
           className='flex flex-col w-2/4 mb-16 space-y-10'
@@ -60,20 +70,28 @@ const Signup: React.FC = () => {
         >
           <Input
             element='input'
-            id='name'
+            id='email'
             type='text'
-            validators={[VALIDATOR_REQUIRE(), VALIDATOR_MAXLENGTH(20)]}
-            placeholder='Name'
-            errorText='Name less than 20 characters required'
+            validators={[
+              VALIDATOR_REQUIRE(),
+              VALIDATOR_EMAIL(),
+              VALIDATOR_MAXLENGTH(30),
+            ]}
+            placeholder='Email'
+            errorText='Email required'
             onInput={inputHandler}
           />
           <Input
             element='input'
-            id='lastName'
-            type='text'
-            validators={[VALIDATOR_REQUIRE(), VALIDATOR_MAXLENGTH(20)]}
-            placeholder='Last Name'
-            errorText='Last name less than 20 characters required'
+            id='password'
+            type='password'
+            validators={[
+              VALIDATOR_REQUIRE(),
+              VALIDATOR_MINLENGTH(8),
+              VALIDATOR_MAXLENGTH(30),
+            ]}
+            placeholder='Password'
+            errorText='At least 8 characters required'
             onInput={inputHandler}
           />
           <Button onClick={handleSubmit} disabled={!formState.isValid}>
@@ -85,4 +103,4 @@ const Signup: React.FC = () => {
   );
 };
 
-export default Signup;
+export default Signup2;
