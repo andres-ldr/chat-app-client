@@ -8,7 +8,7 @@ const NotFoundPage = () => {
         404 | Not found
       </h1>
       <div className='text-3xl flex flex-col justify-center items-center space-y-10 font-medium'>
-        <h2 className='text-4xl'>Maybe your looking for:</h2>
+        <h2 className='text-4xl'>Maybe you are looking for:</h2>
         <Link
           to='/'
           className='transition-all hover:font-semibold hover:text-lightPurple'
