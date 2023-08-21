@@ -87,7 +87,7 @@ const SetImg: React.FC = () => {
             </h2>
 
             {/* Empty Imagen container*/}
-            <div className='relative mb-10'>
+            <div className='w-60 h-60 relative mb-10'>
               <Input
                 element='file'
                 id='profileImage'
@@ -96,7 +96,8 @@ const SetImg: React.FC = () => {
                 onInput={inputHandler}
               />
 
-              <div className='flex justify-center items-center w-60 h-60 bg-grayReg border-2 border-dashed rounded-full'>
+              {/* Avatar icon */}
+              <div className='flex justify-center items-center w-full h-full bg-grayReg border-2 border-dashed rounded-full'>
                 <svg
                   className='w-32 h-36'
                   viewBox='0 0 18 20'
@@ -104,8 +105,8 @@ const SetImg: React.FC = () => {
                   xmlns='http://www.w3.org/2000/svg'
                 >
                   <path
-                    fill-rule='evenodd'
-                    clip-rule='evenodd'
+                    fillRule='evenodd'
+                    clipRule='evenodd'
                     d='M9 0C6.23858 0 4 2.23858 4 5C4 7.76142 6.23858 10 9 10C11.7614 10 14 7.76142 14 5C14 2.23858 11.7614 0 9 0ZM6 5C6 3.34315 7.34315 2 9 2C10.6569 2 12 3.34315 12 5C12 6.65685 10.6569 8 9 8C7.34315 8 6 6.65685 6 5Z'
                     fill='#474747'
                   />
@@ -123,7 +124,7 @@ const SetImg: React.FC = () => {
               illum nulla deserunt,
             </p>
             {/* skip & next btn */}
-            <div className='w-1/2 h-auto flex justify-between'>
+            <div className='w-1/2 h-auto flex flex-col justify-between space-y-6'>
               <button
                 className='text-3xl h-16 leading-none font-bold p-3 transition rounded-xl hover:bg-grayReg'
                 type='submit'

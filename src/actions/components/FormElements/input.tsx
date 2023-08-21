@@ -92,13 +92,19 @@ const Input: React.FC<IInput> = (props: IInput) => {
 
       case 'file':
         return (
-          <input
-            type='file'
+          <label
             id={props.id}
-            onChange={changeHandler}
-            value={inputState.value}
             className='absolute flex w-12 h-12 bg-brightPurple rounded-full bottom-3 right-3 text-white items-center justify-center text-4xl leading-none transition hover:bg-darkPurple hover:scale-110 hover:cursor-pointer'
-          />
+          >
+            &#43;
+            <input
+              type='file'
+              id={props.id}
+              onChange={changeHandler}
+              value={inputState.value}
+              className='hidden'
+            />
+          </label>
         );
 
       default:
