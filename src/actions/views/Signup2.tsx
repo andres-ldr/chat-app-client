@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from '../hooks/form-hook';
 import Input from '../components/FormElements/input';
@@ -11,6 +11,8 @@ import {
 } from '../Util/validators';
 
 const Signup2: React.FC = () => {
+  const [isConfirmedPassword, setIsConfirmedPassword] =
+    useState<boolean>(false);
   const navigate = useNavigate();
 
   const [formState, inputHandler] = useForm(
@@ -23,24 +25,44 @@ const Signup2: React.FC = () => {
         value: '',
         isValid: false,
       },
+      confirmPassword: {
+        value: '',
+        isValid: false,
+      },
     },
     false
   );
 
+  useEffect(() => {
+    if (history.state.usr === undefined) {
+      navigate('/signup', {
+        replace: true,
+      });
+    }
+  });
+
+  useEffect(() => {
+    const { password, confirmPassword } = formState.inputs;
+    setIsConfirmedPassword(password.value === confirmPassword.value);
+  }, [formState]);
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const { name, lastName } = history.state.usr;
-    const { email, password } = formState.inputs;
+    if (isConfirmedPassword) {
+      const { name, lastName } = history.state.usr;
+      const { email, password } = formState.inputs;
 
-    navigate('/setimg', {
-      replace: true,
-      state: {
-        name,
-        lastName,
-        email: email.value,
-        password: password.value,
-      },
-    });
+      navigate('/setimg', {
+        replace: true,
+        state: {
+          name,
+          lastName,
+          email: email.value,
+          password: password.value,
+        },
+      });
+    }
+    console.log('password is not the same');
   };
 
   return (
@@ -91,6 +113,19 @@ const Signup2: React.FC = () => {
               VALIDATOR_MAXLENGTH(30),
             ]}
             placeholder='Password'
+            errorText='At least 8 characters required'
+            onInput={inputHandler}
+          />
+          <Input
+            element='input'
+            id='confirmPassword'
+            type='password'
+            validators={[
+              VALIDATOR_REQUIRE(),
+              VALIDATOR_MINLENGTH(8),
+              VALIDATOR_MAXLENGTH(30),
+            ]}
+            placeholder='Confirm password'
             errorText='At least 8 characters required'
             onInput={inputHandler}
           />
