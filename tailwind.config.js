@@ -5,18 +5,18 @@ export default {
     fontFamily: {
       rubik: ['Rubik', 'sans-serif'],
     },
-    colors: {
-      darkPurple: '#180A38',
-      lightPurple: '#7C5EC3',
-      brightPurple: '#4E21B7',
-      white: '#ffffff',
-      grayLight: '#FAFAFA',
-      gray: '#C8C8C8',
-      grayReg: '#E0E0E0',
-      grayDark: '#474747',
-      red: '#F64A4A',
-    },
     extend: {
+      colors: {
+        darkPurple: '#180A38',
+        lightPurple: '#7C5EC3',
+        brightPurple: '#4E21B7',
+        white: '#ffffff',
+        grayLight: '#FAFAFA',
+        gray: '#C8C8C8',
+        grayReg: '#E0E0E0',
+        grayDark: '#474747',
+        red: '#F64A4A',
+      },
       width: {
         100: '25rem',
         105: '26.25rem',
@@ -85,7 +85,8 @@ export default {
         swipeFromTop: 'swipeFromTop 0.5s ease-out',
       },
       boxShadow: {
-        input: '0px 0px 6px 3px rgba(78,33,183,0.52)',
+        input: '0px 0px 7px 2px rgba(78,33,183,0.52)',
+        inputInvalid: '0px 0px 7px 0px rgba(255, 0, 0, 1)',
       },
     },
   },
