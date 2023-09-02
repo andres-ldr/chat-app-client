@@ -87,6 +87,7 @@ const Input: React.FC<IInput> = (props: IInput) => {
             onChange={changeHandler}
             onBlur={touchHandler}
             value={inputState.value}
+            className='w-full rounded-xl outline-none placeholder-grayDark pl-6 pt-4 pr-4 pb-4 text-2xl  transition resize-none focus:shadow-input'
           />
         );
 
@@ -102,6 +103,7 @@ const Input: React.FC<IInput> = (props: IInput) => {
               id={props.id}
               onChange={changeHandler}
               value={inputState.value}
+              accept='.jpg,.png,.jpeg'
               className='hidden'
             />
           </label>
@@ -115,7 +117,7 @@ const Input: React.FC<IInput> = (props: IInput) => {
   const element = getElement();
 
   return (
-    <div className='min-w-full'>
+    <div className='w-full'>
       {element}
       {!inputState.isValid && inputState.isTouched && (
         <p className='text-red text-xl'>{props.errorText}</p>
