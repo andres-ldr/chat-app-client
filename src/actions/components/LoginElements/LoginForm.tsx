@@ -1,19 +1,16 @@
 import { VALIDATOR_MAXLENGTH, VALIDATOR_REQUIRE } from '../../Util/validators';
-import { useAuthContext } from '../../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import { useHttpClient } from '../../hooks/http-hook';
+import { postLogIn } from '../../redux/user/userSlice';
 import { useForm } from '../../hooks/form-hook';
+import { AppDispatch } from '../../redux/store';
+import { useNavigate } from 'react-router-dom';
 import Button from '../FormElements/Button';
+import { useDispatch } from 'react-redux';
 import Input from '../FormElements/input';
-import Cookies from 'js-cookie';
 import React from 'react';
 
 const LoginForm = () => {
-  const { isLoading, error, sendRequest, clearError, isSuccess } =
-    useHttpClient();
-  const { toggleAuth } = useAuthContext();
-
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
   const [formState, inputHandler] = useForm(
     {
@@ -32,30 +29,12 @@ const LoginForm = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    try {
-      const email = formState.inputs.email.value;
-      const password = formState.inputs.password.value;
-      // console.log(process.env.REACT_APP_BACKEND_URL);
+    const email = formState.inputs.email.value;
+    const password = formState.inputs.password.value;
 
-      const responseData = await sendRequest(
-        'http://localhost:8000/v1/users/login',
-        'POST',
-        JSON.stringify({
-          email,
-          password,
-        }),
-        {
-          'Content-TYpe': 'application/json',
-        }
-      );
-      Cookies.set('auth', 'true');
-      toggleAuth(true);
-      navigate('/panel', {
-        replace: true,
-      });
-    } catch (err) {
-      console.log(err);
-    }
+    dispatch(postLogIn({ email, password }));
+
+    navigate('/panel', { replace: true });
   };
 
   return (
