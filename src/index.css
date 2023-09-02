@@ -83,6 +83,9 @@
   .button {
     @apply uppercase text-center font-bold bg-brightPurple min-w-full h-16 inline-block pt-3 pb-3 pl-4 pr-4 mb-20 rounded-2xl transition duration-300;
   }
+  .button--rounded {
+    @apply w-auto h-full rounded-full bg-brightPurple p-2 transition duration-300;
+  }
   .button--disabled {
     @apply cursor-default bg-opacity-30;
   }
