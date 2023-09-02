@@ -1,4 +1,6 @@
+import { clearContactsOnLogOut } from '../redux/contact/contactsSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { clearChatsOnLogOut } from '../redux/chats/chatsSlice';
 import { clearChatOnLogOut } from '../redux/chat/chatSlice';
 import { selectUser } from '../redux/user/userSelector';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,6 +16,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import ContactsPanel from './ContactsPanel';
 import PopUpElement from './PopUpElement';
+import { toggleChatPanel } from '../redux/chatPanel/chatPanelSlice';
 
 const LeftPanel: React.FC = () => {
   const [isContactPanelOpen, setIsContactPanelOpen] = useState<boolean>(false);
@@ -63,6 +66,9 @@ const LeftPanel: React.FC = () => {
               className='transition hover:bg-gray p-3'
               onClick={() => {
                 dispatch(clearChatOnLogOut());
+                dispatch(clearChatsOnLogOut());
+                dispatch(clearContactsOnLogOut());
+                dispatch(toggleChatPanel(false));
                 dispatch(postLogOut());
                 navigate('/login', { replace: true });
               }}

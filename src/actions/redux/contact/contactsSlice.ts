@@ -47,7 +47,12 @@ export const INITIAL_STATE_CONTACTS: {
 export const contactsSlice = createSlice({
   name: 'contacts',
   initialState: INITIAL_STATE_CONTACTS,
-  reducers: {},
+  reducers: {
+    clearContactsOnLogOut: (state) => {
+      state.isLoading = false;
+      state.contacts = [];
+    },
+  },
   extraReducers(builder) {
     builder.addCase(fetchContacts.pending, (state, action) => {
       state.isLoading = true;
@@ -75,4 +80,5 @@ export const contactsSlice = createSlice({
   },
 });
 
+export const { clearContactsOnLogOut } = contactsSlice.actions;
 export const contactsReducer = contactsSlice.reducer;

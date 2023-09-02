@@ -26,7 +26,12 @@ export const INITIAL_STATE_CHATS: {
 export const chatsSlice = createSlice({
   name: 'chats',
   initialState: INITIAL_STATE_CHATS,
-  reducers: {},
+  reducers: {
+    clearChatsOnLogOut: (state) => {
+      state.isLoading = false;
+      state.chats = [];
+    },
+  },
   extraReducers(builder) {
     builder.addCase(fetchChats.pending, (state, action) => {
       state.isLoading = true;
@@ -42,4 +47,5 @@ export const chatsSlice = createSlice({
   },
 });
 
+export const { clearChatsOnLogOut } = chatsSlice.actions;
 export const chatsReducer = chatsSlice.reducer;
