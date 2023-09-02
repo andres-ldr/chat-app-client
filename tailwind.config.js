@@ -80,6 +80,7 @@ export default {
       animation: {
         mtl: 'moveToLeft 0.75s cubic-bezier(.13,.49,.42,1.35)',
         show: 'scale 0.75s cubic-bezier(.13,.49,.42,1.35)',
+        showDialog: 'scale 0.25s cubic-bezier(.13,.49,.42,1.35)',
         pfl: 'openFromLeft 0.75s ease',
         scale: 'scaleXY 0.2s',
         swipeFromTop: 'swipeFromTop 0.5s ease-out',
