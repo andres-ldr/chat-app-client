@@ -1,20 +1,17 @@
-import { RefObject, useContext, useState } from 'react';
-import ChatPanel from './ChatPanel';
+import { selectChatPanel } from '../redux/chatPanel/chatPanelSelector';
+import { selectChat } from '../redux/chat/selectChat';
 import ContactInfoPanel from './ContactInfoPanel';
-import Cover from './Cover';
+import { useSelector } from 'react-redux';
 import MediaPanel from './MediaPanel';
-import { popUpsContext } from '../context/popUpContext';
+import ChatPanel from './ChatPanel';
+import { useState } from 'react';
+import Cover from './Cover';
 
-interface RightPanelProps {
-  chatId: number | null;
-}
-
-const RightPanel: React.FC<RightPanelProps> = ({ chatId }) => {
-  const { closePopUps } = useContext(popUpsContext);
-
+const RightPanel: React.FC = () => {
   const [contactInfoPanelOpened, setContactInfoPanelOpened] = useState(false);
-
   const [filePanelOpened, setFilePanelOpened] = useState(false);
+  const chatPanelState = useSelector(selectChatPanel);
+  const { chat, cid, isLoading } = useSelector(selectChat);
 
   const onFilePanelHandler = () => {
     setFilePanelOpened(false);
@@ -27,29 +24,28 @@ const RightPanel: React.FC<RightPanelProps> = ({ chatId }) => {
   };
 
   const contactInfoPanelHandler = () => {
-    closePopUps();
     setContactInfoPanelOpened(!contactInfoPanelOpened);
   };
 
   return (
     <div className='flex flex-col justify-center items-center w-9/12 h-full bg-center bg-curveLineBg bg-no-repeat bg-cover'>
       {/* Cover */}
-      {!chatId && <Cover />}
+      {!chatPanelState && <Cover />}
       {/* Chat & contact info */}
-      {chatId && (
+      {chatPanelState && (
         <div className='flex w-full h-full'>
-          <ChatPanel contactInfoPanelHandler={contactInfoPanelHandler} />
+          {cid && <ChatPanel />}
 
-          <ContactInfoPanel
+          {/* <ContactInfoPanel
             isOpen={contactInfoPanelOpened}
             contactInfoPanelHandler={contactInfoPanelHandler}
             filePanelHandler={filePanelHandler}
-          />
+          /> */}
 
-          <MediaPanel
+          {/* <MediaPanel
             isOpen={filePanelOpened}
             onFilePanelHandler={onFilePanelHandler}
-          />
+          /> */}
         </div>
       )}
     </div>
