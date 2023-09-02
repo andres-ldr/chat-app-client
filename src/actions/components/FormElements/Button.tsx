@@ -12,6 +12,7 @@ interface IButton {
   onClick?: any;
   disabled?: boolean;
   size?: any;
+  rounded?: boolean;
 }
 
 const Button: React.FC<IButton> = (props) => {
@@ -50,9 +51,11 @@ const Button: React.FC<IButton> = (props) => {
   }
   return (
     <button
-      className={`button ${props.size || 'button-default'} ${
-        props.disabled ? 'button--disabled' : 'button--abled'
-      } ${props.danger && 'button-danger'} ${props.inverse && 'button-inverse'}
+      className={`${props.rounded ? 'button--rounded' : 'button'} ${
+        props.size || 'button-default'
+      } ${props.disabled ? 'button--disabled' : 'button--abled'} ${
+        props.danger && 'button-danger'
+      } ${props.inverse && 'button-inverse'} 
       `}
       type={props.type}
       onClick={props.onClick}
