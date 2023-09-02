@@ -62,8 +62,8 @@ const Home = () => {
               fill='url(#a)'
             />
             <path
-              fill-rule='evenodd'
-              clip-rule='evenodd'
+              fillRule='evenodd'
+              clipRule='evenodd'
               d='M539.67 326.441c0-76.628-62.119-138.747-138.747-138.747H281.747C205.119 187.694 143 249.813 143 326.441c0 76.628 62.119 138.748 138.747 138.748h39.87l62.495 50.222c4.627 3.718 11.499.425 11.499-5.511v-44.711h5.312c76.628 0 138.747-62.12 138.747-138.748z'
               fill='#180A38'
             />
@@ -100,8 +100,8 @@ const Home = () => {
               fill='#fff'
             />
             <path
-              fill-rule='evenodd'
-              clip-rule='evenodd'
+              fillRule='evenodd'
+              clipRule='evenodd'
               d='M558.531 386.151c0-38.222 30.986-69.207 69.208-69.207h59.445c38.222 0 69.207 30.985 69.207 69.207 0 38.223-30.985 69.208-69.207 69.208h-19.887l-31.173 25.051c-2.308 1.855-5.736.212-5.736-2.749v-22.302h-2.649c-38.222 0-69.208-30.985-69.208-69.208z'
               fill='#180A38'
             />
@@ -130,8 +130,8 @@ const Home = () => {
               fill='#fff'
             />
             <path
-              fill-rule='evenodd'
-              clip-rule='evenodd'
+              fillRule='evenodd'
+              clipRule='evenodd'
               d='M748.93 169.081C748.93 121.54 710.39 83 662.849 83h-73.938c-47.542 0-86.081 38.54-86.081 86.081 0 47.541 38.539 86.081 86.081 86.081h24.735l38.773 31.159c2.871 2.307 7.134.263 7.134-3.419v-27.74h3.296c47.541 0 86.081-38.54 86.081-86.081z'
               fill='#180A38'
             />
@@ -196,8 +196,8 @@ const Home = () => {
                 y2='-308.255'
                 gradientUnits='userSpaceOnUse'
               >
-                <stop stop-color='#fff' />
-                <stop offset='1' stop-color='#EEE' />
+                <stop stopColor='#fff' />
+                <stop offset='1' stopColor='#EEE' />
               </linearGradient>
             </defs>
           </svg>
