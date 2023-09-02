@@ -1,11 +1,10 @@
 import SuccessLoginMsg from '../components/SetImgElements/SuccessLoginMsg';
 import Button from '../components/FormElements/Button';
 import { Link, useNavigate } from 'react-router-dom';
-import Input from '../components/FormElements/input';
-import { VALIDATOR_FILE } from '../Util/validators';
 import { useHttpClient } from '../hooks/http-hook';
 import { useForm } from '../hooks/form-hook';
 import React, { Fragment } from 'react';
+import ImageUpload from '../components/FormElements/ImageUpload';
 
 const SetImg: React.FC = () => {
   const { isLoading, error, sendRequest, clearError, isSuccess } =
@@ -16,7 +15,7 @@ const SetImg: React.FC = () => {
   const [formState, inputHandler] = useForm(
     {
       profileImage: {
-        value: '',
+        value: null,
         isValid: false,
       },
     },
@@ -25,25 +24,22 @@ const SetImg: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const { name, lastName, email, password } = history.state.usr;
-    const { profileImage } = formState.inputs;
 
     try {
+      const { name, lastName, email, password } = history.state.usr;
+
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('lastName', lastName);
+      formData.append('email', email);
+      formData.append('password', password);
+      formData.append('profileImage', formState.inputs.profileImage.value);
       // console.log(process.env.REACT_APP_BACKEND_URL);
 
-      const responseData = await sendRequest(
+      const result = await sendRequest(
         'http://localhost:8000/v1/users/new_user',
         'POST',
-        JSON.stringify({
-          name,
-          lastName,
-          email,
-          password,
-          profileImage: profileImage.value,
-        }),
-        {
-          'Content-Type': 'application/json',
-        }
+        formData
       );
 
       setTimeout(
@@ -51,7 +47,7 @@ const SetImg: React.FC = () => {
           navigate('/login', {
             replace: true,
           }),
-        3000
+        2000
       );
     } catch (err) {
       console.log(err);
@@ -60,7 +56,7 @@ const SetImg: React.FC = () => {
 
   return (
     <div className='flex flex-col items-center justify-center w-full h-screen p-10 bg-gradient-radial from-darkPurple to-brightPurple overflow-hidden'>
-      <div className='flex flex-col p-10 justify-center items-center relative w-200 h-3/4 bg-grayLight rounded-3xl animate-mtl'>
+      <div className='flex flex-col p-20 justify-center items-center relative w-200 h-3/4 bg-grayLight rounded-3xl animate-mtl'>
         {!isSuccess && (
           <Fragment>
             {/* Link go back */}
@@ -89,13 +85,7 @@ const SetImg: React.FC = () => {
             >
               {/* Empty Imagen container*/}
               <div className='w-60 h-60 relative mb-10'>
-                <Input
-                  element='file'
-                  id='profileImage'
-                  type='password'
-                  validators={[VALIDATOR_FILE()]}
-                  onInput={inputHandler}
-                />
+                <ImageUpload id='profileImage' onInput={inputHandler} />
 
                 {/* Avatar icon */}
                 <div className='flex justify-center items-center w-full h-full bg-grayReg border-2 border-dashed rounded-full'>
