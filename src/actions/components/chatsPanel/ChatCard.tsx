@@ -1,8 +1,6 @@
-import { selectChatPanel } from '../../redux/chatPanel/chatPanelSelector';
 import { toggleChatPanel } from '../../redux/chatPanel/chatPanelSlice';
 import { fetchChatById } from '../../redux/chat/chatSlice';
 import { AppDispatch } from '../../redux/store';
-import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import React from 'react';
 
@@ -13,12 +11,10 @@ interface ChatCardProps {
 }
 
 const ChatCard: React.FC<ChatCardProps> = ({ cid, alias, chatImage }) => {
-  const chatPanelState = useSelector(selectChatPanel);
   const dispatch = useDispatch<AppDispatch>();
 
   const handleChat = () => {
     dispatch(fetchChatById({ cid }));
-    // no toggle sino recargar content
     dispatch(toggleChatPanel(true));
   };
 
@@ -62,8 +58,6 @@ const ChatCard: React.FC<ChatCardProps> = ({ cid, alias, chatImage }) => {
         <h4 className='text-2xl text-grayDark'>{alias}</h4>
         {/* <h5 className='text-xl font-light text-grayDark'></h5> */}
       </div>
-      {/* date */}
-      {/* <h5 className='self-start text-grayDark'></h5> */}
     </div>
   );
 };
