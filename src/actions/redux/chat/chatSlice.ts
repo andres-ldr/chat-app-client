@@ -7,11 +7,11 @@ interface IFetchChat {
 }
 
 export const fetchChatWithAContact = createAsyncThunk(
-  'chat/get_chat_with_contact',
+  'chat/chat_by_members',
   async ({ members }: IFetchChat) => {
     const response = await axios.post(
-      'http://localhost:8000/v1/users/get_chat_with_contact',
-      { members },
+      'http://localhost:8000/v1/users/chat_by_members',
+      { alias: null, members, adminId: [], chatImage: null },
       {
         withCredentials: true,
       }
