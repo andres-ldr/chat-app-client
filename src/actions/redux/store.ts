@@ -6,14 +6,13 @@ import { rootReducer } from './rootReducer';
 const persistConfig = {
   key: 'root',
   storage,
-  whiteList: ['user', 'chat', 'chatPanel'],
+  whiteList: ['user'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
-  // ya viene con thunk y otros dos por defecto
   // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(myMiddlewares)
 });
 
