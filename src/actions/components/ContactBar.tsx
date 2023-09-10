@@ -1,5 +1,4 @@
-import React, { RefObject, useEffect, useRef } from 'react';
-import PopUp from './PopUp';
+import React, { useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faEllipsisVertical,
@@ -7,56 +6,19 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 interface ContactBarProps {
-  listOfPopUps: {
-    id: number;
-    state: boolean;
-    popup: RefObject<HTMLDivElement> | null;
-    icon: RefObject<SVGSVGElement> | null;
-  }[];
   userImg: string;
   popHandler: (id: number) => void;
   contactInfoPanelHandler: () => void;
 }
 
-const ContactBar: React.FC<ContactBarProps> = ({
-  listOfPopUps,
-  userImg,
-  popHandler,
-  contactInfoPanelHandler,
-}) => {
-  const filePopUpRef = useRef<HTMLDivElement>(null);
+const ContactBar: React.FC<ContactBarProps> = ({ userImg, popHandler }) => {
   const fileIconRef = useRef<SVGSVGElement>(null);
-  const contactSetPopUpRef = useRef<HTMLDivElement>(null);
   const contactSetIconRef = useRef<SVGSVGElement>(null);
 
   return (
     <div className='relative w-full h-32 flex justify-between bg-grayLight p-5'>
       {/* Info contact popup */}
-      {listOfPopUps[2].state && (
-        <PopUp
-          Ref={contactSetPopUpRef}
-          right={10}
-          content={[
-            {
-              label: 'More info',
-              action: () => contactInfoPanelHandler(),
-            },
-          ]}
-        />
-      )}
       {/* File popup */}
-      {listOfPopUps[3].state && (
-        <PopUp
-          Ref={filePopUpRef}
-          right={24}
-          content={[
-            {
-              label: 'Add file',
-              action: () => console.log('ADD FILE'),
-            },
-          ]}
-        />
-      )}
 
       <div className='flex'>
         <img

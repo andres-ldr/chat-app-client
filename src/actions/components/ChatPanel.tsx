@@ -27,7 +27,7 @@ export interface IMsg {
 }
 
 const ChatPanel: React.FC = () => {
-  const [formState, inputHandler, setFormData] = useForm(
+  const [formState, inputHandler] = useForm(
     {
       message: {
         value: '',
