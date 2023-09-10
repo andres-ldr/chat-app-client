@@ -3,7 +3,7 @@ import { selectUser } from '../redux/user/userSelector';
 import { VALIDATOR_REQUIRE } from '../Util/validators';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectChat } from '../redux/chat/selectChat';
-import { postMsg } from '../redux/chat/chatSlice';
+import { addMsg } from '../redux/chat/chatSlice';
 import { AppDispatch } from '../redux/store';
 import { useForm } from '../hooks/form-hook';
 import {
@@ -13,11 +13,21 @@ import {
 import Button from './FormElements/Button';
 import PopUpElement from './PopUpElement';
 import Input from './FormElements/input';
+import React, { useEffect } from 'react';
 import MsgBubble from './MsgBubble';
-import React from 'react';
+import { socket } from '../Util/SockerIO';
+
+export interface IMsg {
+  mid: string;
+  cid: string;
+  content: string;
+  type: string;
+  creationDate: Date;
+  senderId: string;
+}
 
 const ChatPanel: React.FC = () => {
-  const [formState, inputHandler] = useForm(
+  const [formState, inputHandler, setFormData] = useForm(
     {
       message: {
         value: '',
@@ -30,10 +40,44 @@ const ChatPanel: React.FC = () => {
   const { user } = useSelector(selectUser);
   const dispatch = useDispatch<AppDispatch>();
 
+  useEffect(() => {
+    if (cid) {
+      socket.emit('CLIENT:JOIN_ROOM', { cid });
+    }
+  }, [cid]);
+
+  useEffect(() => {
+    const receivedMsg = (message: IMsg) => {
+      dispatch(addMsg(message));
+    };
+
+    socket.on('SERVER:SEND_MSG', receivedMsg);
+    socket.on('SERVER:SAVED_MSG', receivedMsg);
+
+    return () => {
+      socket.off('SERVER:SEND_MSG', receivedMsg);
+      socket.off('SERVER:SAVED_MSG', receivedMsg);
+    };
+  }, [dispatch]);
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const message = formState.inputs.message.value;
-    dispatch(postMsg({ cid, content: message, type: 'TEXT' }));
+    socket.emit('CLIENT:SEND_MSG', {
+      cid,
+      content: message,
+      type: 'TEXT',
+      senderId: user.uid,
+    });
+    inputHandler(
+      {
+        message: {
+          value: '',
+          isValid: false,
+        },
+      },
+      false
+    );
   };
 
   return (
@@ -43,7 +87,7 @@ const ChatPanel: React.FC = () => {
         <div className='flex'>
           {chatImage ? (
             <img
-              src={`http://localhost:8000/${chatImage}`}
+              src={`${process.env.REACT_APP_BACKEND_URL}${chatImage}`}
               alt=''
               className='w-20 h-20 mr-6 circle cursor-pointer transition hover:backdrop-blur-lg hover:opacity-95'
             />
