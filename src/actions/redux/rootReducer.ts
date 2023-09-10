@@ -1,7 +1,5 @@
-import { contactSectionReducer } from './contactSection/contactSectionSlice';
 import { newChatDialogReducer } from './newChatDialog/newChatDialogSlice';
 import { chatPanelReducer } from './chatPanel/chatPanelSlice';
-import { messagesReducer } from './messages/messagesSlice';
 import { contactsReducer } from './contact/contactsSlice';
 import { combineReducers } from '@reduxjs/toolkit';
 import { userReducer } from './user/userSlice';
@@ -15,6 +13,4 @@ export const rootReducer = combineReducers({
   chat: chatReducer,
   newChatDialog: newChatDialogReducer,
   chatPanel: chatPanelReducer,
-  // contactSection: contactSectionReducer,
-  // messages: messagesReducer,
 });
