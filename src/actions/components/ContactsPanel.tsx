@@ -33,7 +33,9 @@ const ContactsPanel: React.FC = () => {
         <FontAwesomeIcon
           icon={faPlus}
           className='w-8 h-8 p-2 circle cursor-pointer transition hover:bg-grayDark hover:text-gray'
-          onClick={() => dispatch(toggleNewChatDialog(!newChatDialogState))}
+          onClick={() =>
+            dispatch(toggleNewChatDialog(!newChatDialogState.active))
+          }
         />
       </div>
       {!isLoading &&

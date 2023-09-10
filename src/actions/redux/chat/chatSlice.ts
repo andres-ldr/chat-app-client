@@ -88,7 +88,7 @@ export const chatSlice = createSlice({
     },
   },
   extraReducers(builder) {
-    builder.addCase(fetchChatWithAContact.pending, (state, action) => {
+    builder.addCase(fetchChatWithAContact.pending, (state) => {
       state.isLoading = true;
     });
     builder.addCase(fetchChatWithAContact.fulfilled, (state, action) => {
@@ -103,7 +103,7 @@ export const chatSlice = createSlice({
       state.error = action.error.message;
     });
 
-    builder.addCase(fetchChatById.pending, (state, action) => {
+    builder.addCase(fetchChatById.pending, (state) => {
       state.isLoading = true;
     });
     builder.addCase(fetchChatById.fulfilled, (state, action) => {
@@ -118,7 +118,7 @@ export const chatSlice = createSlice({
       state.error = action.error.message;
     });
 
-    builder.addCase(postMsg.pending, (state, action) => {
+    builder.addCase(postMsg.pending, (state) => {
       state.isLoading = true;
     });
     builder.addCase(postMsg.fulfilled, (state, action) => {

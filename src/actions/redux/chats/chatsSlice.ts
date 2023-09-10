@@ -33,7 +33,7 @@ export const chatsSlice = createSlice({
     },
   },
   extraReducers(builder) {
-    builder.addCase(fetchChats.pending, (state, action) => {
+    builder.addCase(fetchChats.pending, (state) => {
       state.isLoading = true;
     });
     builder.addCase(fetchChats.fulfilled, (state, action) => {

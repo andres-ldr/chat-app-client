@@ -2,10 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export const newChatDialogSlice = createSlice({
   name: 'newChatDialog',
-  initialState: false,
+  initialState: { active: false },
   reducers: {
     toggleNewChatDialog: (state, action) => {
-      return (state = action.payload);
+      state.active = action.payload;
     },
   },
 });

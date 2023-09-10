@@ -2,10 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export const chatPanelSlice = createSlice({
   name: 'chatPanelSlice',
-  initialState: false,
+  initialState: { active: false },
   reducers: {
     toggleChatPanel: (state, action) => {
-      return (state = action.payload);
+      state.active = action.payload;
     },
   },
 });

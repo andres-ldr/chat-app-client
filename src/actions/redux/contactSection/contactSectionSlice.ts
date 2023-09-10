@@ -2,9 +2,11 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export const contactSectionSlice = createSlice({
   name: 'contactSection',
-  initialState: false,
+  initialState: { active: false },
   reducers: {
-    toggleContactSection: (state, action) => (state = action.payload),
+    toggleContactSection: (state, action) => {
+      state.active = action.payload;
+    },
   },
 });
 

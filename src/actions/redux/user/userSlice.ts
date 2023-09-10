@@ -26,12 +26,9 @@ export const postLogIn = createAsyncThunk(
   }
 );
 export const postLogOut = createAsyncThunk('user/postLogOut', async () => {
-  const response = await axios.delete(
-    `${process.env.REACT_APP_BACKEND_URL}v1/users/logout`,
-    {
-      withCredentials: true,
-    }
-  );
+  await axios.delete(`${process.env.REACT_APP_BACKEND_URL}v1/users/logout`, {
+    withCredentials: true,
+  });
   //return null;
 });
 
@@ -56,7 +53,7 @@ export const userSlice = createSlice({
   initialState: INITIAL_STATE_USER,
   reducers: {},
   extraReducers(builder) {
-    builder.addCase(postLogIn.pending, (state, action) => {
+    builder.addCase(postLogIn.pending, (state) => {
       state.isLoading = true;
     });
     builder.addCase(postLogIn.fulfilled, (state, action) => {
@@ -68,10 +65,10 @@ export const userSlice = createSlice({
       state.error = action.error.message;
     });
 
-    builder.addCase(postLogOut.pending, (state, action) => {
+    builder.addCase(postLogOut.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(postLogOut.fulfilled, (state, action) => {
+    builder.addCase(postLogOut.fulfilled, (state) => {
       state.user = null;
       state.isLoading = false;
       state.error = null;

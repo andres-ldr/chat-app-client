@@ -18,7 +18,7 @@ import { selectContacts } from '../../redux/contact/contactsSelector';
 const NewChatDialog: React.FC = () => {
   const newChatDialogIsVisible = useSelector(selectNewChatDialog);
   const newDialogElementRef = useRef<HTMLDivElement>(null);
-  const { isLoading, error } = useSelector(selectContacts);
+  const { isLoading } = useSelector(selectContacts);
   const dispatch = useDispatch<AppDispatch>();
 
   const [formState, inputHandler] = useForm(
@@ -66,7 +66,7 @@ const NewChatDialog: React.FC = () => {
     <div
       ref={newDialogElementRef}
       className={`${
-        newChatDialogIsVisible ? 'flex' : 'hidden'
+        newChatDialogIsVisible.active ? 'flex' : 'hidden'
       } absolute flex-col justify-center items-center w-[500px] h-1/2 p-10 bg-grayLight shadow-lg rounded-2xl space-y-10 animate-showDialog z-30`}
     >
       {!isLoading && (
