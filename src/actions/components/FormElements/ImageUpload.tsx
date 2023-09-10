@@ -13,6 +13,7 @@ const ImageUpload: React.FC<IImagePicker> = ({ id, onInput }) => {
   const filePickerRef = useRef<any>();
 
   useEffect(() => {
+    previewUrl;
     if (!file) {
       return;
     }
@@ -38,9 +39,9 @@ const ImageUpload: React.FC<IImagePicker> = ({ id, onInput }) => {
     onInput(id, pickedFile, fileIsValid);
   };
 
-  const pickImageHandler = () => {
-    filePickerRef.current.click();
-  };
+  // const pickImageHandler = () => {
+  //   filePickerRef.current.click();
+  // };
 
   return (
     <label
