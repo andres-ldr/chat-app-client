@@ -7,8 +7,7 @@ import React, { Fragment } from 'react';
 import ImageUpload from '../components/FormElements/ImageUpload';
 
 const SetImg: React.FC = () => {
-  const { isLoading, error, sendRequest, clearError, isSuccess } =
-    useHttpClient();
+  const { sendRequest, isSuccess } = useHttpClient();
 
   const navigate = useNavigate();
 
@@ -36,7 +35,7 @@ const SetImg: React.FC = () => {
       formData.append('profileImage', formState.inputs.profileImage.value);
       // console.log(process.env.REACT_APP_BACKEND_URL);
 
-      const result = await sendRequest(
+      await sendRequest(
         `${process.env.REACT_APP_BACKEND_URL}v1/users/new_user`,
         'POST',
         formData
