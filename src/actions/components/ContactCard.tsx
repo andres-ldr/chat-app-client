@@ -14,7 +14,6 @@ interface IContactCard {
 }
 
 const ContactCard: React.FC<IContactCard> = ({
-  contactId,
   alias,
   email,
   profileImage,
