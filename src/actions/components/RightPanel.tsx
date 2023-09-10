@@ -1,38 +1,37 @@
 import { selectChatPanel } from '../redux/chatPanel/chatPanelSelector';
 import { selectChat } from '../redux/chat/selectChat';
-import ContactInfoPanel from './ContactInfoPanel';
+// import ContactInfoPanel from './ContactInfoPanel';
 import { useSelector } from 'react-redux';
-import MediaPanel from './MediaPanel';
+// import MediaPanel from './MediaPanel';
 import ChatPanel from './ChatPanel';
-import { useState } from 'react';
 import Cover from './Cover';
 
 const RightPanel: React.FC = () => {
-  const [contactInfoPanelOpened, setContactInfoPanelOpened] = useState(false);
-  const [filePanelOpened, setFilePanelOpened] = useState(false);
+  // const [contactInfoPanelOpened, setContactInfoPanelOpened] = useState(false);
+  // const [filePanelOpened, setFilePanelOpened] = useState(false);
   const chatPanelState = useSelector(selectChatPanel);
-  const { chat, cid, isLoading } = useSelector(selectChat);
+  const { cid } = useSelector(selectChat);
 
-  const onFilePanelHandler = () => {
-    setFilePanelOpened(false);
-    setContactInfoPanelOpened(true);
-  };
+  // const onFilePanelHandler = () => {
+  //   setFilePanelOpened(false);
+  //   setContactInfoPanelOpened(true);
+  // };
 
-  const filePanelHandler = () => {
-    setContactInfoPanelOpened(!contactInfoPanelOpened);
-    setFilePanelOpened(!filePanelOpened);
-  };
+  // const filePanelHandler = () => {
+  //   setContactInfoPanelOpened(!contactInfoPanelOpened);
+  //   setFilePanelOpened(!filePanelOpened);
+  // };
 
-  const contactInfoPanelHandler = () => {
-    setContactInfoPanelOpened(!contactInfoPanelOpened);
-  };
+  // const contactInfoPanelHandler = () => {
+  //   setContactInfoPanelOpened(!contactInfoPanelOpened);
+  // };
 
   return (
     <div className='flex flex-col justify-center items-center w-9/12 h-full bg-center bg-curveLineBg bg-no-repeat bg-cover'>
       {/* Cover */}
-      {!chatPanelState && <Cover />}
+      {!chatPanelState.active && <Cover />}
       {/* Chat & contact info */}
-      {chatPanelState && (
+      {chatPanelState.active && (
         <div className='flex w-full h-full'>
           {cid && <ChatPanel />}
 
