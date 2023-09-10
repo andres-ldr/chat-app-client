@@ -10,7 +10,7 @@ export const postLogIn = createAsyncThunk(
   'user/postLogIn',
   async (credentials: ICredentials) => {
     const response = await axios.post(
-      'http://localhost:8000/v1/users/login',
+      `${process.env.REACT_APP_BACKEND_URL}v1/users/login`,
       {
         email: credentials.email,
         password: credentials.password,
@@ -26,9 +26,12 @@ export const postLogIn = createAsyncThunk(
   }
 );
 export const postLogOut = createAsyncThunk('user/postLogOut', async () => {
-  const response = await axios.delete('http://localhost:8000/v1/users/logout', {
-    withCredentials: true,
-  });
+  const response = await axios.delete(
+    `${process.env.REACT_APP_BACKEND_URL}v1/users/logout`,
+    {
+      withCredentials: true,
+    }
+  );
   //return null;
 });
 

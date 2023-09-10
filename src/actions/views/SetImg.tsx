@@ -37,7 +37,7 @@ const SetImg: React.FC = () => {
       // console.log(process.env.REACT_APP_BACKEND_URL);
 
       const result = await sendRequest(
-        'http://localhost:8000/v1/users/new_user',
+        `${process.env.REACT_APP_BACKEND_URL}v1/users/new_user`,
         'POST',
         formData
       );

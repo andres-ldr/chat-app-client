@@ -27,7 +27,7 @@ const ChatCard: React.FC<ChatCardProps> = ({ cid, alias, chatImage }) => {
       {/* contact image */}
       {chatImage ? (
         <img
-          src={`http://localhost:8000/${chatImage}`}
+          src={`${process.env.REACT_APP_BACKEND_URL}${chatImage}`}
           alt=''
           className='w-20 h-20 mr-2 circle object-cover cursor-pointer transition hover:backdrop-blur-lg hover:opacity-95'
         />
@@ -55,7 +55,7 @@ const ChatCard: React.FC<ChatCardProps> = ({ cid, alias, chatImage }) => {
 
       {/* name & msg container */}
       <div className='flex flex-col justify-between w-4/6 h-full p-3'>
-        <h4 className='text-2xl text-grayDark'>{alias}</h4>
+        <h4 className='font-semibold text-2xl text-grayDark'>{alias}</h4>
         {/* <h5 className='text-xl font-light text-grayDark'></h5> */}
       </div>
     </div>

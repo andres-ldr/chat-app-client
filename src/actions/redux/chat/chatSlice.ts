@@ -10,7 +10,7 @@ export const fetchChatWithAContact = createAsyncThunk(
   'chat/chat_by_members',
   async ({ members }: IFetchChat) => {
     const response = await axios.post(
-      'http://localhost:8000/v1/users/chat_by_members',
+      `${process.env.REACT_APP_BACKEND_URL}v1/users/chat_by_members`,
       { alias: null, members, adminId: [], chatImage: null },
       {
         withCredentials: true,
@@ -25,7 +25,7 @@ export const fetchChatById = createAsyncThunk(
   'chat/fetchChatById',
   async ({ cid }: { cid: string }) => {
     const response = await axios.post(
-      'http://localhost:8000/v1/users/chatById',
+      `${process.env.REACT_APP_BACKEND_URL}v1/users/chatById`,
       { cid },
       {
         withCredentials: true,
@@ -83,6 +83,9 @@ export const chatSlice = createSlice({
       state.chatImage = null;
       state.error = null;
     },
+    addMsg: (state, action) => {
+      state.chat.push(action.payload);
+    },
   },
   extraReducers(builder) {
     builder.addCase(fetchChatWithAContact.pending, (state, action) => {
@@ -129,5 +132,5 @@ export const chatSlice = createSlice({
   },
 });
 
-export const { clearChatOnLogOut } = chatSlice.actions;
+export const { clearChatOnLogOut, addMsg } = chatSlice.actions;
 export const chatReducer = chatSlice.reducer;
