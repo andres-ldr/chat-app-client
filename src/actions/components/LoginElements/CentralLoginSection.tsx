@@ -1,4 +1,3 @@
-import React from 'react';
 import LeftLoginSection from './LeftLoginSection';
 import LoginSection from './LoginSection';
 

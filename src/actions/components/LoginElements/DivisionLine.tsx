@@ -1,5 +1,3 @@
-import React from 'react';
-
 const DivisionLine = () => {
   return (
     <div className='flex justify-center mb-10'>
