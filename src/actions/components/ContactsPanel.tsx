@@ -28,11 +28,11 @@ const ContactsPanel: React.FC = () => {
 
   return (
     <Fragment>
-      <div className='flex justify-evenly items-center p-5 w-full'>
-        <h2 className='text-2xl'>Add new user</h2>
+      <div className='flex justify-evenly items-center p-5 w-full bg-gray'>
+        <h2 className='text-3xl'>Add new user</h2>
         <FontAwesomeIcon
           icon={faPlus}
-          className='w-8 h-8'
+          className='w-8 h-8 p-2 circle cursor-pointer transition hover:bg-grayDark hover:text-gray'
           onClick={() => dispatch(toggleNewChatDialog(!newChatDialogState))}
         />
       </div>

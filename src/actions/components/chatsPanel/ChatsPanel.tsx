@@ -15,7 +15,6 @@ const ChatsPanel: React.FC = () => {
 
   return (
     <Fragment>
-      <h2>Chats</h2>
       {chats.map(({ cid, alias, chatImage }: any) => (
         <ChatCard key={cid} cid={cid} chatImage={chatImage} alias={alias} />
       ))}
