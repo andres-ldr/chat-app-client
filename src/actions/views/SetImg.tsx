@@ -33,10 +33,10 @@ const SetImg: React.FC = () => {
       formData.append('email', email);
       formData.append('password', password);
       formData.append('profileImage', formState.inputs.profileImage.value);
-      // console.log(process.env.REACT_APP_BACKEND_URL);
+      // console.log(import.meta.env.VITE_BACKEND_URL);
 
       await sendRequest(
-        `${process.env.REACT_APP_BACKEND_URL}v1/users/new_user`,
+        `${import.meta.env.VITE_BACKEND_URL}v1/users/new_user`,
         'POST',
         formData
       );

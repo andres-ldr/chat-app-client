@@ -87,7 +87,7 @@ const ChatPanel: React.FC = () => {
         <div className='flex'>
           {chatImage ? (
             <img
-              src={`${process.env.REACT_APP_BACKEND_URL}${chatImage}`}
+              src={`${import.meta.env.VITE_BACKEND_URL}${chatImage}`}
               alt=''
               className='w-20 h-20 mr-6 circle cursor-pointer transition hover:backdrop-blur-lg hover:opacity-95'
             />
