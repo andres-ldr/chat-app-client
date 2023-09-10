@@ -1,10 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import React, { useEffect, useRef, useState } from 'react';
 import PopUp from './PopUp';
 
 interface IPopUpElement {
   children: React.ReactNode;
-  icon: any;
+  icon: IconProp;
 }
 
 const PopUpElement: React.FC<IPopUpElement> = ({ children, icon }) => {
@@ -27,14 +28,18 @@ const PopUpElement: React.FC<IPopUpElement> = ({ children, icon }) => {
     };
   });
 
+  const handleState = () => setIsOpen(!isOpen);
+
   return (
     <div ref={popUpElementRef} className='relative  select-none'>
       <FontAwesomeIcon
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={handleState}
         icon={icon}
         className='w-8 h-8 p-3 cursor-pointer transition rounded-full text-grayDark hover:bg-gray z-20'
       />
-      <PopUp isShown={isOpen}>{children}</PopUp>
+      <PopUp isShown={isOpen} handleState={handleState}>
+        {children}
+      </PopUp>
     </div>
   );
 };
