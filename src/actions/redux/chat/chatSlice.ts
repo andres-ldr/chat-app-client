@@ -46,7 +46,7 @@ export const postMsg = createAsyncThunk(
   'chat/postNewMsg',
   async ({ cid, content, type }: IPostMsg) => {
     const response = await axios.post(
-      'http://localhost:8000/v1/users/send_msg',
+      `${import.meta.env.VITE_BACKEND_URL}/v1/users/send_msg`,
       { cid, content, type },
       { withCredentials: true }
     );
