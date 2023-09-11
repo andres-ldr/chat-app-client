@@ -5,7 +5,7 @@ export const fetchContacts = createAsyncThunk(
   'contacts/fetchContacts',
   async () => {
     const response = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/v1/users/contacts`,
+      `${import.meta.env.VITE_BACKEND_URL}v1/users/contacts`,
       { withCredentials: true }
     );
 
