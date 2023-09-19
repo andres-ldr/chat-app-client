@@ -33,7 +33,7 @@ const LeftPanel: React.FC = () => {
         {user.profileImage ? (
           <img
             //crossOrigin='anonymous'
-            src={`${process.env.REACT_APP_BACKEND_URL}${user.profileImage}`}
+            src={`${import.meta.env.VITE_BACKEND_URL}${user.profileImage}`}
             alt=''
             className='w-20 h-20 object-cover circle cursor-pointer'
           />

@@ -36,7 +36,7 @@ const ContactCard: React.FC<IContactCard> = ({
     >
       {profileImage ? (
         <img
-          src={`${process.env.REACT_APP_BACKEND_URL}${profileImage}`}
+          src={`${import.meta.env.VITE_BACKEND_URL}${profileImage}`}
           alt={`${alias}/image`}
           className='w-20 h-20 rounded-full object-cover'
         />

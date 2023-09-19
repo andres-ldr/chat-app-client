@@ -10,7 +10,7 @@ export const fetchChatWithAContact = createAsyncThunk(
   'chat/chat_by_members',
   async ({ members }: IFetchChat) => {
     const response = await axios.post(
-      `${process.env.REACT_APP_BACKEND_URL}v1/users/chat_by_members`,
+      `${import.meta.env.VITE_BACKEND_URL}v1/users/chat_by_members`,
       { alias: null, members, adminId: [], chatImage: null },
       {
         withCredentials: true,
@@ -25,7 +25,7 @@ export const fetchChatById = createAsyncThunk(
   'chat/fetchChatById',
   async ({ cid }: { cid: string }) => {
     const response = await axios.post(
-      `${process.env.REACT_APP_BACKEND_URL}v1/users/chatById`,
+      `${import.meta.env.VITE_BACKEND_URL}v1/users/chatById`,
       { cid },
       {
         withCredentials: true,

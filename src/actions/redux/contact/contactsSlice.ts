@@ -22,7 +22,7 @@ export const postNewContact = createAsyncThunk(
   'contacts/postNewContact',
   async (newContact: INewContact) => {
     const response = await axios.post(
-      `${process.env.REACT_APP_BACKEND_URL}v1/users/new_contact`,
+      `${import.meta.env.VITE_BACKEND_URL}v1/users/new_contact`,
       {
         alias: newContact.alias,
         email: newContact.email,
