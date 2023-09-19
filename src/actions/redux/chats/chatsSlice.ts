@@ -4,7 +4,6 @@ import axios from 'axios';
 export const fetchChats = createAsyncThunk('chats/fetchChats', async () => {
   const response = await axios.get(
     `${import.meta.env.VITE_BACKEND_URL}v1/users/chats`,
-
     {
       withCredentials: true,
     }

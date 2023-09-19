@@ -29,6 +29,7 @@ export const postLogOut = createAsyncThunk('user/postLogOut', async () => {
   await axios.delete(`${import.meta.env.VITE_BACKEND_URL}v1/users/logout`, {
     withCredentials: true,
   });
+
   //return null;
 });
 

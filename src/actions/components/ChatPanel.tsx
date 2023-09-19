@@ -12,10 +12,10 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Button from './FormElements/Button';
 import PopUpElement from './PopUpElement';
-import Input from './FormElements/input';
+import { socket } from '../Util/SocketIO';
 import React, { useEffect } from 'react';
+import Input from './FormElements/input';
 import MsgBubble from './MsgBubble';
-import { socket } from '../Util/SockerIO';
 
 export interface IMsg {
   mid: string;
