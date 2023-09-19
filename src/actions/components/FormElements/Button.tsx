@@ -65,7 +65,7 @@ const Button: React.FC<IButton> = (props) => {
         className={`min-w-full min-h-full text-2xl select-none ${
           props.disabled ? 'text-black text-opacity-50' : 'text-white '
         } `}
-        onClick={props.onClick}
+        //onClick={props.onClick}
       >
         {props.children}
       </span>
