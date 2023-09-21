@@ -17,7 +17,7 @@ interface IContact {
 }
 
 const ContactsPanel: React.FC = () => {
-  const newChatDialogState = useSelector(selectNewChatDialog);
+  const { active: newChatDialogIsVisible } = useSelector(selectNewChatDialog);
   const { contacts, isLoading } = useSelector(selectContacts);
 
   const dispatch = useDispatch<AppDispatch>();
@@ -33,9 +33,7 @@ const ContactsPanel: React.FC = () => {
         <FontAwesomeIcon
           icon={faPlus}
           className='w-8 h-8 p-2 circle cursor-pointer transition hover:bg-grayDark hover:text-gray'
-          onClick={() =>
-            dispatch(toggleNewChatDialog(!newChatDialogState.active))
-          }
+          onClick={() => dispatch(toggleNewChatDialog(!newChatDialogIsVisible))}
         />
       </div>
       {!isLoading &&

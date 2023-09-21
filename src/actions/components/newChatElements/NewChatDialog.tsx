@@ -1,22 +1,22 @@
+import { selectNewChatDialog } from '../../redux/newChatDialog/newChatDialogSelector';
+import { toggleNewChatDialog } from '../../redux/newChatDialog/newChatDialogSlice';
+import { selectContacts } from '../../redux/contact/contactsSelector';
+import { postNewContact } from '../../redux/contact/contactsSlice';
 import React, { Fragment, useEffect, useRef } from 'react';
-import Input from '../FormElements/input';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from '../../hooks/form-hook';
+import { AppDispatch } from '../../redux/store';
 import Button from '../FormElements/Button';
+import Input from '../FormElements/input';
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MAXLENGTH,
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
 } from '../../Util/validators';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectNewChatDialog } from '../../redux/newChatDialog/newChatDialogSelector';
-import { toggleNewChatDialog } from '../../redux/newChatDialog/newChatDialogSlice';
-import { postNewContact } from '../../redux/contact/contactsSlice';
-import { AppDispatch } from '../../redux/store';
-import { selectContacts } from '../../redux/contact/contactsSelector';
 
 const NewChatDialog: React.FC = () => {
-  const newChatDialogIsVisible = useSelector(selectNewChatDialog);
+  const { active: newChatDialogIsVisible } = useSelector(selectNewChatDialog);
   const newDialogElementRef = useRef<HTMLDivElement>(null);
   const { isLoading } = useSelector(selectContacts);
   const dispatch = useDispatch<AppDispatch>();
@@ -66,7 +66,7 @@ const NewChatDialog: React.FC = () => {
     <div
       ref={newDialogElementRef}
       className={`${
-        newChatDialogIsVisible.active ? 'flex' : 'hidden'
+        newChatDialogIsVisible ? 'flex' : 'hidden'
       } absolute flex-col justify-center items-center w-[500px] h-1/2 p-10 bg-grayLight shadow-lg rounded-2xl space-y-10 animate-showDialog z-30`}
     >
       {!isLoading && (
