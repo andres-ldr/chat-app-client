@@ -1,13 +1,11 @@
 import SuccessLoginMsg from '../components/SetImgElements/SuccessLoginMsg';
 import ImageUpload from '../components/FormElements/ImageUpload';
-import { selectUser } from '../redux/user/userSelector';
 import Button from '../components/FormElements/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import { useHttpClient } from '../hooks/http-hook';
 import { useForm } from '../hooks/form-hook';
-import React, { Fragment } from 'react';
-import { useSelector } from 'react-redux';
 import Spinner from '../components/Spinner';
+import React, { Fragment } from 'react';
 
 const SetImg: React.FC = () => {
   const { sendRequest, isSuccess, isLoading } = useHttpClient();

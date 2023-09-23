@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { selectUser } from '../redux/user/userSelector';
-import { VALIDATOR_REQUIRE } from '../Util/validators';
+// import { VALIDATOR_REQUIRE } from '../Util/validators';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectChat } from '../redux/chat/selectChat';
 import { addMsg } from '../redux/chat/chatSlice';
@@ -11,11 +11,11 @@ import {
   faEllipsisVertical,
   faPaperclip,
 } from '@fortawesome/free-solid-svg-icons';
-import Button from './FormElements/Button';
+// import Button from './FormElements/Button';
 import PopUpElement from './PopUpElement';
 import { socket } from '../Util/SocketIO';
 import React, { useEffect, useRef } from 'react';
-import Input from './FormElements/input';
+// import Input from './FormElements/input';
 import MsgBubble from './MsgBubble';
 
 export interface IMsg {
