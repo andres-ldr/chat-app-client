@@ -1,11 +1,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { selectUser } from '../redux/user/userSelector';
 import { VALIDATOR_REQUIRE } from '../Util/validators';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectChat } from '../redux/chat/selectChat';
 import { addMsg } from '../redux/chat/chatSlice';
 import { AppDispatch } from '../redux/store';
-import { useForm } from '../hooks/form-hook';
+// import { useForm } from '../hooks/form-hook';
 import {
   faEllipsisVertical,
   faPaperclip,
@@ -13,7 +14,7 @@ import {
 import Button from './FormElements/Button';
 import PopUpElement from './PopUpElement';
 import { socket } from '../Util/SocketIO';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Input from './FormElements/input';
 import MsgBubble from './MsgBubble';
 
@@ -26,18 +27,16 @@ export interface IMsg {
   senderId: string;
 }
 
+type Inputs = {
+  message: string;
+};
+
 const ChatPanel: React.FC = () => {
-  const [formState, inputHandler] = useForm(
-    {
-      message: {
-        value: '',
-        isValid: false,
-      },
-    },
-    false
-  );
+  const { register, handleSubmit, setValue } = useForm<Inputs>();
+
   const { chat, cid, chatImage, alias } = useSelector(selectChat);
   const { user } = useSelector(selectUser);
+  const chatAreaRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
@@ -60,24 +59,18 @@ const ChatPanel: React.FC = () => {
     };
   }, [dispatch]);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const message = formState.inputs.message.value;
+  useEffect(() => {
+    chatAreaRef.current?.scrollTo(0, chatAreaRef.current?.scrollHeight);
+  }, [chat]);
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
     socket.emit('CLIENT:SEND_MSG', {
       cid,
-      content: message,
+      content: data.message,
       type: 'TEXT',
       senderId: user.uid,
     });
-    inputHandler(
-      {
-        message: {
-          value: '',
-          isValid: false,
-        },
-      },
-      false
-    );
+    setValue('message', '');
   };
 
   return (
@@ -139,7 +132,10 @@ const ChatPanel: React.FC = () => {
         </div>
       </div>
       {/* chat area */}
-      <div className='w-full h-0 grow bg-white overflow-y-auto'>
+      <div
+        ref={chatAreaRef}
+        className='w-full h-0 grow bg-white overflow-y-auto scroll-smooth '
+      >
         {chat.map(
           (e: {
             mid: string;
@@ -176,23 +172,29 @@ const ChatPanel: React.FC = () => {
         />
         <form
           className='flex w-full h-full space-x-5'
-          onSubmit={(event) => handleSubmit(event)}
+          onSubmit={handleSubmit(onSubmit)}
         >
-          <Input
+          <input
+            className='w-full rounded-xl outline-none placeholder-grayDark pl-6 pt-4 pr-4 pb-4 text-2xl  transition resize-none focus:shadow-input'
+            {...register('message')}
+          />
+          {/* <Input
             element='textarea'
             id='message'
             type='text'
             rows={1}
             validators={[VALIDATOR_REQUIRE()]}
             onInput={inputHandler}
-          />
-          <Button
+            value={formState.inputs.message.value}
+          /> */}
+          {/* <Button
             rounded={true}
             onClick={handleSubmit}
             disabled={!formState.isValid}
           >
             Send
-          </Button>
+          </Button> */}
+          <input className='button--rounded' type='submit' />
         </form>
       </div>
     </div>
