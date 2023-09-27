@@ -138,7 +138,7 @@ const SetImg: React.FC = () => {
               </form>
             </Fragment>
           )}
-          <SuccessLoginMsg isSuccess={user} />
+          <SuccessLoginMsg isSuccess={user ? true : false} />
         </div>
       </div>
     </Fragment>
