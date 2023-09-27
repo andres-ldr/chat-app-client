@@ -5,7 +5,6 @@ import Button from '../components/FormElements/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { postNewUser } from '../redux/user/userSlice';
 import { Link, useNavigate } from 'react-router-dom';
-import ErrorView from '../components/ErrorView';
 import { AppDispatch } from '../redux/store';
 import { useForm } from '../hooks/form-hook';
 import Spinner from '../components/Spinner';
@@ -13,11 +12,7 @@ import React, { Fragment } from 'react';
 
 const SetImg: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const {
-    isLoading: isLoadingUser,
-    error: errorUser,
-    user,
-  } = useSelector(selectUser);
+  const { isLoading: isLoadingUser, user } = useSelector(selectUser);
 
   const navigate = useNavigate();
 
