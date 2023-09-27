@@ -86,6 +86,9 @@ export const chatSlice = createSlice({
     addMsg: (state, action) => {
       state.chat.push(action.payload);
     },
+    cleanChatError: (state) => {
+      state.error = null;
+    },
   },
   extraReducers(builder) {
     builder.addCase(fetchChatWithAContact.pending, (state) => {
@@ -132,5 +135,5 @@ export const chatSlice = createSlice({
   },
 });
 
-export const { clearChatOnLogOut, addMsg } = chatSlice.actions;
+export const { clearChatOnLogOut, addMsg, cleanChatError } = chatSlice.actions;
 export const chatReducer = chatSlice.reducer;

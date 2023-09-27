@@ -30,6 +30,9 @@ export const chatsSlice = createSlice({
       state.isLoading = false;
       state.chats = [];
     },
+    cleanChatsError: (state) => {
+      state.error = null;
+    },
   },
   extraReducers(builder) {
     builder.addCase(fetchChats.pending, (state) => {
@@ -46,5 +49,5 @@ export const chatsSlice = createSlice({
   },
 });
 
-export const { clearChatsOnLogOut } = chatsSlice.actions;
+export const { clearChatsOnLogOut, cleanChatsError } = chatsSlice.actions;
 export const chatsReducer = chatsSlice.reducer;

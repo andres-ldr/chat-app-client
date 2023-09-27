@@ -25,6 +25,7 @@ export const postLogIn = createAsyncThunk(
     return user;
   }
 );
+
 export const postLogOut = createAsyncThunk('user/postLogOut', async () => {
   await axios.delete(`${import.meta.env.VITE_BACKEND_URL}v1/users/logout`, {
     withCredentials: true,
@@ -32,6 +33,21 @@ export const postLogOut = createAsyncThunk('user/postLogOut', async () => {
 
   //return null;
 });
+
+export const postNewUser = createAsyncThunk(
+  'user/postNewUser',
+  async (newUser: FormData) => {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}v1/users/new_user`,
+      newUser,
+      { withCredentials: true }
+    );
+    const { uid, name, lastName, email, profileImage } = await response.data;
+    const user = { uid, name, lastName, email, profileImage };
+
+    return user;
+  }
+);
 
 export const INITIAL_STATE_USER: {
   user: {
@@ -52,7 +68,11 @@ export const INITIAL_STATE_USER: {
 export const userSlice = createSlice({
   name: 'user',
   initialState: INITIAL_STATE_USER,
-  reducers: {},
+  reducers: {
+    cleanUserError: (state) => {
+      state.error = null;
+    },
+  },
   extraReducers(builder) {
     builder.addCase(postLogIn.pending, (state) => {
       state.isLoading = true;
@@ -78,7 +98,21 @@ export const userSlice = createSlice({
       state.isLoading = false;
       state.error = action.error.message;
     });
+
+    builder.addCase(postNewUser.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(postNewUser.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.error = null;
+      state.user = action.payload;
+    });
+    builder.addCase(postNewUser.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.error.message;
+    });
   },
 });
 
+export const { cleanUserError } = userSlice.actions;
 export const userReducer = userSlice.reducer;
