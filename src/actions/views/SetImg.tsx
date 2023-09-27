@@ -1,14 +1,23 @@
 import SuccessLoginMsg from '../components/SetImgElements/SuccessLoginMsg';
 import ImageUpload from '../components/FormElements/ImageUpload';
+import { selectUser } from '../redux/user/userSelector';
 import Button from '../components/FormElements/Button';
+import { useDispatch, useSelector } from 'react-redux';
+import { postNewUser } from '../redux/user/userSlice';
 import { Link, useNavigate } from 'react-router-dom';
-import { useHttpClient } from '../hooks/http-hook';
+import ErrorView from '../components/ErrorView';
+import { AppDispatch } from '../redux/store';
 import { useForm } from '../hooks/form-hook';
 import Spinner from '../components/Spinner';
 import React, { Fragment } from 'react';
 
 const SetImg: React.FC = () => {
-  const { sendRequest, isSuccess, isLoading } = useHttpClient();
+  const dispatch = useDispatch<AppDispatch>();
+  const {
+    isLoading: isLoadingUser,
+    error: errorUser,
+    user,
+  } = useSelector(selectUser);
 
   const navigate = useNavigate();
 
@@ -34,13 +43,8 @@ const SetImg: React.FC = () => {
       formData.append('email', email);
       formData.append('password', password);
       formData.append('profileImage', formState.inputs.profileImage.value);
-      // console.log(import.meta.env.VITE_BACKEND_URL);
 
-      await sendRequest(
-        `${import.meta.env.VITE_BACKEND_URL}v1/users/new_user`,
-        'POST',
-        formData
-      );
+      dispatch(postNewUser(formData));
 
       setTimeout(
         () =>
@@ -57,9 +61,10 @@ const SetImg: React.FC = () => {
   return (
     <Fragment>
       <div className='flex flex-col items-center justify-center w-full h-screen p-10 bg-gradient-radial from-darkPurple to-brightPurple overflow-hidden'>
-        {isLoading && <Spinner />}
+        {isLoadingUser && <Spinner />}
+        {/* {errorUser && <ErrorView userErrorMsg={''} chatErrorMsg={''} chatsErrorMsg={''} contactsErrorMsg={''}/>} */}
         <div className='flex flex-col p-20 justify-center items-center relative w-200 h-3/4 bg-grayLight rounded-3xl animate-mtl'>
-          {!isSuccess && (
+          {!user && (
             <Fragment>
               {/* Link go back */}
               <Link
@@ -133,7 +138,7 @@ const SetImg: React.FC = () => {
               </form>
             </Fragment>
           )}
-          <SuccessLoginMsg isSuccess={isSuccess} />
+          <SuccessLoginMsg isSuccess={user} />
         </div>
       </div>
     </Fragment>
