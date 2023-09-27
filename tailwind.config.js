@@ -49,7 +49,7 @@ export default {
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        curveLineBg: `url('./src/assets/curve-line-bg.svg')`,
+        curveLineBg: `url('./public/curve-line-bg.svg')`,
       },
       keyframes: {
         moveToLeft: {
