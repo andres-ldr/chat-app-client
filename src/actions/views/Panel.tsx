@@ -1,45 +1,47 @@
-import NewChatDialog from '../components/newChatElements/NewChatDialog';
-import { selectContacts } from '../redux/contact/contactsSelector';
-import { selectChats } from '../redux/chats/chatsSelector';
-import { selectUser } from '../redux/user/userSelector';
-import { selectChat } from '../redux/chat/selectChat';
-import RightPanel from '../components/RightPanel';
-import LeftPanel from '../components/LeftPanel';
-import ErrorView from '../components/ErrorView';
-import Spinner from '../components/Spinner';
-import { useSelector } from 'react-redux';
-import React, { Fragment } from 'react';
+import { useContactSelectedStore } from '../../store/contactSelectedStore';
+import { useUserStore } from '../../store/userStore';
+import { useLogOut } from '../../services/mutations';
+import { useChatStore } from '../../store/chatStore';
+import { useNavigate } from 'react-router-dom';
+import ChatPanel from '../../components/ChatPanel';
+import ContactForm from '../../components/ContactForm';
+import ContactList from '../../components/ContactList';
+import { useState } from 'react';
+import MainNavbar from '../../components/MainNavbar';
+import Sidebar from '../../components/Sidebar';
+import ContactPanel from '../../components/ContactPanel';
 
-const Panel: React.FC = () => {
-  const { isLoading: isLoadingUser, error: errorUser } =
-    useSelector(selectUser);
-  const { isLoading: isLoadingChat, error: errorChat } =
-    useSelector(selectChat);
-  const { isLoading: isLoadingChats, error: errorChats } =
-    useSelector(selectChats);
-  const { isLoading: isLoadingContacts, error: errorContacts } =
-    useSelector(selectContacts);
+const Panel = () => {
+  const { user, deleteUser } = useUserStore();
+  const { deleteChat } = useChatStore();
+  const { cleanContact } = useContactSelectedStore();
+  const logOutMutation = useLogOut();
+  const navigate = useNavigate();
+  const [isContactVisible, setIsContactVisible] = useState(false);
+  const [isChatPanelVisible, setIsChatPanelVisible] = useState(true);
+
+  const onLogOut = () => {
+    deleteUser();
+    deleteChat();
+    cleanContact();
+    logOutMutation.mutate();
+    navigate('/', { replace: true });
+  };
 
   return (
-    <div className='relative flex flex-col items-center justify-center w-full h-screen p-10 bg-gradient-radial from-darkPurple to-brightPurple overflow-hidden'>
-      {(isLoadingChats ||
-        isLoadingContacts ||
-        isLoadingChat ||
-        isLoadingUser) && <Spinner />}
-      {(errorUser || errorChat || errorChats || errorContacts) && (
-        <ErrorView
-          errorMsg={errorUser || errorChat || errorChats || errorContacts}
+    <div className='h-screen bg-slate-800 flex flex-col overflow-hidden'>
+      <MainNavbar onLogOut={onLogOut} user={user} />
+
+      <div className='flex-1 overflow-y-auto flex gap-2 text-slate-200'>
+        <Sidebar
+          setIsContactVisible={setIsContactVisible}
+          setIsChatPanelVisible={setIsChatPanelVisible}
+          isContactVisible={isContactVisible}
+          isChatPanelVisible={isChatPanelVisible}
         />
-      )}
-      {!isLoadingUser && !errorUser && (
-        <Fragment>
-          <NewChatDialog />
-          <div className='flex w-11/12 h-400 bg-white'>
-            <LeftPanel />
-            <RightPanel />
-          </div>
-        </Fragment>
-      )}
+        {isContactVisible && <ContactPanel />}
+        {isChatPanelVisible && <ChatPanel />}
+      </div>
     </div>
   );
 };
