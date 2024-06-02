@@ -35,7 +35,7 @@ const PopUpElement: React.FC<IPopUpElement> = ({ children, icon }) => {
       <FontAwesomeIcon
         onClick={handleState}
         icon={icon}
-        className='w-8 h-8 p-3 cursor-pointer transition rounded-full text-grayDark hover:bg-gray z-20'
+        className='w-5 h-5 p-3 cursor-pointer transition rounded-full text-grayDark hover:bg-gray z-20'
       />
       <PopUp isShown={isOpen} handleState={handleState}>
         {children}
