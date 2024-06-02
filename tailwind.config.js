@@ -15,7 +15,7 @@ export default {
         gray: '#C8C8C8',
         grayReg: '#E0E0E0',
         grayDark: '#474747',
-        red: '#F64A4A',
+        // red: '#F64A4A',
       },
       width: {
         100: '25rem',
