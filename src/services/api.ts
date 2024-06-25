@@ -3,7 +3,7 @@ import { User } from '../types/user';
 import { Contact } from '../types/contact';
 import { Chat } from '../types/chat';
 
-const baseURL = 'http://localhost:8000'; // use .env
+const baseURL =  import.meta.env.VITE_BACKEND_URL
 const axiosInstance = axios.create({ baseURL, withCredentials: true });
 
 export const login = async (data: { email: string; password: string }) => {
