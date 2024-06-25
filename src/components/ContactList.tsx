@@ -40,7 +40,7 @@ const ContactList = () => {
             >
               <div className='flex gap-4'>
                 <img
-                  src={`http://localhost:8000/${contact.user.profileImage}`}
+                  src={`${import.meta.env.VITE_BACKEND_URL}${contact.user.profileImage}`}
                   alt={contact.alias}
                   className='w-10 h-10 rounded-full'
                 />

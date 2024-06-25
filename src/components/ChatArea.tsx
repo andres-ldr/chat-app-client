@@ -116,7 +116,7 @@ const ChatArea = ({ handleNotifications }: ChatAreaProps) => {
       <div className='flex gap-4 justify-between bg-slate-900 p-4'>
         <div className='flex gap-2 items-center'>
           <img
-            src={`http://localhost:8000/${chat?.chatImage}`}
+            src={`${import.meta.env.VITE_BACKEND_URL}${chat?.chatImage}`}
             alt={chat?.alias}
             className='w-10 h-10 rounded-full object-cover'
           />

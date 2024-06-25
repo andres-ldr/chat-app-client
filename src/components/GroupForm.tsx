@@ -133,7 +133,7 @@ const GroupForm = () => {
                   onClick={() => handleUserSelected(user)}
                 >
                   <img
-                    src={`http://localhost:8000/${user.profileImage}`}
+                    src={`${import.meta.env.VITE_BACKEND_URL}${user.profileImage}`}
                     alt=''
                     className='w-8 h-8 rounded-full object-cover'
                   />
@@ -210,7 +210,7 @@ const GroupForm = () => {
               src={
                 file
                   ? URL.createObjectURL(file)
-                  : 'http://localhost:8000/' + chatImage
+                  : import.meta.env.VITE_BACKEND_URL + chatImage
               }
               className='w-20 h-20 object-cover object-top rounded-full self-center'
             />

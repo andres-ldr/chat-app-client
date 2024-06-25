@@ -32,7 +32,7 @@ const MessageBuuble = ({
     >
       {sender && sender.uid !== user?.uid ? (
         <img
-          src={`http://localhost:8000/${sender.profileImage}`}
+          src={`${import.meta.env.VITE_BACKEND_URL}${sender.profileImage}`}
           alt={sender.name}
           className='w-10 h-10 rounded-full object-cover'
         />

@@ -29,7 +29,7 @@ const ChatCard = ({
     >
       <div className='flex gap-2'>
         <img
-          src={`http://localhost:8000/${chat.chatImage}`}
+          src={`${import.meta.env.VITE_BACKEND_URL}${chat.chatImage}`}
           alt={chat.alias}
           className='w-10 h-10 rounded-full object-cover'
         />
