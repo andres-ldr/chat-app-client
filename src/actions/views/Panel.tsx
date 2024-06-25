@@ -4,8 +4,6 @@ import { useLogOut } from '../../services/mutations';
 import { useChatStore } from '../../store/chatStore';
 import { useNavigate } from 'react-router-dom';
 import ChatPanel from '../../components/ChatPanel';
-import ContactForm from '../../components/ContactForm';
-import ContactList from '../../components/ContactList';
 import { useState } from 'react';
 import MainNavbar from '../../components/MainNavbar';
 import Sidebar from '../../components/Sidebar';

@@ -21,7 +21,7 @@ interface Inputs {
 
 const MultiStepForm = () => {
   const navigate = useNavigate();
-  const { register, handleSubmit, control, reset } = useForm<Inputs>({
+  const { register, handleSubmit } = useForm<Inputs>({
     defaultValues: {
       name: '',
       lastName: '',

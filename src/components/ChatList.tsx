@@ -1,11 +1,9 @@
-import { useEffect, useState } from 'react';
 import { useDeleteChat } from '../services/mutations';
 import { useChats } from '../services/queries';
 import { useChatStore } from '../store/chatStore';
 import { useGroupChatSelectedStore } from '../store/groupChatSelectedStore';
 import { useUserStore } from '../store/userStore';
 import { Chat } from '../types/chat';
-import { User } from '../types/user';
 import ChatCard from './ChatCard';
 
 interface ChatListProps {
