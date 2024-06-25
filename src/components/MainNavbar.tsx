@@ -10,7 +10,7 @@ const MainNavbar = ({ user, onLogOut }: MainNavbarProps) => {
     <div className='flex py-1 px-4 bg-slate-950'>
       <div className='flex items-center py-2 px-4 gap-2'>
         <img
-          src={`http://localhost:8000/${user?.profileImage}`}
+          src={`${import.meta.env.VITE_BACKEND_URL}${user?.profileImage}`}
           className='w-10 h-10 object-cover rounded-full'
         />
         <div className='text-slate-200'>
