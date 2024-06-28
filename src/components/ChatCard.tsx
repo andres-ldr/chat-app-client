@@ -20,6 +20,14 @@ const ChatCard = ({
   onDeleteChat,
   onEditChatGroup,
 }: ChatCardProps) => {
+  const getImageUrl = () => {
+    if (chat.isGroup) {
+      return chat.chatImage;
+    }
+    return chat.members.filter((member) => member.uid !== user.uid)[0]
+      .profileImage;
+  };
+
   return (
     <div
       key={chat.cid}
@@ -29,7 +37,7 @@ const ChatCard = ({
     >
       <div className='flex gap-2'>
         <img
-          src={`${import.meta.env.VITE_BACKEND_URL}${chat.chatImage}`}
+          src={`${import.meta.env.VITE_BACKEND_URL}${getImageUrl()}`}
           alt={chat.alias}
           className='w-10 h-10 rounded-full object-cover'
         />

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { get, useForm } from 'react-hook-form';
 import { useChatStore } from '../store/chatStore';
 import { useMessageSelectedStore } from '../store/messageStore';
 import { useUserStore } from '../store/userStore';
@@ -111,12 +111,20 @@ const ChatArea = ({ handleNotifications }: ChatAreaProps) => {
     return groups;
   }, {} as Record<string, Message[]>);
 
+  const getImageUrl = () => {
+    if (chat?.isGroup) {
+      return chat.chatImage;
+    }
+    return chat?.members.filter((member) => member.uid !== user?.uid)[0]
+      .profileImage;
+  };
+
   return (
     <div className='flex flex-col shadow flex-1'>
       <div className='flex gap-4 justify-between bg-slate-900 p-4'>
         <div className='flex gap-2 items-center'>
           <img
-            src={`${import.meta.env.VITE_BACKEND_URL}${chat?.chatImage}`}
+            src={`${import.meta.env.VITE_BACKEND_URL}${getImageUrl()}`}
             alt={chat?.alias}
             className='w-10 h-10 rounded-full object-cover'
           />
