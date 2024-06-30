@@ -4,16 +4,27 @@ import {
   useUpdateContact,
   useUser,
 } from '../services/mutations';
-import { useContacts } from '../services/queries';
 import { useContactSelectedStore } from '../store/contactSelectedStore';
 import { useEffect } from 'react';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { Card } from './ui/card';
+import { toast } from 'sonner';
+import { useContacts } from '../services/queries';
 
 type Inputs = {
   alias: string;
   email: string;
 };
 
-const ContactForm = () => {
+interface ContactFormProps {
+  onClose?: () => void;
+}
+
+const ContactForm = ({ onClose }: ContactFormProps) => {
+  const createContactMutation = useCreateContact();
+  const updateContactMutation = useUpdateContact();
+  const contactsQuery = useContacts();
+
   const { contact, cleanContact } = useContactSelectedStore();
   const { register, handleSubmit, reset } = useForm<Inputs>({
     defaultValues: {
@@ -21,17 +32,40 @@ const ContactForm = () => {
       email: '',
     },
   });
-  const createContactMutation = useCreateContact();
-  const updateContactMutation = useUpdateContact();
-  const useContactQuery = useContacts();
+
   const useGetUserEmailMutation = useUser();
 
   useEffect(() => {
     if (contact) {
       reset(contact);
     }
-    reset();
-  }, [contact, reset]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contact]);
+
+  useEffect(() => {
+    if (createContactMutation.isSuccess) {
+      toast(createContactMutation.data.message);
+      contactsQuery.refetch();
+      onClose && onClose();
+    }
+    if (createContactMutation.error) {
+      toast(createContactMutation.error.message);
+    }
+    if (updateContactMutation.isSuccess) {
+      toast(updateContactMutation.data.message);
+      contactsQuery.refetch();
+      onClose && onClose();
+    }
+    if (updateContactMutation.error) {
+      toast(updateContactMutation.error.message);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    createContactMutation.error,
+    createContactMutation.isSuccess,
+    updateContactMutation.error,
+    updateContactMutation.isSuccess,
+  ]);
 
   const onSubmit = (data: Inputs) => {
     if (contact) {
@@ -55,23 +89,14 @@ const ContactForm = () => {
     useGetUserEmailMutation.reset();
   };
 
-  createContactMutation.isSuccess && useContactQuery.refetch();
-  updateContactMutation.isSuccess && useContactQuery.refetch();
-
   return (
     <>
-      <span className='font-semibold text-xl text-center'>
-        Add a new contact
-      </span>
-      {createContactMutation.isPending ||
-        (updateContactMutation.isPending && <p>Loading...</p>)}
-      {createContactMutation.error ||
-        (updateContactMutation.isError && <p>Error</p>)}
       <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4'>
         <label className='flex flex-col gap-2'>
-          <span className='font-semibold'>Alias</span>
+          <span className='font-semibold text-slate-100'>Alias</span>
           <input
-            className='bg-slate-900 py-2 px-4 outline-none border rounded border-opacity-25'
+            autoComplete='off'
+            className='bg-slate-900 text-white py-2 px-4 outline-none border rounded border-opacity-25'
             {...register('alias', {
               required: 'This field is required',
               minLength: {
@@ -83,9 +108,10 @@ const ContactForm = () => {
           />
         </label>
         <label className='flex flex-col gap-2'>
-          <span className='font-semibold'>Email</span>
+          <span className='font-semibold text-slate-100'>Email</span>
           <input
-            className='bg-slate-900 px-4 py-2 outline-none border rounded border-opacity-25'
+            autoComplete='off'
+            className='bg-slate-900 text-white px-4 py-2 outline-none border rounded border-opacity-25'
             {...register('email', {
               required: 'This field is required',
               onChange: handleEmailChange,
@@ -98,27 +124,27 @@ const ContactForm = () => {
           />
           {useGetUserEmailMutation.isSuccess &&
           useGetUserEmailMutation.data.length > 0 ? (
-            <div className='max-h-24  overflow-y-auto shadow'>
+            <div className='max-h-24 flex flex-col gap-1 overflow-y-auto shadow'>
               {useGetUserEmailMutation.data.map((user) => (
-                <div
+                <Card
                   key={user.uid}
-                  className='flex gap-2  py-2 px-4 hover:bg-slate-950 hover:cursor-pointer transition duration-150 ease-in-out'
+                  className='bg-slate-800 flex gap-2 py-2 px-4 hover:bg-slate-900 hover:cursor-pointer transition duration-150 ease-in-out'
                   onClick={() => handleUserSelected(user.email)}
                 >
-                  <img
-                    src={`${import.meta.env.VITE_BACKEND_URL}${user.profileImage}`}
-                    alt=''
-                    className='w-8 h-8 rounded-full object-cover'
-                  />
-                  <span>{user.email}</span>
-                </div>
+                  <Avatar>
+                    <AvatarImage
+                      src={`${import.meta.env.VITE_BACKEND_URL}${
+                        user.profileImage
+                      }`}
+                    />
+                    <AvatarFallback>{user.name[0]}</AvatarFallback>
+                  </Avatar>
+                  <span className='text-slate-50'>{user.email}</span>
+                </Card>
               ))}
             </div>
           ) : null}
 
-          {/* {useGetUserEmailMutation.isError && (
-              <span>{useGetUserEmailMutation.error.message}</span>
-            )} */}
         </label>
         <button
           type='submit'
@@ -137,6 +163,7 @@ const ContactForm = () => {
               email: '',
             });
             cleanContact();
+            onClose && onClose();
           }}
         >
           Cancel
