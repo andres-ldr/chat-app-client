@@ -1,5 +1,13 @@
 import { Chat } from '../types/chat';
 import { User } from '../types/user';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../components/ui/dropdown-menu';
 
 interface ChatCardProps {
   chat: Chat;
@@ -44,24 +52,6 @@ const ChatCard = ({
         <div>
           <p className='font-bold'>{chat.alias}</p>
           <div className='flex gap-3'>
-            {user &&
-              chat.isGroup &&
-              chat.admins.some((admin: User) => admin.uid === user.uid) && (
-                <>
-                  <button
-                    className='text-yellow-500 font-bold'
-                    onClick={() => onEditChatGroup(chat)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className='text-red-500 font-bold'
-                    onClick={() => onDeleteChat(chat.cid)}
-                  >
-                    Delete
-                  </button>
-                </>
-              )}
 
             <button
               className='text-blue-500 font-bold'
@@ -73,8 +63,33 @@ const ChatCard = ({
         </div>
       </div>
 
-      {/* <p>{chat.lastMessage}</p>
-      <p>{chat.lastMessageDate}</p> */}
+      {user &&
+        chat.isGroup &&
+        chat.admins.some((admin: User) => admin.uid === user.uid) && (
+          <DropdownMenu>
+            <DropdownMenuTrigger>Options</DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <button
+                  className='text-yellow-500 font-bold'
+                  onClick={() => onEditChatGroup(chat)}
+                >
+                  Edit
+                </button>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <button
+                  className='text-red-500 font-bold'
+                  onClick={() => onDeleteChat(chat.cid)}
+                >
+                  Delete
+                </button>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
 
       {notifications[chat.cid] > 0 && (
         <span className='flex items-center justify-center w-6 h-6 bg-blue-500 text-white rounded-full'>
