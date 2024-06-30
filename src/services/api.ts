@@ -3,7 +3,7 @@ import { User } from '../types/user';
 import { Contact } from '../types/contact';
 import { Chat } from '../types/chat';
 
-const baseURL =  import.meta.env.VITE_BACKEND_URL
+const baseURL = import.meta.env.VITE_BACKEND_URL;
 const axiosInstance = axios.create({ baseURL, withCredentials: true });
 
 export const login = async (data: { email: string; password: string }) => {
@@ -27,15 +27,30 @@ export const getContacts = async () => {
 };
 
 export const createContact = async (data: { alias: string; email: string }) => {
-  return await axiosInstance.post<Contact>('/v1/contacts/new', data);
+  return (
+    await axiosInstance.post<{ message: string; contact: Contact }>(
+      '/v1/contacts/new',
+      data
+    )
+  ).data;
 };
 
 export const deleteContact = async (data: { contactId: string }) => {
-  return await axiosInstance.delete<Contact>('/v1/contacts/delete', { data });
+  return (
+    await axiosInstance.delete<{ message: string; contact: Contact }>(
+      '/v1/contacts/delete',
+      { data }
+    )
+  ).data;
 };
 
 export const updateContact = async (data: Contact) => {
-  return await axiosInstance.patch<Contact>('/v1/contacts/update', data);
+  return (
+    await axiosInstance.patch<{ message: string; contact: Contact }>(
+      '/v1/contacts/update',
+      data
+    )
+  ).data;
 };
 
 export const getChats = async () => {
@@ -43,7 +58,10 @@ export const getChats = async () => {
 };
 
 export const postChat = async (data: { members: string[] }) => {
-  return await axiosInstance.post<Chat>('/v1/chats/new', data);
+  return (await axiosInstance.post<{ message: string; chat: Chat }>(
+    '/v1/chats/new',
+    data
+  )).data;
 };
 
 export const deleteChat = async (data: { cid: string }) => {
