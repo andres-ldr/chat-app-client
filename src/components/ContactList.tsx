@@ -1,78 +1,56 @@
-import { useDeleteContact, usePostChat } from '../services/mutations';
-import { useChats, useContacts } from '../services/queries';
-import { useContactSelectedStore } from '../store/contactSelectedStore';
+import { useContacts } from '../services/queries';
 import { Contact } from '../types/contact';
+import ContactCard from './ContactCard';
+import ContactForm from './ContactForm';
+import { Button } from './ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from './ui/dialog';
+import { useState } from 'react';
 
-const ContactList = () => {
-  const { data, isLoading, error } = useContacts();
-  const useDeleteContactMutation = useDeleteContact();
-  const usePostChatMutation = usePostChat();
+interface ContactListProps {
+  handleChatPanel: () => void;
+}
+
+const ContactList = ({ handleChatPanel }: ContactListProps) => {
   const useContactQuery = useContacts();
-  const useChatQuery = useChats();
-  const { setContact } = useContactSelectedStore();
-
-  const onDeleteContact = (contactId: string) => {
-    useDeleteContactMutation.mutate({ contactId });
-  };
-
-  const onPostChat = (userId: string) => {
-    const members = { members: [userId] };
-    usePostChatMutation.mutate(members);
-  };
-
-  const onEditContact = (contact: Contact) => {
-    setContact(contact);
-  };
-
-  useDeleteContactMutation.isSuccess && useContactQuery.refetch();
-  usePostChatMutation.isSuccess && useChatQuery.refetch();
+  const [isCreateContactDialogOpen, setIsCreateContactDialogOpen] =
+    useState(false);
 
   return (
-    <div className='w-full shadow'>
-      {isLoading && <p>Loading...</p>}
-      {error && <p>error</p>}
+    <div className='flex flex-col gap-4 w-96 py-2'>
       <div className='flex flex-col gap-2'>
-        {data &&
-          data.map((contact: Contact) => (
-            <div
-              key={contact.contactId}
-              className='bg-slate-900 rounded-2xl p-4 flex flex-col gap-2'
-            >
-              <div className='flex gap-4'>
-                <img
-                  src={`${import.meta.env.VITE_BACKEND_URL}${contact.user.profileImage}`}
-                  alt={contact.alias}
-                  className='w-10 h-10 rounded-full'
-                />
-                <div className='flex flex-col'>
-                  <span className='font-bold'>{contact.alias}</span>
-                  <span>{contact.email}</span>
-                </div>
-              </div>
-              <div className='flex gap-4 font-semibold justify-end'>
-                <button
-                  className='text-yellow-500 hover:opacity-75 transition duration-150 ease-in-out'
-                  onClick={() => onEditContact(contact)}
-                >
-                  Edit
-                </button>
-                <button
-                  className='text-red-500 hover:opacity-75 transition duration-150 ease-in-out'
-                  onClick={() => onDeleteContact(contact.contactId)}
-                >
-                  Delete
-                </button>
-                <button
-                  className='text-blue-500 hover:opacity-75 transition duration-150 ease-in-out'
-                  onClick={() => onPostChat(contact.user.uid as string)}
-                >
-                  Chat
-                </button>
-              </div>
-            </div>
+        <Button
+          className='bg-blue-600 hover:bg-blue-800'
+          onClick={() => setIsCreateContactDialogOpen(true)}
+        >
+          Create New Contact
+        </Button>
+
+        <Dialog
+          open={isCreateContactDialogOpen}
+          onOpenChange={setIsCreateContactDialogOpen}
+        >
+          <DialogContent className='sm:max-w-[425px] bg-slate-950'>
+            <DialogHeader className='text-slate-100'>
+              <DialogTitle>Create A New Contact</DialogTitle>
+            </DialogHeader>
+            <DialogDescription>Create a new contact</DialogDescription>
+            <ContactForm onClose={() => setIsCreateContactDialogOpen(false)} />
+          </DialogContent>
+        </Dialog>
+
+        {useContactQuery.data &&
+          useContactQuery.data.map((contact: Contact) => (
+            <ContactCard contact={contact} handleChatPanel={handleChatPanel} />
           ))}
       </div>
-      {data?.length === 0 && <p>No contacts</p>}
+      {useContactQuery.data?.length === 0 && <p>No contacts</p>}
     </div>
   );
 };
