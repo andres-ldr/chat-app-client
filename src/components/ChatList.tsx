@@ -39,28 +39,28 @@ const ChatList = ({ notifications, setNotifications }: ChatListProps) => {
   deleteChatMutation.isSuccess && useChatQuery.refetch();
 
   return (
-    <>
+    <div className='flex flex-col gap-2 w-96'>
       {useChatQuery.isPending && <p>Loading...</p>}
       {deleteChatMutation.isPending && <p>Deleting...</p>}
       {deleteChatMutation.isError && <p>Error</p>}
       {useChatQuery.error && <p>Error</p>}
-      <div className='flex flex-col gap-2 h-20'>
-        {useChatQuery.data
-          ? useChatQuery.data.map((chat: Chat) => (
-              <ChatCard
-                chat={chat}
-                chatSelected={chatSelected!}
-                notifications={notifications}
-                user={user!}
-                handleChat={handleChat}
-                onDeleteChat={onDeleteChat}
-                onEditChatGroup={onEditChatGroup}
-              />
-            ))
-          : null}
-      </div>
+
+      {useChatQuery.data
+        ? useChatQuery.data.map((chat: Chat) => (
+            <ChatCard
+              chat={chat}
+              chatSelected={chatSelected!}
+              notifications={notifications}
+              user={user!}
+              handleChat={handleChat}
+              onDeleteChat={onDeleteChat}
+              onEditChatGroup={onEditChatGroup}
+            />
+          ))
+        : null}
+
       {useChatQuery.data?.length === 0 && <p>No chats</p>}
-    </>
+    </div>
   );
 };
 
