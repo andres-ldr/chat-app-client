@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { get, useForm } from 'react-hook-form';
 import { useChatStore } from '../store/chatStore';
-import { useMessageSelectedStore } from '../store/messageStore';
 import { useUserStore } from '../store/userStore';
 import { Message } from '../types/message';
 import FormMessage from './FormMessage';
 import MessageBuuble from './MessageBuuble';
 import { io } from 'socket.io-client';
 import moment from 'moment';
+import { Avatar, AvatarImage } from './ui/avatar';
+import { toast } from 'sonner';
 
 const socket = io(`${import.meta.env.VITE_BACKEND_URL}`);
 
@@ -15,16 +15,10 @@ interface ChatAreaProps {
   handleNotifications: (chatId: string) => void;
 }
 
-type Input = {
-  message: string;
-};
-
 const ChatArea = ({ handleNotifications }: ChatAreaProps) => {
-  const { register, reset, handleSubmit } = useForm<Input>();
   const [messages, setMessages] = useState<Message[]>([]);
   const { chat, deleteChat } = useChatStore();
   const { user } = useUserStore();
-  const { setMessage, message, cleanMessage } = useMessageSelectedStore();
 
   useEffect(() => {
     const getMessages = (message: Message) => {
@@ -41,12 +35,14 @@ const ChatArea = ({ handleNotifications }: ChatAreaProps) => {
         prev[index] = message;
         return [...prev];
       });
+      toast('Message edited');
     };
 
     const deleteMessages = (message: Message) => {
       setMessages((prev) => {
         return prev.filter((m) => m.mid !== message.mid);
       });
+      toast('Message deleted');
     };
 
     socket.on('message', getMessages);
@@ -56,6 +52,7 @@ const ChatArea = ({ handleNotifications }: ChatAreaProps) => {
     return () => {
       socket.off('message', getMessages);
       socket.off('edit-message', editMessages);
+      socket.off('delete-message', deleteMessages);
     };
   }, [chat, handleNotifications, messages]);
 
@@ -68,39 +65,6 @@ const ChatArea = ({ handleNotifications }: ChatAreaProps) => {
       });
     }
   }, [chat]);
-
-  const onSubmit = (data: Input) => {
-    if (!chat || !user) {
-      return;
-    }
-
-    if (message) {
-      socket.emit('edit-message', { ...message, content: data.message });
-    } else {
-      const newMessage = {
-        content: data.message,
-        chatId: chat.cid,
-        type: 'text',
-        senderId: user.uid,
-      };
-
-      socket.emit('message', newMessage);
-    }
-
-    cleanMessage();
-    reset({
-      message: '',
-    });
-  };
-
-  const handleEditMessage = (message: Message) => {
-    setMessage(message);
-    reset({ message: message.content });
-  };
-
-  const handleDeleteMessage = (message: Message) => {
-    socket.emit('delete-message', message);
-  };
 
   const groupedMessages = messages.reduce((groups, message) => {
     const date = moment(message.creationDate).format('MMMM D YYYY');
@@ -123,12 +87,16 @@ const ChatArea = ({ handleNotifications }: ChatAreaProps) => {
     <div className='flex flex-col shadow flex-1'>
       <div className='flex gap-4 justify-between bg-slate-900 p-4'>
         <div className='flex gap-2 items-center'>
-          <img
-            src={`${import.meta.env.VITE_BACKEND_URL}${getImageUrl()}`}
-            alt={chat?.alias}
-            className='w-10 h-10 rounded-full object-cover'
-          />
-          <span className='text-xl font-semibold'>{chat?.alias}</span>
+          <Avatar>
+            <AvatarImage
+              src={`${import.meta.env.VITE_BACKEND_URL}${getImageUrl()}`}
+              alt={chat?.alias}
+            />
+            {/* <AvatarFallback>{}</AvatarFallback> */}
+          </Avatar>
+          <span className='text-xl text-slate-100 font-semibold'>
+            {chat?.alias}
+          </span>
         </div>
         <button
           type='button'
@@ -147,12 +115,11 @@ const ChatArea = ({ handleNotifications }: ChatAreaProps) => {
               </h2>
               {messages.map((message: Message, index: number) => (
                 <MessageBuuble
+                  socket={socket}
                   index={index}
                   user={user}
                   message={message}
                   messages={messages}
-                  handleEditMessage={handleEditMessage}
-                  handleDeleteMessage={handleDeleteMessage}
                 />
               ))}
             </div>
@@ -163,12 +130,7 @@ const ChatArea = ({ handleNotifications }: ChatAreaProps) => {
           </div>
         )}
       </div>
-      <FormMessage
-        handleSubmit={handleSubmit}
-        message={message}
-        onSubmit={onSubmit}
-        register={register}
-      />
+      <FormMessage socket={socket} />
     </div>
   );
 };
