@@ -49,7 +49,7 @@ const ChatForm = ({ onClose }: ChatFormProps) => {
     useGetUserEmailMutation.mutate({ email: e.target.value });
   };
 
-  const onSubmit = (data: Inputs) => {
+  const onSubmit = () => {
     if (userId) {
       usePostChatMutation.mutate({ members: [userId] });
     }
