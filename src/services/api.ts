@@ -58,10 +58,12 @@ export const getChats = async () => {
 };
 
 export const postChat = async (data: { members: string[] }) => {
-  return (await axiosInstance.post<{ message: string; chat: Chat }>(
-    '/v1/chats/new',
-    data
-  )).data;
+  return (
+    await axiosInstance.post<{ message: string; chat: Chat }>(
+      '/v1/chats/new',
+      data
+    )
+  ).data;
 };
 
 export const deleteChat = async (data: { cid: string }) => {
@@ -69,8 +71,18 @@ export const deleteChat = async (data: { cid: string }) => {
 };
 
 export const createChatGroup = async (data: any) => {
-  return await axiosInstance.post<Chat>('/v1/chats/groups/new', data);
+  return (
+    await axiosInstance.post<{ message: string; chat: Chat }>(
+      '/v1/chats/groups/new',
+      data
+    )
+  ).data;
 };
 export const updateChatGroup = async (data: any) => {
-  return await axiosInstance.put<Chat>('/v1/chats/groups/update', data);
+  return (
+    await axiosInstance.put<{ message: string; chat: Chat }>(
+      '/v1/chats/groups/update',
+      data
+    )
+  ).data;
 };
