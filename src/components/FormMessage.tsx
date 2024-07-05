@@ -1,19 +1,64 @@
+import { useForm } from 'react-hook-form';
+import { useMessageSelectedStore } from '../store/messageStore';
+import { useChatStore } from '../store/chatStore';
+import { useUserStore } from '../store/userStore';
+import { useEffect } from 'react';
+import { Socket } from 'socket.io-client';
+
+type Input = {
+  message: string;
+};
+
 interface FormMessageProps {
-  register: any;
-  handleSubmit: any;
-  onSubmit: any;
-  message: any;
+  socket: Socket;
 }
 
-const FormMessage = ({
-  handleSubmit,
-  register,
-  message,
-  onSubmit,
-}: FormMessageProps) => {
+const FormMessage = ({ socket }: FormMessageProps) => {
+  const { register, reset, handleSubmit } = useForm<Input>();
+  const { chat } = useChatStore();
+  const { message, cleanMessage } = useMessageSelectedStore();
+  const { user } = useUserStore();
+
+  useEffect(() => {
+    // if (message) {
+    reset({
+      message: message?.content || '',
+    });
+    // }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [message]);
+
+  const onSubmit = (data: Input) => {
+    if (!chat || !user) {
+      return;
+    }
+
+    if (message) {
+      socket.emit('edit-message', { ...message, content: data.message });
+    } else {
+      const newMessage = {
+        content: data.message,
+        chatId: chat.cid,
+        type: 'text',
+        senderId: user.uid,
+      };
+
+      socket.emit('message', newMessage);
+    }
+
+    cleanMessage();
+    reset({
+      message: '',
+    });
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='flex gap-2 py-2 px-4 bg-slate-950'>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className='flex gap-2 py-2 px-4 bg-slate-950'
+    >
       <input
+        autoComplete='off'
         {...register('message')}
         type='text'
         placeholder='Message'
@@ -25,6 +70,7 @@ const FormMessage = ({
       >
         {message ? 'Edit' : 'Send'}
       </button>
+      {message && <button onClick={cleanMessage}>Discard</button>}
     </form>
   );
 };
