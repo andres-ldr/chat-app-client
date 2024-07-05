@@ -4,10 +4,21 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../components/ui/dropdown-menu';
+import { Card } from './ui/card';
+import { Avatar, AvatarImage } from './ui/avatar';
+import { useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from './ui/dialog';
+import { Button } from './ui/button';
+import GroupForm from './GroupForm';
 
 interface ChatCardProps {
   chat: Chat;
@@ -28,6 +39,9 @@ const ChatCard = ({
   onDeleteChat,
   onEditChatGroup,
 }: ChatCardProps) => {
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+
   const getImageUrl = () => {
     if (chat.isGroup) {
       return chat.chatImage;
@@ -35,31 +49,30 @@ const ChatCard = ({
     return chat.members.filter((member) => member.uid !== user.uid)[0]
       .profileImage;
   };
+  const getChatName = () => {
+    if (chat.isGroup) {
+      return chat.alias;
+    }
+    return chat.members.filter((member) => member.uid !== user.uid)[0].name;
+  };
 
   return (
-    <div
+    <Card
       key={chat.cid}
       className={`${
         chat.cid === chatSelected?.cid && 'bg-slate-950'
-      } bg-slate-900 flex gap-2 py-2 px-4 rounded-md justify-between items-center hover:bg-slate-950 transition-colors duration-200 ease-in-out `}
+      } text-slate-100 bg-slate-900 border-none flex gap-2 py-2 px-4 justify-between items-center hover:bg-slate-950 transition-colors duration-200 ease-in-out cursor-pointer`}
+      onClick={() => handleChat(chat)}
     >
       <div className='flex gap-2'>
-        <img
-          src={`${import.meta.env.VITE_BACKEND_URL}${getImageUrl()}`}
-          alt={chat.alias}
-          className='w-10 h-10 rounded-full object-cover'
-        />
+        <Avatar>
+          <AvatarImage
+            src={`${import.meta.env.VITE_BACKEND_URL}${getImageUrl()}`}
+          />
+          {/* <AvatarFallback>{}</AvatarFallback> */}
+        </Avatar>
         <div>
-          <p className='font-bold'>{chat.alias}</p>
-          <div className='flex gap-3'>
-
-            <button
-              className='text-blue-500 font-bold'
-              onClick={() => handleChat(chat)}
-            >
-              View
-            </button>
-          </div>
+          <p className='font-bold'>{getChatName()}</p>
         </div>
       </div>
 
@@ -69,23 +82,24 @@ const ChatCard = ({
           <DropdownMenu>
             <DropdownMenuTrigger>Options</DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <button
-                  className='text-yellow-500 font-bold'
-                  onClick={() => onEditChatGroup(chat)}
-                >
-                  Edit
-                </button>
+              <DropdownMenuItem
+                className='text-yellow-500 font-semibold'
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEditChatGroup(chat);
+                  setIsEditDialogOpen(true);
+                }}
+              >
+                Edit
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <button
-                  className='text-red-500 font-bold'
-                  onClick={() => onDeleteChat(chat.cid)}
-                >
-                  Delete
-                </button>
+              <DropdownMenuItem
+                className='text-red-500 font-semibold'
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsDeleteDialogOpen(true);
+                }}
+              >
+                Delete
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -96,7 +110,50 @@ const ChatCard = ({
           {notifications[chat.cid]}
         </span>
       )}
-    </div>
+
+      <Dialog
+        open={isEditDialogOpen || isDeleteDialogOpen}
+        onOpenChange={
+          isEditDialogOpen ? setIsEditDialogOpen : setIsDeleteDialogOpen
+        }
+      >
+        {isDeleteDialogOpen && (
+          <DialogContent onClick={(e) => e.stopPropagation()}>
+            <DialogHeader>
+              <DialogTitle>Are you absolutely sure?</DialogTitle>
+              <DialogDescription>
+                This action cannot be undone. Are you sure you want to
+                permanently delete this file from our servers?
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button
+                className='bg-red-500 hover:bg-red-700'
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDeleteChat(chat.cid);
+                }}
+              >
+                Confirm
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        )}
+
+        {isEditDialogOpen && (
+          <DialogContent
+            className='sm:max-w-[425px] max-h-[70%] overflow-y-auto bg-slate-950'
+            onClick={(e) => e.stopPropagation()}
+          >
+            <DialogHeader className='text-slate-100'>
+              <DialogTitle>Edit Group Chat</DialogTitle>
+            </DialogHeader>
+            <DialogDescription>Edit Group Chat</DialogDescription>
+            <GroupForm onClose={() => setIsEditDialogOpen(false)} />
+          </DialogContent>
+        )}
+      </Dialog>
+    </Card>
   );
 };
 
